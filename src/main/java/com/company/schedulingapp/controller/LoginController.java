@@ -32,8 +32,7 @@ public class LoginController {
         if (DBUsers.verifyUsername(username)) {
             if (DBUsers.verifyPassword(password)) {
                 System.out.println("User verified.");
-                //TODO: move to next screen
-                switchScreen(event, "Main.fxml");
+                sceneController.setScene(event, "Main.fxml");
             } else {
                 System.out.println("Incorrect password.");
                 //TODO: onscreen error message
@@ -42,17 +41,6 @@ public class LoginController {
             System.out.println("Incorrect username.");
             //TODO: onscreen error message
         }
-    }
-
-    public void switchScreen(ActionEvent event, String switchPath) throws IOException {
-
-        Parent parent = FXMLLoader.load(getClass().getClassLoader().getResource(switchPath));
-        Scene scene = new Scene(parent);
-        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        window.setScene(scene);
-        window.show();
-
-
     }
 
     public void exit() {
