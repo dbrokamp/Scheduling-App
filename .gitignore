@@ -2,4 +2,4 @@
 /pom.xml
 /Scheduling-App.iml
 /.idea/
-/src/main/java/com/company/schedulingapp/util/JDBC.java
+/src/main/java/com/company/schedulingapp/util/Password.java
