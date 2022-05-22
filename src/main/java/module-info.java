@@ -2,6 +2,7 @@ module com.company.schedulingapp {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
+    requires mysql.connector.java;
 
 
     opens com.company.schedulingapp to javafx.fxml;
