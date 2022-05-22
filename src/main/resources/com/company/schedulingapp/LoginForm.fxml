@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.schedulingapp.controller.LoginController">
    <children>
       <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scheduling App">
          <font>
@@ -17,6 +17,6 @@
       <TextField layoutX="370.0" layoutY="200.0" promptText="Username" />
       <TextField layoutX="370.0" layoutY="276.0" promptText="Password" />
       <Button layoutX="421.0" layoutY="354.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" text="Login" />
-      <Button layoutX="827.0" layoutY="461.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" text="Exit" />
+      <Button layoutX="827.0" layoutY="461.0" mnemonicParsing="false" onAction="#exit" prefHeight="25.0" prefWidth="59.0" text="Exit" />
    </children>
 </Pane>
