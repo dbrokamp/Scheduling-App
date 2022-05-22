@@ -8,9 +8,6 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-
-
-import java.io.IOException;
 import java.sql.SQLException;
 
 public class LoginController {
@@ -20,7 +17,7 @@ public class LoginController {
     @FXML TextField usernameTextField;
     @FXML TextField passwordTextField;
 
-    public void login(ActionEvent event) throws SQLException, IOException {
+    public void login(ActionEvent event) throws SQLException {
         String username = usernameTextField.getText();
         String password = passwordTextField.getText();
 
