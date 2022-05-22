@@ -2,7 +2,7 @@ package com.company.schedulingapp.util;
 
 
 
-import com.company.schedulingapp.controller.LoginController;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -10,7 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+
 
 public class SceneController {
 
@@ -36,6 +36,17 @@ public class SceneController {
         return instance;
     }
 
+    public void setInitialStageAndScene(Stage stage) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("LoginForm.fxml"));
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setScene(ActionEvent event, String fxmlFileName)  {
 
         try {
@@ -50,6 +61,4 @@ public class SceneController {
 
     }
 
-    //        FXMLLoader fxmlLoader = new FXMLLoader(Launch.class.getResource("LoginForm.fxml"));
-//        Scene scene = new Scene(fxmlLoader.load());
 }
