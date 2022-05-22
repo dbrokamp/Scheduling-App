@@ -17,25 +17,16 @@ public class DBUsers {
         PreparedStatement userWithUsername = connection.prepareStatement(sql);
         userWithUsername.setString(1, username);
         ResultSet user = userWithUsername.executeQuery();
-        if (user.next()) {
-            return true;
-        } else {
-            return false;
-        }
-
+        return user.next();
 
     }
     public static boolean verifyPassword(String password) throws SQLException {
         Connection connection = JDBC.getConnection();
         String sql = "SELECT * FROM users WHERE Password = ?";
-        PreparedStatement userWithUsername = connection.prepareStatement(sql);
-        userWithUsername.setString(1, password);
-        ResultSet user = userWithUsername.executeQuery();
-        if (user.next()) {
-            return true;
-        } else {
-            return false;
-        }
+        PreparedStatement userWithPassword = connection.prepareStatement(sql);
+        userWithPassword.setString(1, password);
+        ResultSet user = userWithPassword.executeQuery();
+        return user.next();
     }
 
 
