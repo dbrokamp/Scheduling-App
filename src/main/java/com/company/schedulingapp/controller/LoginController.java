@@ -7,15 +7,34 @@ import com.company.schedulingapp.util.SceneController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import java.sql.SQLException;
 
-public class LoginController {
+import java.net.URL;
+import java.sql.SQLException;
+import java.time.ZoneId;
+import java.util.ResourceBundle;
+
+public class LoginController implements Initializable {
 
     SceneController sceneController = SceneController.getSceneControllerInstance();
 
     @FXML TextField usernameTextField;
-    @FXML TextField passwordTextField;
+    @FXML PasswordField passwordTextField;
+    @FXML Label locationLabel;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        getZoneIdAndSetLocationLabel();
+    }
+
+    private void getZoneIdAndSetLocationLabel() {
+        ZoneId zoneId = ZoneId.systemDefault();
+        locationLabel.setText(zoneId.getId());
+    }
 
     public void login(ActionEvent event) throws SQLException {
         String username = usernameTextField.getText();
@@ -28,17 +47,32 @@ public class LoginController {
                 sceneController.setScene(event, "Main.fxml");
             } else {
                 System.out.println("Incorrect password.");
-                //TODO: onscreen error message
+                displayIncorrectPasswordError();
             }
         } else {
             System.out.println("Incorrect username.");
-            //TODO: onscreen error message
+            displayIncorrectUsernameError();
         }
+    }
+
+    private void displayIncorrectUsernameError() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Username");
+        alert.setContentText("Invalid username.");
+        alert.showAndWait();
+    }
+
+    private void displayIncorrectPasswordError() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Password");
+        alert.setContentText("Invalid password.");
+        alert.showAndWait();
     }
 
     public void exit() {
         JDBC.closeConnection();
         Platform.exit();
     }
+
 
 }
