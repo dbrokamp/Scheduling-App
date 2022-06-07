@@ -1,12 +1,15 @@
 package com.company.schedulingapp.controller;
 
+import com.company.schedulingapp.dbaccess.DBCustomers;
 import com.company.schedulingapp.model.Customer;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class CustomersController implements Initializable {
@@ -22,7 +25,18 @@ public class CustomersController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        
 
+        customerIDColumn.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+        customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        customerAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+        customerPostalCodeColumn.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
+        customerPhoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        customerDivisionIDColumn.setCellValueFactory(new PropertyValueFactory<>("divisionID"));
+
+        try {
+            customerTableView.setItems(DBCustomers.getAllCustomers());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
