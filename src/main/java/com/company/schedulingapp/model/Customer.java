@@ -1,8 +1,5 @@
 package com.company.schedulingapp.model;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-
 public class Customer {
 
     private Integer customerID;
@@ -19,7 +16,6 @@ public class Customer {
         this.address = address;
         this.postalCode = postalCode;
         this.phone = phone;
-
         this.divisionID = divisionID;
     }
 
