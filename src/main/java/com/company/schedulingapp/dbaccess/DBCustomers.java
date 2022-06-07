@@ -20,14 +20,16 @@ public class DBCustomers {
         PreparedStatement selectAllCustomers = connection.prepareStatement(sql);
         ResultSet allCustomers = selectAllCustomers.executeQuery();
 
-        do {
-            customers.add(new Customer(Integer.parseInt(allCustomers.getString("Customer_ID")),
-                                allCustomers.getString("Customer_Name"),
-                                allCustomers.getString("Address"),
-                                allCustomers.getString("Postal_Code"),
-                                allCustomers.getString("Phone"),
-                                Integer.parseInt(allCustomers.getString("Division_ID"))));
-        } while (allCustomers.next());
+        while (allCustomers.next()) {
+            Customer customer = new Customer(Integer.parseInt(allCustomers.getObject(1).toString()),
+                                                allCustomers.getObject(2).toString(),
+                                                allCustomers.getObject(3).toString(),
+                                                allCustomers.getObject(4).toString(),
+                                                allCustomers.getObject(5).toString(),
+                                                Integer.parseInt(allCustomers.getObject(10).toString()));
+            customers.add(customer);
+        }
+
         return customers;
     }
 }
