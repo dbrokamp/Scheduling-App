@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.schedulingapp.controller.CustomersController">
    <children>
       <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scheduling App">
          <font>
@@ -19,14 +19,14 @@
             <Font size="18.0" />
          </font>
       </Text>
-      <TableView layoutX="14.0" layoutY="170.0" prefHeight="218.0" prefWidth="452.0">
+      <TableView fx:id="customerTableView" layoutX="14.0" layoutY="170.0" prefHeight="218.0" prefWidth="452.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="ID" />
-          <TableColumn prefWidth="75.0" text="Name" />
-            <TableColumn prefWidth="75.0" text="Address" />
-            <TableColumn prefWidth="75.0" text="Postal Code" />
-            <TableColumn prefWidth="75.0" text="Phone" />
-            <TableColumn prefWidth="75.0" text="Division" />
+          <TableColumn fx:id="customerIDColumn" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="customerNameColumn" prefWidth="75.0" text="Name" />
+            <TableColumn fx:id="customerAddressColumn" prefWidth="75.0" text="Address" />
+            <TableColumn fx:id="customerPostalCodeColumn" prefWidth="75.0" text="Postal Code" />
+            <TableColumn fx:id="customerPhoneColumn" prefWidth="75.0" text="Phone" />
+            <TableColumn fx:id="customerDivisionIDColumn" prefWidth="75.0" text="Division" />
         </columns>
       </TableView>
       <TableView layoutX="487.0" layoutY="170.0" prefHeight="218.0" prefWidth="399.0">
