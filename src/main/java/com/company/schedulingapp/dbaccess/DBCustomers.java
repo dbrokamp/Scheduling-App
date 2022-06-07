@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 public class DBCustomers {
 
-    public ObservableList<Customer> getAllCustomers() throws SQLException {
+    public static ObservableList<Customer> getAllCustomers() throws SQLException {
         ObservableList<Customer> customers = FXCollections.observableArrayList();
 
         Connection connection = JDBC.getConnection();
