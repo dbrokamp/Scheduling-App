@@ -26,8 +26,8 @@ public class DBAppointments {
                                                         appointmentsSet.getString("Description"),
                                                         appointmentsSet.getString("Location"),
                                                         appointmentsSet.getString("Type"),
-                                                        appointmentsSet.getDate("Start"),
-                                                        appointmentsSet.getDate("End"),
+                                                        appointmentsSet.getTimestamp("Start"),
+                                                        appointmentsSet.getTimestamp("End"),
                                                         appointmentsSet.getInt("Customer_ID"),
                                                         appointmentsSet.getInt("User_ID"),
                                                         appointmentsSet.getInt("Contact_ID"));
