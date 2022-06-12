@@ -21,12 +21,12 @@ public class DBCustomers {
         ResultSet allCustomers = selectAllCustomers.executeQuery();
 
         while (allCustomers.next()) {
-            Customer customer = new Customer(Integer.parseInt(allCustomers.getObject(1).toString()),
-                                                allCustomers.getObject(2).toString(),
-                                                allCustomers.getObject(3).toString(),
-                                                allCustomers.getObject(4).toString(),
-                                                allCustomers.getObject(5).toString(),
-                                                Integer.parseInt(allCustomers.getObject(10).toString()));
+            Customer customer = new Customer(allCustomers.getInt("Customer_ID"),
+                                                allCustomers.getString("Customer_Name"),
+                                                allCustomers.getString("Address"),
+                                                allCustomers.getString("Postal_Code"),
+                                                allCustomers.getString("Phone"),
+                                                allCustomers.getInt("Division_ID"));
             customers.add(customer);
         }
 
