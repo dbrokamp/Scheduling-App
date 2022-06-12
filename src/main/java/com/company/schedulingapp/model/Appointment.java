@@ -1,6 +1,6 @@
 package com.company.schedulingapp.model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Appointment {
 
@@ -9,13 +9,13 @@ public class Appointment {
     private String description;
     private String location;
     private String type;
-    private Date start;
-    private Date end;
+    private Timestamp start;
+    private Timestamp end;
     private Integer customerID;
     private Integer userID;
     private Integer contactID;
 
-    public Appointment(Integer appointmentID, String title, String description, String location, String type, Date start, Date end, Integer customerID, Integer userID, Integer contactID) {
+    public Appointment(Integer appointmentID, String title, String description, String location, String type, Timestamp start, Timestamp end, Integer customerID, Integer userID, Integer contactID) {
         this.appointmentID = appointmentID;
         this.title = title;
         this.description = description;
@@ -68,19 +68,19 @@ public class Appointment {
         this.type = type;
     }
 
-    public Date getStart() {
+    public Timestamp getStart() {
         return start;
     }
 
-    public void setStart(Date start) {
+    public void setStart(Timestamp start) {
         this.start = start;
     }
 
-    public Date getEnd() {
+    public Timestamp getEnd() {
         return end;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(Timestamp end) {
         this.end = end;
     }
 
