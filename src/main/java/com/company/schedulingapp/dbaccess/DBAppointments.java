@@ -6,7 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
-import java.time.ZonedDateTime;
+
 
 public class DBAppointments {
 
@@ -21,16 +21,16 @@ public class DBAppointments {
 
         while (appointmentsSet.next()) {
 
-            Appointment appointment = new Appointment(Integer.parseInt(appointmentsSet.getObject(1).toString()),
-                                                       appointmentsSet.getObject(2).toString(),
-                                                        appointmentsSet.getObject(3).toString(),
-                                                        appointmentsSet.getObject(4).toString(),
-                                                        appointmentsSet.getObject(5).toString(),
-                                                        Date.valueOf(appointmentsSet.getObject(6).toString()),
-                                                        Date.valueOf(appointmentsSet.getObject(7).toString()),
-                                                        Integer.parseInt(appointmentsSet.getObject(12).toString()),
-                                                        Integer.parseInt(appointmentsSet.getObject(13).toString()),
-                                                        Integer.parseInt(appointmentsSet.getObject(14).toString()));
+            Appointment appointment = new Appointment(appointmentsSet.getInt("Appointment_ID"),
+                                                       appointmentsSet.getString("Title"),
+                                                        appointmentsSet.getString("Description"),
+                                                        appointmentsSet.getString("Location"),
+                                                        appointmentsSet.getString("Type"),
+                                                        appointmentsSet.getDate("Start"),
+                                                        appointmentsSet.getDate("End"),
+                                                        appointmentsSet.getInt("Customer_ID"),
+                                                        appointmentsSet.getInt("User_ID"),
+                                                        appointmentsSet.getInt("Contact_ID"));
 
             appointments.add(appointment);
         }
