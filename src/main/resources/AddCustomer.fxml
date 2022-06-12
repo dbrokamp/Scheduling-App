@@ -25,7 +25,7 @@
       <ComboBox layoutX="300.0" layoutY="250.0" prefWidth="150.0" promptText="City" />
       <ComboBox layoutX="491.0" layoutY="250.0" prefWidth="150.0" promptText="Country" />
       <TextField layoutX="370.0" layoutY="304.0" promptText="Phone" />
-      <Button layoutX="375.0" layoutY="388.0" mnemonicParsing="false" text="Save" />
-      <Button layoutX="476.0" layoutY="388.0" mnemonicParsing="false" text="Cancel" />
+      <Button layoutX="375.0" layoutY="388.0" mnemonicParsing="false" onAction="#save" text="Save" />
+      <Button layoutX="476.0" layoutY="388.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
    </children>
 </Pane>
