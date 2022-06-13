@@ -13,13 +13,13 @@ import java.sql.SQLException;
 public class DBFirstLevelDivisions {
 
 
-    public static ObservableList<FirstLevelDivision> getFirstLevelDivisionsForCountry(Integer countryID) throws SQLException {
+    public static ObservableList<FirstLevelDivision> getFirstLevelDivisionsForCountryName(String countryName) throws SQLException {
         ObservableList<FirstLevelDivision> firstLevelDivisions = FXCollections.observableArrayList();
 
         Connection connection = JDBC.getConnection();
-        String sql = "SELECT * FROM first_level_divisions WHERE Country_ID = ?";
+        String sql = "SELECT * FROM first_level_divisions WHERE Country = ?";
         PreparedStatement firstLevelDivisionsStatement = connection.prepareStatement(sql);
-        firstLevelDivisionsStatement.setInt(1, countryID);
+        firstLevelDivisionsStatement.setString(1, countryName);
         ResultSet firstLevelDivisionsSet = firstLevelDivisionsStatement.executeQuery();
 
         while (firstLevelDivisionsSet.next()) {
