@@ -47,7 +47,7 @@
          <font>
             <Font size="18.0" />
          </font></Text>
-      <Button layoutX="549.0" layoutY="25.0" mnemonicParsing="false" text="Add" />
+      <Button layoutX="549.0" layoutY="25.0" mnemonicParsing="false" onAction="#goToAddCustomer" text="Add" />
       <Button layoutX="609.0" layoutY="25.0" mnemonicParsing="false" text="Modify" />
       <Button layoutX="681.0" layoutY="25.0" mnemonicParsing="false" text="Delete" />
       <Button layoutX="549.0" layoutY="306.0" mnemonicParsing="false" text="Add" />

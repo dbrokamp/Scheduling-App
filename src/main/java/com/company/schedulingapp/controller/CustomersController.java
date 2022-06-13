@@ -4,6 +4,8 @@ import com.company.schedulingapp.dbaccess.DBAppointments;
 import com.company.schedulingapp.dbaccess.DBCustomers;
 import com.company.schedulingapp.model.Appointment;
 import com.company.schedulingapp.model.Customer;
+import com.company.schedulingapp.util.SceneController;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
@@ -17,6 +19,8 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class CustomersController implements Initializable {
+
+    SceneController sceneController = SceneController.getSceneControllerInstance();
 
     @FXML TableView<Customer> customerTableView = new TableView<>();
     @FXML TableColumn<Customer, Integer> customerIDColumn = new TableColumn<>("ID");
@@ -82,5 +86,9 @@ public class CustomersController implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void goToAddCustomer(ActionEvent event) {
+        sceneController.setScene(event, "AddCustomer.fxml");
     }
 }
