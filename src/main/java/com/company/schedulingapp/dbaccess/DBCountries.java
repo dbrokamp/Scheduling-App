@@ -12,7 +12,9 @@ import java.sql.SQLException;
 
 public class DBCountries {
 
-    public static ObservableList<Country> getAllCountries() throws SQLException {
+    private static ObservableList<Country> allCountries = FXCollections.observableArrayList();
+
+    private static ObservableList<Country> getAllCountries() throws SQLException {
         ObservableList<Country> countries = FXCollections.observableArrayList();
 
         Connection connection = JDBC.getConnection();
@@ -32,7 +34,14 @@ public class DBCountries {
         return countries;
     }
 
-    public Country getCountryByName(String countryName) throws SQLException {
+    public static ObservableList<Country> getCountries() throws SQLException {
+        if (allCountries.isEmpty()) {
+            allCountries = getAllCountries();
+        }
+        return allCountries;
+    }
+
+    public static Country getCountryByName(String countryName) throws SQLException {
         Country country = null;
         Connection connection = JDBC.getConnection();
         String sql = "SELECT * FROM countries WHERE Country = ?";
