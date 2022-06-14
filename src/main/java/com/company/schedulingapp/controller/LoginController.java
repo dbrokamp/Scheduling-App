@@ -44,7 +44,7 @@ public class LoginController implements Initializable {
         if (DBUsers.verifyUsername(username)) {
             if (DBUsers.verifyPassword(password)) {
                 System.out.println("User verified.");
-                sceneController.setScene(event, "Main.fxml");
+                sceneController.setScene(event, "Customers.fxml");
             } else {
                 System.out.println("Incorrect password.");
                 displayIncorrectPasswordError();
