@@ -8,6 +8,8 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -28,12 +30,15 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        getZoneIdAndSetLocationLabel();
+        setLocationLabel();
     }
 
-    private void getZoneIdAndSetLocationLabel() {
-        ZoneId zoneId = ZoneId.systemDefault();
-        locationLabel.setText(zoneId.getId());
+    private ZoneId getZoneID() {
+        return ZoneId.systemDefault();
+    }
+
+    private void setLocationLabel() {
+        locationLabel.setText(getZoneID().getId());
     }
 
     public void login(ActionEvent event) throws SQLException {
