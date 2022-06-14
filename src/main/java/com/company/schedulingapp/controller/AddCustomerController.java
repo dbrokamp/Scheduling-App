@@ -45,6 +45,7 @@ public class AddCustomerController implements Initializable {
 
 
         countryComboBox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+
             try {
                 getFirstLevelDivisionNamesForSelectedCountry(newValue);
             } catch (SQLException e) {
@@ -72,16 +73,27 @@ public class AddCustomerController implements Initializable {
     }
 
     private void getFirstLevelDivisionNamesForSelectedCountry(String countryName) throws SQLException {
+        clearFirstLevelDivisionNames();
+
         Country country = DBCountries.getCountryByName(countryName);
 
         for (FirstLevelDivision firstLevelDivision : DBFirstLevelDivisions.getFirstLevelDivisionsForCountryID(country.getCountryID())) {
             firstLevelDivisionNames.add(firstLevelDivision.getDivision());
+        }
+
+        for (String name : firstLevelDivisionNames) {
+            System.out.println(name);
         }
     }
 
     private void setFirstLevelDivisionComboBox() {
         firstLevelDivisionComboBox.setItems(firstLevelDivisionNames);
     }
+
+    private void clearFirstLevelDivisionNames() {
+        firstLevelDivisionNames.clear();
+    }
+
 
     public void save() {
 
