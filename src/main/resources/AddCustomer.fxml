@@ -19,11 +19,11 @@
             <Font size="18.0" />
          </font>
       </Text>
-      <TextField fx:id="name" layoutX="370.0" layoutY="111.0" promptText="Name" />
-      <TextField fx:id="address" layoutX="370.0" layoutY="160.0" promptText="Address" />
-      <TextField fx:id="postalCode" layoutX="370.0" layoutY="206.0" promptText="Postal Code" />
-      <ComboBox fx:id="country" layoutX="300.0" layoutY="250.0" prefWidth="150.0" promptText="Country" />
-      <ComboBox fx:id="state" layoutX="491.0" layoutY="250.0" prefWidth="150.0" promptText="State/Province" />
+      <TextField fx:id="nameTextField" layoutX="370.0" layoutY="111.0" promptText="Name" />
+      <TextField fx:id="addressTextField" layoutX="370.0" layoutY="160.0" promptText="Address" />
+      <TextField fx:id="postalCodeTextField" layoutX="370.0" layoutY="206.0" promptText="Postal Code" />
+      <ComboBox fx:id="countryComboBox" layoutX="300.0" layoutY="250.0" prefWidth="150.0" promptText="Country" />
+      <ComboBox fx:id="firstLevelDivisionComboBox" layoutX="491.0" layoutY="250.0" prefWidth="150.0" promptText="State/Province" />
       <TextField fx:id="phone" layoutX="370.0" layoutY="304.0" promptText="Phone" />
       <Button layoutX="375.0" layoutY="388.0" mnemonicParsing="false" onAction="#save" text="Save" />
       <Button layoutX="476.0" layoutY="388.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
