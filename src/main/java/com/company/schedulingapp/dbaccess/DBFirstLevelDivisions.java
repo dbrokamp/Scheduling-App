@@ -33,4 +33,14 @@ public class DBFirstLevelDivisions {
 
         return firstLevelDivisions;
     }
+
+    public static Integer getDivisionID(String firstLevelDivisionName) throws SQLException {
+        Connection connection = JDBC.getConnection();
+        String sql = "SELECT * FROM first_level_divisions WHERE Division = ?";
+        PreparedStatement firstLevelDivisionStatement = connection.prepareStatement(sql);
+        firstLevelDivisionStatement.setString(1, firstLevelDivisionName);
+        ResultSet firstLevelDivisionSet = firstLevelDivisionStatement.executeQuery();
+        return firstLevelDivisionSet.getInt("Division_ID");
+
+    }
 }
