@@ -12,8 +12,10 @@ import java.sql.SQLException;
 
 public class DBCustomers {
 
-    public static ObservableList<Customer> getAllCustomers() throws SQLException {
-        ObservableList<Customer> customers = FXCollections.observableArrayList();
+    private static ObservableList<Customer> customers = FXCollections.observableArrayList();
+
+    private static void getCustomers() throws SQLException {
+
 
         Connection connection = JDBC.getConnection();
         String sql = "SELECT * FROM customers";
@@ -30,6 +32,22 @@ public class DBCustomers {
             customers.add(customer);
         }
 
+    }
+
+    public static ObservableList<Customer> getAllCustomers() throws SQLException {
+        if (customers.isEmpty()) {
+            getCustomers();
+        }
         return customers;
+    }
+
+    public static Integer createNewCustomerID() throws SQLException {
+        if (customers.isEmpty()) {
+            getCustomers();
+        }
+
+        Customer currentLastCustomer = customers.get(customers.size() - 1);
+
+        return currentLastCustomer.getCustomerID() + 1;
     }
 }
