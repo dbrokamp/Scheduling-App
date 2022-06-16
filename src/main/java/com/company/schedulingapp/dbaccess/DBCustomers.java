@@ -1,5 +1,6 @@
 package com.company.schedulingapp.dbaccess;
 
+import com.company.schedulingapp.model.Appointment;
 import com.company.schedulingapp.model.Customer;
 import com.company.schedulingapp.util.JDBC;
 import javafx.collections.FXCollections;
@@ -69,4 +70,30 @@ public class DBCustomers {
         newCustomerStatement.setInt(10, DBFirstLevelDivisions.getDivisionID(firstLevelDivisionName));
         newCustomerStatement.executeUpdate();
     }
+
+    public static void deleteCustomerAction(Integer customerID) throws SQLException {
+        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+        try {
+            appointments = DBAppointments.getCustomerAppointments(customerID);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (appointments.isEmpty()) {
+            deleteCustomerFromDatabase(customerID);
+        } else {
+            // Present message about deleting all appointments first
+        }
+
+    }
+
+    private static void deleteCustomerFromDatabase(Integer customerID) throws SQLException {
+        Connection connection = JDBC.getConnection();
+        String sql = "DELETE FROM customers WHERE Customer_ID = ?";
+        PreparedStatement deleteCustomerStatement = connection.prepareStatement(sql);
+        deleteCustomerStatement.setInt(1, customerID);
+        deleteCustomerStatement.executeUpdate();
+    }
+
+
 }
