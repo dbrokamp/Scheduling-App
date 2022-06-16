@@ -8,6 +8,7 @@ import com.company.schedulingapp.util.SceneController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -103,7 +104,15 @@ public class CustomersController implements Initializable {
                 e.printStackTrace();
             }
         } else {
-
+            presentNoCustomerSelectedAlert();
         }
+    }
+
+    private void presentNoCustomerSelectedAlert() {
+        Alert noCustomerSelectedAlert = new Alert(Alert.AlertType.ERROR);
+        noCustomerSelectedAlert.setHeaderText("Application Message");
+        noCustomerSelectedAlert.setHeaderText("Failed - No Selection");
+        noCustomerSelectedAlert.setContentText("Please select a customer first.");
+        noCustomerSelectedAlert.showAndWait();
     }
 }
