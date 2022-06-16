@@ -1,8 +1,10 @@
 package com.company.schedulingapp.controller;
 
 import com.company.schedulingapp.dbaccess.DBCountries;
+import com.company.schedulingapp.dbaccess.DBCustomers;
 import com.company.schedulingapp.dbaccess.DBFirstLevelDivisions;
 import com.company.schedulingapp.model.Country;
+import com.company.schedulingapp.model.Customer;
 import com.company.schedulingapp.model.FirstLevelDivision;
 import com.company.schedulingapp.util.SceneController;
 import javafx.collections.FXCollections;
@@ -26,7 +28,7 @@ public class AddCustomerController implements Initializable {
     private String newCustomerAddress;
     private String newCustomerPostalCode;
     private String newCustomerPhone;
-    private String newCustomerState;
+    private String newCustomerFirstLevelDivision;
     private String newCustomerCountry;
 
     @FXML TextField nameTextField;
@@ -86,18 +88,31 @@ public class AddCustomerController implements Initializable {
         }
     }
 
-    private void setFirstLevelDivisionComboBox() {
-        firstLevelDivisionComboBox.setItems(firstLevelDivisionNames);
-    }
+    private void setFirstLevelDivisionComboBox() { firstLevelDivisionComboBox.setItems(firstLevelDivisionNames); }
 
-    private void clearFirstLevelDivisionNames() {
-        firstLevelDivisionNames.clear();
+    private void clearFirstLevelDivisionNames() { firstLevelDivisionNames.clear(); }
+
+    private void getTextInputFromFormFields() {
+        newCustomerName = nameTextField.getText();
+        newCustomerAddress = addressTextField.getText();
+        newCustomerPostalCode = postalCodeTextField.getText();
+        newCustomerCountry = countryComboBox.getValue();
+        newCustomerFirstLevelDivision = firstLevelDivisionComboBox.getValue();
     }
 
 
     public void save() {
+        getTextInputFromFormFields();
+        try {
+            DBCustomers.addNewCustomer(newCustomerName, newCustomerAddress, newCustomerPostalCode, newCustomerPhone, newCustomerFirstLevelDivision);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 
     }
+
+
 
     public void cancel(ActionEvent event) {
         sceneController.setScene(event, "Customers.fxml");
