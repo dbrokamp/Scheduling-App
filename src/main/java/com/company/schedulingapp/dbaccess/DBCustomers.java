@@ -5,6 +5,7 @@ import com.company.schedulingapp.model.Customer;
 import com.company.schedulingapp.util.JDBC;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 
 
 import java.sql.*;
@@ -82,7 +83,7 @@ public class DBCustomers {
         if (appointments.isEmpty()) {
             deleteCustomerFromDatabase(customerID);
         } else {
-            // Present message about deleting all appointments first
+            presentUnableToDeleteCustomerAlert();
         }
 
     }
@@ -93,6 +94,13 @@ public class DBCustomers {
         PreparedStatement deleteCustomerStatement = connection.prepareStatement(sql);
         deleteCustomerStatement.setInt(1, customerID);
         deleteCustomerStatement.executeUpdate();
+    }
+
+    private static void presentUnableToDeleteCustomerAlert() {
+        Alert unableToDeleteCustomerAlert = new Alert(Alert.AlertType.ERROR);
+        unableToDeleteCustomerAlert.setHeaderText("Database Message");
+        unableToDeleteCustomerAlert.setTitle("Failed");
+        unableToDeleteCustomerAlert.setContentText("All customer appointments must be deleted before the customer can be deleted.");
     }
 
 
