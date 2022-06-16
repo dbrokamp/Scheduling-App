@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
@@ -101,10 +102,12 @@ public class AddCustomerController implements Initializable {
     }
 
 
-    public void save() {
+    public void save(ActionEvent event) {
         getTextInputFromFormFields();
         try {
             DBCustomers.addNewCustomer(newCustomerName, newCustomerAddress, newCustomerPostalCode, newCustomerPhone, newCustomerFirstLevelDivision);
+            presentCustomerAddedSuccessAlert();
+            returnToCustomersScene(event);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -112,11 +115,22 @@ public class AddCustomerController implements Initializable {
 
     }
 
+    private void presentCustomerAddedSuccessAlert() {
+        Alert customerAddedAlert = new Alert(Alert.AlertType.INFORMATION);
+        customerAddedAlert.setTitle("Database Message");
+        customerAddedAlert.setHeaderText("Success");
+        customerAddedAlert.setContentText("Customer added to database.");
+        customerAddedAlert.showAndWait();
+
+    }
+
+    private void returnToCustomersScene(ActionEvent event) {
+        sceneController.setScene(event, "Customers.fxml");
+    }
 
 
     public void cancel(ActionEvent event) {
-        sceneController.setScene(event, "Customers.fxml");
-
+        returnToCustomersScene(event);
     }
 
 
