@@ -47,30 +47,9 @@ public class CustomersController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupCustomerTable();
         setupAppointmentTable();
+        addSelectionListenerToCustomerTable();
 
-        customerTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                try {
-                    appointmentTableView.setItems(DBAppointments.getCustomerAppointments(newSelection.getCustomerID()));
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
 
-    }
-
-    private void setupAppointmentTable() {
-        appointmentIDColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
-        appointmentTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-        appointmentDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-        appointmentLocationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
-        appointmentTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-        appointmentStartColumn.setCellValueFactory(new PropertyValueFactory<>("start"));
-        appointmentEndColumn.setCellValueFactory(new PropertyValueFactory<>("end"));
-        appointmentCustomerIDColumn.setCellValueFactory(new PropertyValueFactory<>("customerID"));
-        appointmentUserIDColumn.setCellValueFactory(new PropertyValueFactory<>("userID"));
-        appointmentContactIDColumn.setCellValueFactory(new PropertyValueFactory<>("contactID"));
     }
 
     private void setupCustomerTable() {
@@ -88,7 +67,30 @@ public class CustomersController implements Initializable {
         }
     }
 
-    public void goToAddCustomer(ActionEvent event) {
-        sceneController.setScene(event, "AddCustomer.fxml");
+    private void addSelectionListenerToCustomerTable() {
+        customerTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                try {
+                    appointmentTableView.setItems(DBAppointments.getCustomerAppointments(newSelection.getCustomerID()));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
+
+    private void setupAppointmentTable() {
+        appointmentIDColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
+        appointmentTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        appointmentDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        appointmentLocationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
+        appointmentTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        appointmentStartColumn.setCellValueFactory(new PropertyValueFactory<>("start"));
+        appointmentEndColumn.setCellValueFactory(new PropertyValueFactory<>("end"));
+        appointmentCustomerIDColumn.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+        appointmentUserIDColumn.setCellValueFactory(new PropertyValueFactory<>("userID"));
+        appointmentContactIDColumn.setCellValueFactory(new PropertyValueFactory<>("contactID"));
+    }
+
+    public void goToAddCustomer(ActionEvent event) { sceneController.setScene(event, "AddCustomer.fxml"); }
 }
