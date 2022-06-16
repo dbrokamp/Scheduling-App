@@ -98,9 +98,10 @@ public class DBCustomers {
 
     private static void presentUnableToDeleteCustomerAlert() {
         Alert unableToDeleteCustomerAlert = new Alert(Alert.AlertType.ERROR);
-        unableToDeleteCustomerAlert.setHeaderText("Database Message");
-        unableToDeleteCustomerAlert.setTitle("Failed");
+        unableToDeleteCustomerAlert.setTitle("Database Message");
+        unableToDeleteCustomerAlert.setHeaderText("Failed");
         unableToDeleteCustomerAlert.setContentText("All customer appointments must be deleted before the customer can be deleted.");
+        unableToDeleteCustomerAlert.showAndWait();
     }
 
 
