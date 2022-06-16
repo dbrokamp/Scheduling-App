@@ -30,13 +30,13 @@ public class AddCustomerController implements Initializable {
     private String newCustomerPostalCode;
     private String newCustomerPhone;
     private String newCustomerFirstLevelDivision;
-    private String newCustomerCountry;
 
     @FXML TextField nameTextField;
     @FXML TextField addressTextField;
     @FXML TextField postalCodeTextField;
     @FXML ComboBox<String> countryComboBox;
     @FXML ComboBox<String> firstLevelDivisionComboBox;
+    @FXML TextField phoneTextField;
 
     ObservableList<String> countryNames = FXCollections.observableArrayList();
     ObservableList<String> firstLevelDivisionNames = FXCollections.observableArrayList();
@@ -57,7 +57,7 @@ public class AddCustomerController implements Initializable {
 
             setFirstLevelDivisionComboBox();
 
-        });;
+        });
 
     }
 
@@ -97,8 +97,8 @@ public class AddCustomerController implements Initializable {
         newCustomerName = nameTextField.getText();
         newCustomerAddress = addressTextField.getText();
         newCustomerPostalCode = postalCodeTextField.getText();
-        newCustomerCountry = countryComboBox.getValue();
         newCustomerFirstLevelDivision = firstLevelDivisionComboBox.getValue();
+        newCustomerPhone = phoneTextField.getText();
     }
 
 
