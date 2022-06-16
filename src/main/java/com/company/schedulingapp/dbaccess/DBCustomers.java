@@ -34,7 +34,12 @@ public class DBCustomers {
     }
 
     public static ObservableList<Customer> getAllCustomers() throws SQLException {
-        getCustomers();
+        if (customers.isEmpty()) {
+            getCustomers();
+        } else {
+            customers.clear();
+            getCustomers();
+        }
         return customers;
     }
 
