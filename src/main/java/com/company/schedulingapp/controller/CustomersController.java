@@ -12,7 +12,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.Pane;
 
 import java.net.URL;
 import java.sql.Date;
@@ -97,9 +96,11 @@ public class CustomersController implements Initializable {
 
     public void deleteCustomerActionButton() {
         Customer customerToDelete = customerTableView.getSelectionModel().getSelectedItem();
-        if (customerToDelete != null) {
+        System.out.println(customerToDelete.getCustomerName());
+        if (customerToDelete.getCustomerID() != null) {
             try {
                 DBCustomers.deleteCustomerAction(customerToDelete.getCustomerID());
+                setupCustomerTable();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
