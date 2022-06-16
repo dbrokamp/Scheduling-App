@@ -40,7 +40,12 @@ public class DBFirstLevelDivisions {
         PreparedStatement firstLevelDivisionStatement = connection.prepareStatement(sql);
         firstLevelDivisionStatement.setString(1, firstLevelDivisionName);
         ResultSet firstLevelDivisionSet = firstLevelDivisionStatement.executeQuery();
-        return firstLevelDivisionSet.getInt("Division_ID");
+
+        if (firstLevelDivisionSet.next()) {
+            return firstLevelDivisionSet.getInt("Division_ID");
+        } else {
+            return null;
+        }
 
     }
 }
