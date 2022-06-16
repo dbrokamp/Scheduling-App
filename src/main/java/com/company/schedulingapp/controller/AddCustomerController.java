@@ -4,7 +4,6 @@ import com.company.schedulingapp.dbaccess.DBCountries;
 import com.company.schedulingapp.dbaccess.DBCustomers;
 import com.company.schedulingapp.dbaccess.DBFirstLevelDivisions;
 import com.company.schedulingapp.model.Country;
-import com.company.schedulingapp.model.Customer;
 import com.company.schedulingapp.model.FirstLevelDivision;
 import com.company.schedulingapp.util.SceneController;
 import javafx.collections.FXCollections;
