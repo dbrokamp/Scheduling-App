@@ -93,4 +93,17 @@ public class CustomersController implements Initializable {
     }
 
     public void goToAddCustomer(ActionEvent event) { sceneController.setScene(event, "AddCustomer.fxml"); }
+
+    public void deleteCustomerActionButton() {
+        Customer customerToDelete = customerTableView.getSelectionModel().getSelectedItem();
+        if (customerToDelete != null) {
+            try {
+                DBCustomers.deleteCustomerAction(customerToDelete.getCustomerID());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+
+        }
+    }
 }
