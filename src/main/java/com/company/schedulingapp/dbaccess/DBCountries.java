@@ -14,29 +14,25 @@ public class DBCountries {
 
     private static ObservableList<Country> allCountries = FXCollections.observableArrayList();
 
-    private static ObservableList<Country> getAllCountries() throws SQLException {
-        ObservableList<Country> countries = FXCollections.observableArrayList();
+    private static void getAllCountries() throws SQLException {
 
         Connection connection = JDBC.getConnection();
         String sql = "SELECT * FROM countries";
-        PreparedStatement allCountries = connection.prepareStatement(sql);
-        ResultSet countriesSet = allCountries.executeQuery();
+        PreparedStatement allCountriesStatement = connection.prepareStatement(sql);
+        ResultSet countriesSet = allCountriesStatement.executeQuery();
 
         while (countriesSet.next()) {
 
             Country country = new Country(countriesSet.getInt("Country_ID"),
                                             countriesSet.getString("Country"));
-            countries.add(country);
+            allCountries.add(country);
 
         }
-
-
-        return countries;
     }
 
     public static ObservableList<Country> getCountries() throws SQLException {
         if (allCountries.isEmpty()) {
-            allCountries = getAllCountries();
+           getAllCountries();
         }
         return allCountries;
     }
