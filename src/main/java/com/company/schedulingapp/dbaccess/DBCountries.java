@@ -52,4 +52,20 @@ public class DBCountries {
         }
         return country;
     }
+
+    public static Country getCountryByID(Integer countryID) throws SQLException {
+        Country country = null;
+        Connection connection = JDBC.getConnection();
+        String sql = "SELECT * FROM countries WHERE Country_ID = ?";
+        PreparedStatement getCountryByNameStatement = connection.prepareStatement(sql);
+        getCountryByNameStatement.setInt(1, countryID);
+        ResultSet countrySet = getCountryByNameStatement.executeQuery();
+
+        while (countrySet.next()) {
+            country = new Country(countrySet.getInt("Country_ID"),
+                    countrySet.getString("Country"));
+
+        }
+        return country;
+    }
 }
