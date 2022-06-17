@@ -83,9 +83,6 @@ public class AddCustomerController implements Initializable {
             firstLevelDivisionNames.add(firstLevelDivision.getDivision());
         }
 
-        for (String name : firstLevelDivisionNames) {
-            System.out.println(name);
-        }
     }
 
     private void setFirstLevelDivisionComboBox() { firstLevelDivisionComboBox.setItems(firstLevelDivisionNames); }
