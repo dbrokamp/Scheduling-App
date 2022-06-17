@@ -17,6 +17,7 @@ import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class ModifyCustomerController implements Initializable {
@@ -52,10 +53,24 @@ public class ModifyCustomerController implements Initializable {
         populateCountryComboBox();
 
 
-        getFirstLevelDivisionsForSelectedCountry();
+        getFirstLevelDivisionsForCustomerCountry();
         populateFirstLevelDivisionComboBox();
 
         populateFormFieldsWithCustomerData();
+
+        countryComboBox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+
+            if (!Objects.equals(newValue, oldValue)) {
+                try {
+                    getFirstLevelDivisionNamesForSelectedCountry(newValue);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                populateFirstLevelDivisionComboBox();
+            }
+
+
+        });
 
     }
 
@@ -84,7 +99,8 @@ public class ModifyCustomerController implements Initializable {
 
     }
 
-    private void getFirstLevelDivisionsForSelectedCountry() {
+    private void getFirstLevelDivisionsForCustomerCountry() {
+        clearFirstLevelDivisionNames();
         try {
             for (FirstLevelDivision firstLevelDivision : DBFirstLevelDivisions.getFirstLevelDivisionsForCountryID(customerToModifyCountry.getCountryID())) {
                 firstLevelDivisionNames.add(firstLevelDivision.getDivision());
@@ -93,6 +109,21 @@ public class ModifyCustomerController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    private void getFirstLevelDivisionNamesForSelectedCountry(String countryName) throws SQLException {
+        clearFirstLevelDivisionNames();
+
+        Country country = DBCountries.getCountryByName(countryName);
+
+        for (FirstLevelDivision firstLevelDivision : DBFirstLevelDivisions.getFirstLevelDivisionsForCountryID(country.getCountryID())) {
+            firstLevelDivisionNames.add(firstLevelDivision.getDivision());
+        }
+
+    }
+
+
+
+    private void clearFirstLevelDivisionNames() { firstLevelDivisionNames.clear(); }
 
     private void populateFirstLevelDivisionComboBox() {
         firstLevelDivisionComboBox.setItems(firstLevelDivisionNames);
@@ -187,6 +218,23 @@ public class ModifyCustomerController implements Initializable {
         }
     }
 
+    private void checkFirstLevelDivisionFieldForChanges() throws SQLException {
+        if (firstLevelDivisionComboBox.getValue() == DBFirstLevelDivisions.getFirstLevelDivisionFromDivisionID(customerToModify.getDivisionID()).getDivision()) {
+            System.out.println("No changes to first level division field");
+        } else {
+            updateCustomerFirstLevelDivision();
+        }
+    }
+
+    private void updateCustomerFirstLevelDivision() {
+        newCustomerFirstLevelDivision = firstLevelDivisionComboBox.getValue();
+        try {
+            DBCustomers.updateCustomerDivisionID(DBFirstLevelDivisions.getDivisionID(newCustomerFirstLevelDivision), customerToModify.getCustomerID());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 
@@ -194,12 +242,13 @@ public class ModifyCustomerController implements Initializable {
         returnToMainScene(event);
     }
 
-    public void save(ActionEvent event) {
+    public void save(ActionEvent event) throws SQLException {
         // First test if there are any changes to info
         checkNameFieldForChanges();
         checkAddressFieldForChanges();
         checkPostalCodeFieldForChanges();
         checkPhoneFieldForChanges();
+        checkFirstLevelDivisionFieldForChanges();
 
     }
 
