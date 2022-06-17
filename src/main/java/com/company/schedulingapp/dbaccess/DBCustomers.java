@@ -94,6 +94,15 @@ public class DBCustomers {
         PreparedStatement deleteCustomerStatement = connection.prepareStatement(sql);
         deleteCustomerStatement.setInt(1, customerID);
         deleteCustomerStatement.executeUpdate();
+        presentCustomerDeletedAlert();
+    }
+
+    private static void presentCustomerDeletedAlert() {
+        Alert customerDeletedAlert = new Alert(Alert.AlertType.INFORMATION);
+        customerDeletedAlert.setTitle("Database Message");
+        customerDeletedAlert.setHeaderText("Success");
+        customerDeletedAlert.setContentText("Customer successfully deleted.");
+        customerDeletedAlert.showAndWait();
     }
 
     private static void presentUnableToDeleteCustomerAlert() {
