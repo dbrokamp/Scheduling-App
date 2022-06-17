@@ -108,21 +108,26 @@ public class MainController implements Initializable {
 
     public void goToModifyCustomer(ActionEvent event) {
         setSelectedCustomer();
-        sceneController.setScene(event, "ModifyCustomer.fxml");
+        if (selectedCustomer == null) {
+            presentNoCustomerSelectedAlert();
+        } else {
+            sceneController.setScene(event, "ModifyCustomer.fxml");
+        }
+
     }
 
     public void deleteCustomerActionButton() {
         setSelectedCustomer();
 
-        if (selectedCustomer.getCustomerID() != null) {
+        if (selectedCustomer == null) {
+            presentNoCustomerSelectedAlert();
+        } else {
             try {
                 DBCustomers.deleteCustomerAction(selectedCustomer.getCustomerID());
                 setupCustomerTable();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        } else {
-            presentNoCustomerSelectedAlert();
         }
     }
 
@@ -131,7 +136,6 @@ public class MainController implements Initializable {
     }
 
     public static Customer getSelectedCustomer() {
-        System.out.println("In modify view initialize" + selectedCustomer.getCustomerName());
         return selectedCustomer;
     }
 
