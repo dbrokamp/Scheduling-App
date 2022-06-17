@@ -106,6 +106,8 @@ public class MainController implements Initializable {
 
     public void goToAddCustomer(ActionEvent event) { sceneController.setScene(event, "AddCustomer.fxml"); }
 
+    public void goToModifyCustomer(ActionEvent event) { sceneController.setScene(event, "ModifyCustomer.fxml"); }
+
     public void deleteCustomerActionButton() {
         selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
 

@@ -32,7 +32,7 @@
               </columns>
             </TableView>
             <Button layoutX="429.0" layoutY="279.40234375" mnemonicParsing="false" onAction="#goToAddCustomer" prefHeight="25.0" prefWidth="70.0" text="Add" />
-            <Button layoutX="525.0" layoutY="279.40234375" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Modify" />
+            <Button layoutX="525.0" layoutY="279.40234375" mnemonicParsing="false" onAction="#goToModifyCustomer" prefHeight="25.0" prefWidth="70.0" text="Modify" />
             <Button layoutX="617.0" layoutY="279.40234375" mnemonicParsing="false" onAction="#deleteCustomerActionButton" prefHeight="25.0" prefWidth="70.0" text="Delete" />
          </children>
       </Pane>
