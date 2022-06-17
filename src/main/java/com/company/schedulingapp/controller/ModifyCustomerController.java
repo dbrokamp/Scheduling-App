@@ -250,6 +250,8 @@ public class ModifyCustomerController implements Initializable {
         checkPhoneFieldForChanges();
         checkFirstLevelDivisionFieldForChanges();
 
+        returnToMainScene(event);
+
     }
 
 
