@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
@@ -235,7 +236,13 @@ public class ModifyCustomerController implements Initializable {
         }
     }
 
-
+    private void presentCustomerUpdatedSuccessAlert() {
+        Alert updateSuccessful = new Alert(Alert.AlertType.INFORMATION);
+        updateSuccessful.setTitle("Application Message");
+        updateSuccessful.setHeaderText("Success");
+        updateSuccessful.setContentText("Customer information updated successfully");
+        updateSuccessful.showAndWait();
+    }
 
 
     public void cancel(ActionEvent event) {
@@ -249,7 +256,7 @@ public class ModifyCustomerController implements Initializable {
         checkPostalCodeFieldForChanges();
         checkPhoneFieldForChanges();
         checkFirstLevelDivisionFieldForChanges();
-
+        presentCustomerUpdatedSuccessAlert();
         returnToMainScene(event);
 
     }
