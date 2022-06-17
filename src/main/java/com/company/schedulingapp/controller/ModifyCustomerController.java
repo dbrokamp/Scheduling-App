@@ -8,6 +8,7 @@ import com.company.schedulingapp.model.FirstLevelDivision;
 import com.company.schedulingapp.util.SceneController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -42,6 +43,7 @@ public class ModifyCustomerController implements Initializable {
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         customerToModify = MainController.getSelectedCustomer();
+        System.out.println(customerToModify.getCustomerName());
         getFirstLevelDivisionForCustomer();
         getCountryForCustomer();
 
@@ -110,6 +112,15 @@ public class ModifyCustomerController implements Initializable {
             e.printStackTrace();
         }
 
+    }
+
+    private void returnToMainScene(ActionEvent event) {
+        sceneController.setScene(event, "Main.fxml");
+    }
+
+
+    public void cancel(ActionEvent event) {
+        returnToMainScene(event);
     }
 
 
