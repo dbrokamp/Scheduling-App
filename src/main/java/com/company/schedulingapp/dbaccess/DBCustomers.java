@@ -104,5 +104,77 @@ public class DBCustomers {
         unableToDeleteCustomerAlert.showAndWait();
     }
 
+    public static void updateCustomerName(String newCustomerName, Integer customerID) throws  SQLException {
+        Connection connection = JDBC.getConnection();
+        String sql = "UPDATE customers SET Customer_Name = ? WHERE Customer_ID = ?";
+        PreparedStatement updateCustomerStatement = connection.prepareStatement(sql);
+        updateCustomerStatement.setString(1, newCustomerName);
+        updateCustomerStatement.setInt(2, customerID);
+        updateCustomerStatement.executeUpdate();
+        updateLastUpdatedTime(customerID);
+        updateLastUpdatedByUser(customerID);
+    }
+
+    public static void updateCustomerAddress(String newCustomerAddress, Integer customerID) throws  SQLException {
+        Connection connection = JDBC.getConnection();
+        String sql = "UPDATE customers SET Address = ? WHERE Customer_ID = ?";
+        PreparedStatement updateCustomerStatement = connection.prepareStatement(sql);
+        updateCustomerStatement.setString(1, newCustomerAddress);
+        updateCustomerStatement.setInt(2, customerID);
+        updateCustomerStatement.executeUpdate();
+        updateLastUpdatedTime(customerID);
+        updateLastUpdatedByUser(customerID);
+    }
+
+    public static void updateCustomerPostalCode(String newCustomerPostalCode, Integer customerID) throws  SQLException {
+        Connection connection = JDBC.getConnection();
+        String sql = "UPDATE customers SET Postal_Code = ? WHERE Customer_ID = ?";
+        PreparedStatement updateCustomerStatement = connection.prepareStatement(sql);
+        updateCustomerStatement.setString(1, newCustomerPostalCode);
+        updateCustomerStatement.setInt(2, customerID);
+        updateCustomerStatement.executeUpdate();
+        updateLastUpdatedTime(customerID);
+        updateLastUpdatedByUser(customerID);
+    }
+
+    public static void updateCustomerPhone(String newCustomerPhone, Integer customerID) throws  SQLException {
+        Connection connection = JDBC.getConnection();
+        String sql = "UPDATE customers SET Phone = ? WHERE Customer_ID = ?";
+        PreparedStatement updateCustomerStatement = connection.prepareStatement(sql);
+        updateCustomerStatement.setString(1, newCustomerPhone);
+        updateCustomerStatement.setInt(2, customerID);
+        updateCustomerStatement.executeUpdate();
+        updateLastUpdatedTime(customerID);
+        updateLastUpdatedByUser(customerID);
+    }
+
+    public static void updateCustomerDivisionID(Integer newDivisionID, Integer customerID) throws  SQLException {
+        Connection connection = JDBC.getConnection();
+        String sql = "UPDATE customers SET Division_ID = ? WHERE Customer_ID = ?";
+        PreparedStatement updateCustomerStatement = connection.prepareStatement(sql);
+        updateCustomerStatement.setInt(1, newDivisionID);
+        updateCustomerStatement.setInt(2, customerID);
+        updateCustomerStatement.executeUpdate();
+        updateLastUpdatedTime(customerID);
+        updateLastUpdatedByUser(customerID);
+    }
+
+    private static void updateLastUpdatedTime(Integer customerID) throws SQLException {
+        Connection connection = JDBC.getConnection();
+        String sql = "UPDATE customers SET Last_Update = ? WHERE Customer_ID = ?";
+        PreparedStatement updateCustomerStatement = connection.prepareStatement(sql);
+        updateCustomerStatement.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
+        updateCustomerStatement.setInt(2, customerID);
+        updateCustomerStatement.executeUpdate();
+    }
+
+    private static void updateLastUpdatedByUser(Integer customerID) throws SQLException {
+        Connection connection = JDBC.getConnection();
+        String sql = "UPDATE customers SET Last_Updated_By = ? WHERE Customer_ID = ?";
+        PreparedStatement updateCustomerStatement = connection.prepareStatement(sql);
+        updateCustomerStatement.setString(1, DBUsers.getCurrentUserName());
+        updateCustomerStatement.setInt(2, customerID);
+        updateCustomerStatement.executeUpdate();
+    }
 
 }
