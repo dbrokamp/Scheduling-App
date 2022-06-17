@@ -1,6 +1,7 @@
 package com.company.schedulingapp.controller;
 
 import com.company.schedulingapp.dbaccess.DBCountries;
+import com.company.schedulingapp.dbaccess.DBCustomers;
 import com.company.schedulingapp.dbaccess.DBFirstLevelDivisions;
 import com.company.schedulingapp.model.Country;
 import com.company.schedulingapp.model.Customer;
@@ -118,9 +119,88 @@ public class ModifyCustomerController implements Initializable {
         sceneController.setScene(event, "Main.fxml");
     }
 
+    private void checkNameFieldForChanges() {
+        if (nameTextField.getText() == customerToModify.getCustomerName()) {
+            System.out.println("No changes to name field");
+        } else {
+            updateCustomerName();
+        }
+    }
+
+    private void updateCustomerName() {
+        newCustomerName = nameTextField.getText();
+        try {
+            DBCustomers.updateCustomerName(newCustomerName, customerToModify.getCustomerID());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void checkAddressFieldForChanges() {
+        if (addressTextField.getText() == customerToModify.getAddress()) {
+            System.out.println("No changes to address field");
+        } else {
+            updateCustomerAddress();
+        }
+    }
+
+    private void updateCustomerAddress() {
+        newCustomerAddress = addressTextField.getText();
+        try {
+            DBCustomers.updateCustomerAddress(newCustomerAddress, customerToModify.getCustomerID());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void checkPostalCodeFieldForChanges() {
+        if (postalCodeTextField.getText() == customerToModify.getPostalCode()) {
+            System.out.println("No changes to postal code field");
+        } else {
+            updateCustomerPostalCode();
+        }
+    }
+
+    private void updateCustomerPostalCode() {
+        newCustomerPostalCode = postalCodeTextField.getText();
+        try {
+            DBCustomers.updateCustomerPostalCode(newCustomerPostalCode, customerToModify.getCustomerID());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void checkPhoneFieldForChanges() {
+        if (phoneTextField.getText() == customerToModify.getPhone()) {
+            System.out.println("No changes to phone field");
+        } else {
+            updateCustomerPhone();
+        }
+    }
+
+    private void updateCustomerPhone() {
+        newCustomerPhone = phoneTextField.getText();
+        try {
+            DBCustomers.updateCustomerPhone(newCustomerPhone, customerToModify.getCustomerID());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 
     public void cancel(ActionEvent event) {
         returnToMainScene(event);
+    }
+
+    public void save(ActionEvent event) {
+        // First test if there are any changes to info
+        checkNameFieldForChanges();
+        checkAddressFieldForChanges();
+        checkPostalCodeFieldForChanges();
+        checkPhoneFieldForChanges();
+
     }
 
 
