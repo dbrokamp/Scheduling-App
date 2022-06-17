@@ -106,10 +106,13 @@ public class MainController implements Initializable {
 
     public void goToAddCustomer(ActionEvent event) { sceneController.setScene(event, "AddCustomer.fxml"); }
 
-    public void goToModifyCustomer(ActionEvent event) { sceneController.setScene(event, "ModifyCustomer.fxml"); }
+    public void goToModifyCustomer(ActionEvent event) {
+        setSelectedCustomer();
+        sceneController.setScene(event, "ModifyCustomer.fxml");
+    }
 
     public void deleteCustomerActionButton() {
-        selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
+        setSelectedCustomer();
 
         if (selectedCustomer.getCustomerID() != null) {
             try {
@@ -123,7 +126,12 @@ public class MainController implements Initializable {
         }
     }
 
+    private void setSelectedCustomer() {
+        selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
+    }
+
     public static Customer getSelectedCustomer() {
+        System.out.println("In modify view initialize" + selectedCustomer.getCustomerName());
         return selectedCustomer;
     }
 
