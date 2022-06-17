@@ -18,7 +18,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class CustomersController implements Initializable {
+public class MainController implements Initializable {
 
     SceneController sceneController = SceneController.getSceneControllerInstance();
 

@@ -8,8 +8,6 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -49,7 +47,7 @@ public class LoginController implements Initializable {
         if (DBUsers.verifyUsername(username)) {
             if (DBUsers.verifyPassword(password)) {
                 System.out.println("User verified.");
-                sceneController.setScene(event, "Customers.fxml");
+                sceneController.setScene(event, "Main.fxml");
             } else {
                 System.out.println("Incorrect password.");
                 displayIncorrectPasswordError();

@@ -124,7 +124,7 @@ public class AddCustomerController implements Initializable {
     }
 
     private void returnToCustomersScene(ActionEvent event) {
-        sceneController.setScene(event, "Customers.fxml");
+        sceneController.setScene(event, "Main.fxml");
     }
 
 
