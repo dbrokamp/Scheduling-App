@@ -62,6 +62,6 @@
             <Button layoutX="841.0" layoutY="239.40234375" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Delete" />
          </children>
       </Pane>
-      <Button layoutX="916.0" layoutY="661.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Exit" />
+      <Button layoutX="916.0" layoutY="661.0" mnemonicParsing="false" onAction="#exitApplicationButtonAction" prefHeight="25.0" prefWidth="70.0" text="Exit" />
    </children>
 </Pane>

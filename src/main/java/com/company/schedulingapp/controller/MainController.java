@@ -4,7 +4,9 @@ import com.company.schedulingapp.dbaccess.DBAppointments;
 import com.company.schedulingapp.dbaccess.DBCustomers;
 import com.company.schedulingapp.model.Appointment;
 import com.company.schedulingapp.model.Customer;
+import com.company.schedulingapp.util.JDBC;
 import com.company.schedulingapp.util.SceneController;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -121,6 +123,11 @@ public class MainController implements Initializable {
 
     public Customer getSelectedCustomer() {
         return selectedCustomer;
+    }
+
+    public void exitApplicationButtonAction() {
+        JDBC.closeConnection();
+        Platform.exit();
     }
 
 
