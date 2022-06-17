@@ -12,7 +12,6 @@ public class FirstLevelDivision {
     public FirstLevelDivision(Integer divisionID, String division, Integer countryID) {
         this.divisionID = divisionID;
         this.division = division;
-
         this.countryID = countryID;
     }
 
