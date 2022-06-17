@@ -42,6 +42,7 @@ public class CustomersController implements Initializable {
     @FXML TableColumn<Appointment, Integer> appointmentUserIDColumn = new TableColumn<>("User_ID");
     @FXML TableColumn<Appointment, Integer> appointmentContactIDColumn = new TableColumn<>("Contact_ID");
 
+    private Customer selectedCustomer;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -71,7 +72,8 @@ public class CustomersController implements Initializable {
         customerTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 try {
-                    appointmentTableView.setItems(DBAppointments.getCustomerAppointments(newSelection.getCustomerID()));
+                    selectedCustomer = newSelection;
+                    appointmentTableView.setItems(DBAppointments.getCustomerAppointments(selectedCustomer.getCustomerID()));
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -92,14 +94,22 @@ public class CustomersController implements Initializable {
         appointmentContactIDColumn.setCellValueFactory(new PropertyValueFactory<>("contactID"));
     }
 
+    private void presentNoCustomerSelectedAlert() {
+        Alert noCustomerSelectedAlert = new Alert(Alert.AlertType.ERROR);
+        noCustomerSelectedAlert.setHeaderText("Application Message");
+        noCustomerSelectedAlert.setHeaderText("Failed - No Selection");
+        noCustomerSelectedAlert.setContentText("Please select a customer first.");
+        noCustomerSelectedAlert.showAndWait();
+    }
+
     public void goToAddCustomer(ActionEvent event) { sceneController.setScene(event, "AddCustomer.fxml"); }
 
     public void deleteCustomerActionButton() {
-        Customer customerToDelete = customerTableView.getSelectionModel().getSelectedItem();
-        System.out.println(customerToDelete.getCustomerName());
-        if (customerToDelete.getCustomerID() != null) {
+        selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
+
+        if (selectedCustomer.getCustomerID() != null) {
             try {
-                DBCustomers.deleteCustomerAction(customerToDelete.getCustomerID());
+                DBCustomers.deleteCustomerAction(selectedCustomer.getCustomerID());
                 setupCustomerTable();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -109,11 +119,9 @@ public class CustomersController implements Initializable {
         }
     }
 
-    private void presentNoCustomerSelectedAlert() {
-        Alert noCustomerSelectedAlert = new Alert(Alert.AlertType.ERROR);
-        noCustomerSelectedAlert.setHeaderText("Application Message");
-        noCustomerSelectedAlert.setHeaderText("Failed - No Selection");
-        noCustomerSelectedAlert.setContentText("Please select a customer first.");
-        noCustomerSelectedAlert.showAndWait();
+    public Customer getSelectedCustomer() {
+        return selectedCustomer;
     }
+
+
 }
