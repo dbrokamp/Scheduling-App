@@ -2,6 +2,8 @@ package com.company.schedulingapp.dbaccess;
 
 import com.company.schedulingapp.model.User;
 import com.company.schedulingapp.util.JDBC;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,6 +13,33 @@ import java.sql.SQLException;
 public class DBUsers {
 
     private static String currentUser;
+    private static ObservableList<User> allUsers = FXCollections.observableArrayList();
+
+    private static void getAllUsersFromDataBase() throws SQLException {
+        Connection connection = JDBC.getConnection();
+        String sql = "SELECT * FROM Users";
+        PreparedStatement getAllUsersFromDatabaseStatement = connection.prepareStatement(sql);
+        ResultSet allUsersSet = getAllUsersFromDatabaseStatement.executeQuery();
+
+        while (allUsersSet.next()) {
+            User user = new User(allUsersSet.getInt("User_ID"),
+                                allUsersSet.getString("User_Name"));
+            allUsers.add(user);
+        }
+    }
+
+    public static ObservableList<User> getAllUsers() {
+        if (allUsers.isEmpty()) {
+            try {
+                getAllUsersFromDataBase();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return allUsers;
+    }
+
+
 
 
     public static boolean verifyUsername(String username) throws SQLException {
