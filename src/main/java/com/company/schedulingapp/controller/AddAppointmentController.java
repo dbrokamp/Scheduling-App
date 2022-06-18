@@ -47,11 +47,13 @@ public class AddAppointmentController implements Initializable {
     private String newAppointmentDescription;
     private String newAppointmentLocation;
     private String newAppointmentType;
+    private String newAppointmentStartDate;
+    private String newAppointmentEndDate;
     private String newAppointmentStartTime;
     private String newAppointmentEndTime;
-    private String newAppointmentCustomerID;
-    private String newAppointmentUserID;
-    private String newAppointmentContactID;
+    private Integer newAppointmentCustomerID;
+    private Integer newAppointmentUserID;
+    private Integer newAppointmentContactID;
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         createAppointmentTimes();
@@ -136,39 +138,47 @@ public class AddAppointmentController implements Initializable {
     }
 
     private void getInputFromTitleField() {
-
+        newAppointmentTitle = titleTextField.getText();
     }
 
     private void getInputFromDescriptionField() {
-
+        newAppointmentDescription = descriptionTextField.getText();
     }
 
     private void getInputFromLocationField() {
-
+        newAppointmentLocation = locationTextField.getText();
     }
 
     private void getInputFromTypeField() {
+        newAppointmentType = typeTextField.getText();
+    }
 
+    private void getInputFromStartDateField() {
+        newAppointmentStartDate = startDatePicker.toString();
+    }
+
+    private void getInputFromEndDateField() {
+        newAppointmentEndDate = endDatePicker.toString();
     }
 
     private void getInputFromStartTimeField() {
-
+        newAppointmentStartTime = startTimeComboBox.toString();
     }
 
     private void getInputFromEndTimeField() {
-
+        newAppointmentEndTime = endTimeComboBox.toString();
     }
 
     private void getInputFromCustomerIDField() {
-
+        newAppointmentCustomerID = customerComboBox.getValue();
     }
 
     private void getInputFromUserIDField() {
-
+        newAppointmentUserID = userComboBox.getValue();
     }
 
     private void getInputFromContactIDField() {
-
+        newAppointmentContactID = contactComboBox.getValue();
     }
 
     public void cancel(ActionEvent event) {
