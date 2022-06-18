@@ -43,6 +43,16 @@ public class AddAppointmentController implements Initializable {
     private static ObservableList<Integer> userIDs = FXCollections.observableArrayList();
     private static ObservableList<Integer> contactIDs = FXCollections.observableArrayList();
 
+    private String newAppointmentTitle;
+    private String newAppointmentDescription;
+    private String newAppointmentLocation;
+    private String newAppointmentType;
+    private String newAppointmentStartTime;
+    private String newAppointmentEndTime;
+    private String newAppointmentCustomerID;
+    private String newAppointmentUserID;
+    private String newAppointmentContactID;
+
     public void initialize(URL url, ResourceBundle resourceBundle) {
         createAppointmentTimes();
         populateStartTimeComboBox();
@@ -125,10 +135,48 @@ public class AddAppointmentController implements Initializable {
         contactComboBox.setItems(contactIDs);
     }
 
+    private void getInputFromTitleField() {
+
+    }
+
+    private void getInputFromDescriptionField() {
+
+    }
+
+    private void getInputFromLocationField() {
+
+    }
+
+    private void getInputFromTypeField() {
+
+    }
+
+    private void getInputFromStartTimeField() {
+
+    }
+
+    private void getInputFromEndTimeField() {
+
+    }
+
+    private void getInputFromCustomerIDField() {
+
+    }
+
+    private void getInputFromUserIDField() {
+
+    }
+
+    private void getInputFromContactIDField() {
+
+    }
+
     public void cancel(ActionEvent event) {
         sceneController.setScene(event, "Main.fxml");
     }
 
+    public void save(ActionEvent event) {
 
+    }
 
 }
