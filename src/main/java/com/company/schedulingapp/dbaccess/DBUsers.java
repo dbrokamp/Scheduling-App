@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public class DBUsers {
 
     private static String currentUser;
-    private static ObservableList<User> allUsers = FXCollections.observableArrayList();
+    private static ObservableList<User> users = FXCollections.observableArrayList();
 
     private static void getAllUsersFromDataBase() throws SQLException {
         Connection connection = JDBC.getConnection();
@@ -24,19 +24,19 @@ public class DBUsers {
         while (allUsersSet.next()) {
             User user = new User(allUsersSet.getInt("User_ID"),
                                 allUsersSet.getString("User_Name"));
-            allUsers.add(user);
+            users.add(user);
         }
     }
 
-    public static ObservableList<User> getAllUsers() {
-        if (allUsers.isEmpty()) {
+    public static ObservableList<User> getUsers() {
+        if (users.isEmpty()) {
             try {
                 getAllUsersFromDataBase();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-        return allUsers;
+        return users;
     }
 
 
