@@ -33,6 +33,6 @@
       <ComboBox fx:id="userComboBox" layoutX="567.0" layoutY="476.0" prefWidth="200.0" promptText="User ID" />
       <ComboBox fx:id="contactComboBox" layoutX="226.0" layoutY="550.0" prefWidth="200.0" promptText="Contact ID" />
       <Button layoutX="397.0" layoutY="616.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Save" />
-      <Button layoutX="530.0" layoutY="616.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Cancel" />
+      <Button layoutX="530.0" layoutY="616.0" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="72.0" text="Cancel" />
    </children>
 </Pane>
