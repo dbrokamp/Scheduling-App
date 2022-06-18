@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.schedulingapp.controller.AddAppointmentController">
    <children>
       <Text layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scheduling App">
          <font>
@@ -26,12 +26,12 @@
       <TextField layoutX="567.0" layoutY="175.0" prefHeight="25.0" prefWidth="200.0" promptText="Location" />
       <TextField layoutX="567.0" layoutY="242.0" prefWidth="200.0" promptText="Type" />
       <DatePicker layoutX="226.0" layoutY="317.0" prefHeight="25.0" prefWidth="200.0" promptText="Start Date" />
-      <ComboBox layoutX="567.0" layoutY="317.0" prefHeight="25.0" prefWidth="200.0" promptText="Start Time" />
+      <ComboBox fx:id="startTimeComboBox" layoutX="567.0" layoutY="317.0" prefHeight="25.0" prefWidth="200.0" promptText="Start Time" />
       <DatePicker layoutX="226.0" layoutY="398.0" prefHeight="25.0" prefWidth="200.0" promptText="End Date" />
-      <ComboBox layoutX="566.0" layoutY="398.0" prefWidth="200.0" promptText="End Time" />
-      <ComboBox layoutX="226.0" layoutY="476.0" prefWidth="200.0" promptText="Customer ID" />
-      <ComboBox layoutX="567.0" layoutY="476.0" prefWidth="200.0" promptText="User ID" />
-      <ComboBox layoutX="226.0" layoutY="550.0" prefWidth="200.0" promptText="Contact ID" />
+      <ComboBox fx:id="endTimeComboBox" layoutX="566.0" layoutY="398.0" prefWidth="200.0" promptText="End Time" />
+      <ComboBox fx:id="customerComboBox" layoutX="226.0" layoutY="476.0" prefWidth="200.0" promptText="Customer ID" />
+      <ComboBox fx:id="userComboBox" layoutX="567.0" layoutY="476.0" prefWidth="200.0" promptText="User ID" />
+      <ComboBox fx:id="contactComboBox" layoutX="226.0" layoutY="550.0" prefWidth="200.0" promptText="Contact ID" />
       <Button layoutX="397.0" layoutY="616.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Save" />
       <Button layoutX="530.0" layoutY="616.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Cancel" />
    </children>
