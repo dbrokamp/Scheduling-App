@@ -1,7 +1,9 @@
 package com.company.schedulingapp.controller;
 
+import com.company.schedulingapp.dbaccess.DBContacts;
 import com.company.schedulingapp.dbaccess.DBCustomers;
 import com.company.schedulingapp.dbaccess.DBUsers;
+import com.company.schedulingapp.model.Contact;
 import com.company.schedulingapp.model.Customer;
 import com.company.schedulingapp.model.User;
 import com.company.schedulingapp.util.SceneController;
@@ -46,6 +48,7 @@ public class AddAppointmentController implements Initializable {
         populateEndTimeComboBox();
         populateCustomerIDComboBox();
         populateUserIDComboBox();
+        populateContactIDComboBox();
     }
 
     private static void createAppointmentTimes() {
@@ -108,6 +111,17 @@ public class AddAppointmentController implements Initializable {
     private void populateUserIDComboBox() {
         getUserIDs();
         userComboBox.setItems(userIDs);
+    }
+
+    private void getContactIDs() {
+        for (Contact contact : DBContacts.getContacts()) {
+            contactIDs.add(contact.getContactID());
+        }
+    }
+
+    private void populateContactIDComboBox() {
+        getContactIDs();
+        contactComboBox.setItems(contactIDs);
     }
 
 
