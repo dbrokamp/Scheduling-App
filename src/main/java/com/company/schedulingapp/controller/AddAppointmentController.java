@@ -2,7 +2,6 @@ package com.company.schedulingapp.controller;
 
 import com.company.schedulingapp.dbaccess.DBCustomers;
 import com.company.schedulingapp.dbaccess.DBUsers;
-import com.company.schedulingapp.model.Contact;
 import com.company.schedulingapp.model.Customer;
 import com.company.schedulingapp.model.User;
 import com.company.schedulingapp.util.SceneController;
@@ -16,7 +15,6 @@ import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
@@ -101,7 +99,7 @@ public class AddAppointmentController implements Initializable {
     }
 
     private void getUserIDs() {
-        for (User user : DBUsers.getAllUsers()) {
+        for (User user : DBUsers.getUsers()) {
             userIDs.add(user.getUserID());
         }
 
