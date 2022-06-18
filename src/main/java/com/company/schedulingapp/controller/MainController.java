@@ -18,6 +18,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
@@ -51,7 +52,6 @@ public class MainController implements Initializable {
         setupCustomerTable();
         setupAppointmentTable();
         addSelectionListenerToCustomerTable();
-
 
     }
 
@@ -104,7 +104,10 @@ public class MainController implements Initializable {
         noCustomerSelectedAlert.showAndWait();
     }
 
-    public void goToAddCustomer(ActionEvent event) { sceneController.setScene(event, "AddCustomer.fxml"); }
+    private void setSelectedCustomer() {
+        selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
+    }
+
 
     public void goToModifyCustomer(ActionEvent event) {
         setSelectedCustomer();
@@ -131,10 +134,10 @@ public class MainController implements Initializable {
         }
     }
 
-    private void setSelectedCustomer() {
-        selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
-    }
 
+    public void goToAddCustomer(ActionEvent event) { sceneController.setScene(event, "AddCustomer.fxml"); }
+
+    public void goToAddAppointment(ActionEvent event) { sceneController.setScene(event, "AddAppointment.fxml");}
     public static Customer getSelectedCustomer() {
         return selectedCustomer;
     }
