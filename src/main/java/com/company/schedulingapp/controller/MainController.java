@@ -46,6 +46,7 @@ public class MainController implements Initializable {
     @FXML TableColumn<Appointment, Integer> appointmentContactIDColumn = new TableColumn<>("Contact_ID");
 
     private static Customer selectedCustomer;
+    private static Appointment selectedAppointment;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
