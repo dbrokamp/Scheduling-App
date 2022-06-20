@@ -177,7 +177,17 @@ public class MainController implements Initializable {
         return selectedCustomer;
     }
 
-    public void goToModifyAppointment(ActionEvent event) { sceneController.setScene(event, "ModifyAppointment.fxml");}
+    public static Appointment getSelectedAppointment() {
+        return selectedAppointment;
+    }
+
+    public void goToModifyAppointment(ActionEvent event) {
+        if (selectedAppointment == null) {
+            presentNoAppointmentSelectedAlert();
+        } else {
+            sceneController.setScene(event, "ModifyAppointment.fxml");
+        }
+    }
 
     public void exitApplicationButtonAction() {
         JDBC.closeConnection();
