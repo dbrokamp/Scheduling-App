@@ -57,7 +57,7 @@ public class DBCustomers {
 
     public static void addNewCustomer(String newCustomerName, String newCustomerAddress, String newCustomerPostalCode, String newCustomerPhone, String firstLevelDivisionName) throws SQLException {
         Connection connection = JDBC.getConnection();
-        String sql = "INSERT INTO Customers VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO customers VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement newCustomerStatement = connection.prepareStatement(sql);
         newCustomerStatement.setInt(1, createNewCustomerID());
         newCustomerStatement.setString(2, newCustomerName);
