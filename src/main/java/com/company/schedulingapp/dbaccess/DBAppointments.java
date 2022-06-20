@@ -4,6 +4,7 @@ import com.company.schedulingapp.model.Appointment;
 import com.company.schedulingapp.util.JDBC;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -105,6 +106,28 @@ public class DBAppointments {
         newAppointmentStatement.executeUpdate();
 
     }
+
+    public static void deleteAppointmentAction(Integer appointmentID) throws SQLException {
+        deleteAppointmentFromDatabase(appointmentID);
+        presentAppointmentDeletedAlert();
+    }
+
+    private static void deleteAppointmentFromDatabase(Integer appointmentID) throws SQLException {
+        Connection connection = JDBC.getConnection();
+        String sql = "DELETE FROM appointments WHERE Appointment_ID = ?";
+        PreparedStatement deleteAppointmentStatement = connection.prepareStatement(sql);
+        deleteAppointmentStatement.setInt(1, appointmentID);
+        deleteAppointmentStatement.executeUpdate();
+    }
+
+    private static void presentAppointmentDeletedAlert() {
+        Alert appointmentDeletedAlert = new Alert(Alert.AlertType.INFORMATION);
+        appointmentDeletedAlert.setTitle("Database Message");
+        appointmentDeletedAlert.setHeaderText("Appointment");
+        appointmentDeletedAlert.setContentText("Successfully deleted");
+        appointmentDeletedAlert.showAndWait();
+    }
+
 
 
 
