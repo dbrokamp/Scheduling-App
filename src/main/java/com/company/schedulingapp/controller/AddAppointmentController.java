@@ -1,5 +1,6 @@
 package com.company.schedulingapp.controller;
 
+import com.company.schedulingapp.dbaccess.DBAppointments;
 import com.company.schedulingapp.dbaccess.DBContacts;
 import com.company.schedulingapp.dbaccess.DBCustomers;
 import com.company.schedulingapp.dbaccess.DBUsers;
@@ -18,8 +19,10 @@ import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class AddAppointmentController implements Initializable {
@@ -36,12 +39,12 @@ public class AddAppointmentController implements Initializable {
     @FXML ComboBox<String> endTimeComboBox;
     @FXML ComboBox<Integer> customerComboBox;
     @FXML ComboBox<Integer> userComboBox;
-    @FXML ComboBox<Integer> contactComboBox;
+    @FXML ComboBox<String> contactComboBox;
 
     private static ObservableList<LocalTime> appointmentTimes = FXCollections.observableArrayList();
     private static ObservableList<Integer> customerIDs = FXCollections.observableArrayList();
     private static ObservableList<Integer> userIDs = FXCollections.observableArrayList();
-    private static ObservableList<Integer> contactIDs = FXCollections.observableArrayList();
+    private static ObservableList<String> contactNames = FXCollections.observableArrayList();
 
     private String newAppointmentTitle;
     private String newAppointmentDescription;
@@ -53,7 +56,7 @@ public class AddAppointmentController implements Initializable {
     private String newAppointmentEndTime;
     private Integer newAppointmentCustomerID;
     private Integer newAppointmentUserID;
-    private Integer newAppointmentContactID;
+    private String newAppointmentContactName;
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         createAppointmentTimes();
@@ -71,6 +74,7 @@ public class AddAppointmentController implements Initializable {
 
         LocalTime appointment = businessHoursStart;
 
+        appointmentTimes.clear();
         while (appointment.isBefore(businessHoursEnd)) {
             appointmentTimes.add(appointment);
             appointment = appointment.plus(quarterHour);
@@ -110,6 +114,7 @@ public class AddAppointmentController implements Initializable {
     }
 
     private void populateCustomerIDComboBox() {
+        customerIDs.clear();
         getCustomerIDs();
         customerComboBox.setItems(customerIDs);
     }
@@ -122,19 +127,21 @@ public class AddAppointmentController implements Initializable {
     }
 
     private void populateUserIDComboBox() {
+        userIDs.clear();
         getUserIDs();
         userComboBox.setItems(userIDs);
     }
 
-    private void getContactIDs() {
+    private void getContactNames() {
         for (Contact contact : DBContacts.getContacts()) {
-            contactIDs.add(contact.getContactID());
+            contactNames.add(contact.getContactName());
         }
     }
 
     private void populateContactIDComboBox() {
-        getContactIDs();
-        contactComboBox.setItems(contactIDs);
+        contactNames.clear();
+        getContactNames();
+        contactComboBox.setItems(contactNames);
     }
 
     private void getInputFromTitleField() {
@@ -154,19 +161,19 @@ public class AddAppointmentController implements Initializable {
     }
 
     private void getInputFromStartDateField() {
-        newAppointmentStartDate = startDatePicker.toString();
+        newAppointmentStartDate = String.valueOf(startDatePicker.getValue());
     }
 
     private void getInputFromEndDateField() {
-        newAppointmentEndDate = endDatePicker.toString();
+        newAppointmentEndDate = String.valueOf(endDatePicker.getValue());
     }
 
     private void getInputFromStartTimeField() {
-        newAppointmentStartTime = startTimeComboBox.toString();
+        newAppointmentStartTime = startTimeComboBox.getValue();
     }
 
     private void getInputFromEndTimeField() {
-        newAppointmentEndTime = endTimeComboBox.toString();
+        newAppointmentEndTime = endTimeComboBox.getValue();
     }
 
     private void getInputFromCustomerIDField() {
@@ -177,8 +184,19 @@ public class AddAppointmentController implements Initializable {
         newAppointmentUserID = userComboBox.getValue();
     }
 
-    private void getInputFromContactIDField() {
-        newAppointmentContactID = contactComboBox.getValue();
+    private void getInputFromContactNameField() {
+        newAppointmentContactName = contactComboBox.getValue();
+    }
+
+    private Timestamp createStartTimestamp(String startDate, String startTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String start = startDate + " " + startTime + ":00";
+        return Timestamp.valueOf(start);
+    }
+
+    private Timestamp createEndTimeTimestamp(String endDate, String endTime) {
+        String end = endDate + " " + endTime + ":00";
+        return Timestamp.valueOf(end);
     }
 
     public void cancel(ActionEvent event) {
@@ -186,6 +204,36 @@ public class AddAppointmentController implements Initializable {
     }
 
     public void save(ActionEvent event) {
+        getInputFromTitleField();
+        getInputFromDescriptionField();
+        getInputFromLocationField();
+        getInputFromTypeField();
+        getInputFromStartDateField();
+        getInputFromEndDateField();
+        getInputFromStartTimeField();
+        getInputFromEndTimeField();
+        getInputFromCustomerIDField();
+        getInputFromUserIDField();
+        getInputFromContactNameField();
+
+        Timestamp start = createStartTimestamp(newAppointmentStartDate, newAppointmentStartTime);
+        Timestamp end = createEndTimeTimestamp(newAppointmentEndDate, newAppointmentEndTime);
+
+        try {
+            DBAppointments.addNewAppointment(newAppointmentTitle,
+                                            newAppointmentDescription,
+                                            newAppointmentLocation,
+                                            newAppointmentType,
+                                            start,
+                                            end,
+                                            newAppointmentCustomerID,
+                                            newAppointmentUserID,
+                                            newAppointmentContactName);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        sceneController.setScene(event, "Main.fxml");
 
     }
 
