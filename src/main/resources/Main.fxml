@@ -58,7 +58,7 @@
                </font>
             </Text>
             <Button layoutX="653.0" layoutY="239.40234375" mnemonicParsing="false" onAction="#goToAddAppointment" prefHeight="25.0" prefWidth="70.0" text="Add" />
-            <Button layoutX="749.0" layoutY="239.40234375" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Modify" />
+            <Button layoutX="749.0" layoutY="239.40234375" mnemonicParsing="false" onAction="#goToModifyAppointment" prefHeight="25.0" prefWidth="70.0" text="Modify" />
             <Button layoutX="841.0" layoutY="239.40234375" mnemonicParsing="false" onAction="#deleteAppointmentAction" prefHeight="25.0" prefWidth="70.0" text="Delete" />
          </children>
       </Pane>

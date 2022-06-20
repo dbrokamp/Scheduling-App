@@ -172,9 +172,12 @@ public class MainController implements Initializable {
     public void goToAddCustomer(ActionEvent event) { sceneController.setScene(event, "AddCustomer.fxml"); }
 
     public void goToAddAppointment(ActionEvent event) { sceneController.setScene(event, "AddAppointment.fxml");}
+
     public static Customer getSelectedCustomer() {
         return selectedCustomer;
     }
+
+    public void goToModifyAppointment(ActionEvent event) { sceneController.setScene(event, "ModifyAppointment.fxml");}
 
     public void exitApplicationButtonAction() {
         JDBC.closeConnection();
