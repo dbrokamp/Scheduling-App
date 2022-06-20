@@ -107,12 +107,13 @@ public class MainController implements Initializable {
         });
     }
 
-    private void deleteAppointmentAction() {
+    public void deleteAppointmentAction() {
         if (selectedAppointment == null) {
             presentNoAppointmentSelectedAlert();
         } else {
             try {
                 DBAppointments.deleteAppointmentAction(selectedAppointment.getAppointmentID());
+                appointmentTableView.setItems(DBAppointments.getCustomerAppointments(selectedCustomer.getCustomerID()));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
