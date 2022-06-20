@@ -102,9 +102,24 @@ public class MainController implements Initializable {
         appointmentTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 selectedAppointment = newSelection;
+                System.out.println(selectedAppointment);
             }
         });
     }
+
+    private void deleteAppointmentAction() {
+        if (selectedAppointment == null) {
+            // present alert, no appointment selected
+        } else {
+            try {
+                DBAppointments.deleteAppointmentAction(selectedAppointment.getAppointmentID());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
 
     private void presentNoCustomerSelectedAlert() {
         Alert noCustomerSelectedAlert = new Alert(Alert.AlertType.ERROR);
