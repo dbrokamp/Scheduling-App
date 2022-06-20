@@ -53,6 +53,7 @@ public class MainController implements Initializable {
         setupCustomerTable();
         setupAppointmentTable();
         addSelectionListenerToCustomerTable();
+        addSelectionListenerToAppointmentTable();
 
     }
 
@@ -95,6 +96,14 @@ public class MainController implements Initializable {
         appointmentCustomerIDColumn.setCellValueFactory(new PropertyValueFactory<>("customerID"));
         appointmentUserIDColumn.setCellValueFactory(new PropertyValueFactory<>("userID"));
         appointmentContactIDColumn.setCellValueFactory(new PropertyValueFactory<>("contactID"));
+    }
+
+    private void addSelectionListenerToAppointmentTable() {
+        appointmentTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                selectedAppointment = newSelection;
+            }
+        });
     }
 
     private void presentNoCustomerSelectedAlert() {
