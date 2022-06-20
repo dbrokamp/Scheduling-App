@@ -39,4 +39,22 @@ public class DBContacts {
         }
         return contacts;
     }
+
+    public static Integer getContactIDFromContactName(String name) {
+        if (contacts.isEmpty()) {
+            try {
+                getAllContactsFromDatabase();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        Integer contactID = null;
+        for (Contact contact : contacts) {
+            if (contact.getContactName() == name) {
+                contactID = contact.getContactID();
+            } 
+        }
+
+        return contactID;
+    }
 }
