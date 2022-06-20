@@ -109,7 +109,7 @@ public class MainController implements Initializable {
 
     private void deleteAppointmentAction() {
         if (selectedAppointment == null) {
-            // present alert, no appointment selected
+            presentNoAppointmentSelectedAlert();
         } else {
             try {
                 DBAppointments.deleteAppointmentAction(selectedAppointment.getAppointmentID());
