@@ -119,13 +119,21 @@ public class MainController implements Initializable {
         }
     }
 
+    private void presentNoAppointmentSelectedAlert() {
+        Alert noAppointmentSelectedAlert = new Alert(Alert.AlertType.ERROR);
+        noAppointmentSelectedAlert.setTitle("Application Message");
+        noAppointmentSelectedAlert.setHeaderText("Failed - No selection");
+        noAppointmentSelectedAlert.setContentText("Please select an appointment");
+        noAppointmentSelectedAlert.showAndWait();
+    }
+
 
 
     private void presentNoCustomerSelectedAlert() {
         Alert noCustomerSelectedAlert = new Alert(Alert.AlertType.ERROR);
-        noCustomerSelectedAlert.setHeaderText("Application Message");
+        noCustomerSelectedAlert.setTitle("Application Message");
         noCustomerSelectedAlert.setHeaderText("Failed - No Selection");
-        noCustomerSelectedAlert.setContentText("Please select a customer first.");
+        noCustomerSelectedAlert.setContentText("Please select a customer");
         noCustomerSelectedAlert.showAndWait();
     }
 
