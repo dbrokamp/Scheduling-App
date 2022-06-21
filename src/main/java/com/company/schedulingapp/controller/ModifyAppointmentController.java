@@ -113,7 +113,8 @@ public class ModifyAppointmentController implements Initializable {
     }
 
     private void getAndSetStartDateAndTimeAsString() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        System.out.println(appointmentToModify.getStart());
         String startDateFormatted = dateFormat.format(appointmentToModify.getStart());
         String[] startString = startDateFormatted.split("\\s+");
         LocalDate startDate = LocalDate.parse(startString[0]);
