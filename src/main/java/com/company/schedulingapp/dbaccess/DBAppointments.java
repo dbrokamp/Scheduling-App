@@ -190,6 +190,17 @@ public class DBAppointments {
         updateLastUpdatedByField(appointmentID);
     }
 
+    public static void updateAppointmentStart(Timestamp newAppointmentStart, Integer appointmentID) throws SQLException {
+        Connection connection = JDBC.getConnection();
+        String sql = "UPDATE appointments SET Start = ? WHERE Appointment_ID = ?";
+        PreparedStatement updateAppointmentStatement = connection.prepareStatement(sql);
+        updateAppointmentStatement.setTimestamp(1, newAppointmentStart);
+        updateAppointmentStatement.setInt(2, appointmentID);
+        updateAppointmentStatement.executeUpdate();
+        updateLastUpdateTimeField(appointmentID);
+        updateLastUpdatedByField(appointmentID);
+    }
+
 
 
 
