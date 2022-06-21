@@ -146,4 +146,8 @@ public class ModifyAppointmentController implements Initializable {
     public void cancelActionButton(ActionEvent event) {
         sceneController.setScene(event, "Main.fxml");
     }
+
+    public void saveActionButton(ActionEvent event) {
+
+    }
 }
