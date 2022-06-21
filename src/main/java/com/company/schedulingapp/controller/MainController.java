@@ -7,6 +7,8 @@ import com.company.schedulingapp.model.Customer;
 import com.company.schedulingapp.util.JDBC;
 import com.company.schedulingapp.util.SceneController;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,7 +18,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
@@ -44,13 +45,13 @@ public class MainController implements Initializable {
     @FXML TableColumn<Appointment, Integer> appointmentContactIDColumn = new TableColumn<>("Contact_ID");
     @FXML RadioButton filterByMonthRadioButton;
     @FXML RadioButton filterByWeekRadioButton;
-    @FXML ChoiceBox<String> monthChoiceBox;
-    @FXML ChoiceBox<String> weekChoiceBox;
+    @FXML ComboBox<String> monthComboBox;
+    @FXML ComboBox<String> weekComboBox;
+    @FXML ToggleGroup appointmentFilterRadioButtons = new ToggleGroup();
 
 
     private static Customer selectedCustomer;
     private static Appointment selectedAppointment;
-
 
 
     @Override
@@ -59,9 +60,13 @@ public class MainController implements Initializable {
         setupAppointmentTable();
         addSelectionListenerToCustomerTable();
         addSelectionListenerToAppointmentTable();
+        addSelectionListenerToFilterByToggleGroup();
 
-        monthChoiceBox.hide();
-        weekChoiceBox.hide();
+        monthComboBox.setVisible(false);
+        weekComboBox.setVisible(false);
+
+        filterByMonthRadioButton.setToggleGroup(appointmentFilterRadioButtons);
+        filterByWeekRadioButton.setToggleGroup(appointmentFilterRadioButtons);
 
 
     }
@@ -89,6 +94,23 @@ public class MainController implements Initializable {
                     appointmentTableView.setItems(DBAppointments.getCustomerAppointments(selectedCustomer.getCustomerID()));
                 } catch (SQLException e) {
                     e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void addSelectionListenerToFilterByToggleGroup() {
+        appointmentFilterRadioButtons.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+            public void changed(ObservableValue<? extends Toggle> observableValue, Toggle old_toggle, Toggle new_toggle) {
+                if (appointmentFilterRadioButtons.getSelectedToggle() != null) {
+                    if (appointmentFilterRadioButtons.getSelectedToggle() == filterByMonthRadioButton) {
+                        monthComboBox.setVisible(true);
+                        weekComboBox.setVisible(false);
+
+                    } else {
+                        monthComboBox.setVisible(false);
+                        weekComboBox.setVisible(true);
+                    }
                 }
             }
         });
