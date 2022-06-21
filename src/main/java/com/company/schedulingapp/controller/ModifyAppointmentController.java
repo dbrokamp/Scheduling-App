@@ -36,6 +36,10 @@ public class ModifyAppointmentController implements Initializable {
     private ObservableList<Integer> customerIDs = FXCollections.observableArrayList();
     private ObservableList<Integer> userIDs = FXCollections.observableArrayList();
     private ObservableList<String> contactNames = FXCollections.observableArrayList();
+    private String currentStartDate;
+    private String currentStartTime;
+    private String currentEndDate;
+    private String currentEndTime;
 
     @FXML TextField titleTextField;
     @FXML TextField descriptionTextField;
@@ -119,18 +123,20 @@ public class ModifyAppointmentController implements Initializable {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String startDateFormatted = dateFormat.format(appointmentToModify.getStart());
         String[] startString = startDateFormatted.split("\\s+");
-        LocalDate startDate = LocalDate.parse(startString[0]);
-        startDatePicker.setValue(startDate);
-        startTimeComboBox.setValue(startString[1]);
+        currentStartDate = startString[0];
+        currentStartTime = startString[1];
+        startDatePicker.setValue(LocalDate.parse(currentStartDate));
+        startTimeComboBox.setValue(currentStartTime);
     }
 
     private void getAndSetEndDateAndTime() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String endDateFormatted = dateFormat.format(appointmentToModify.getEnd());
         String[] endString = endDateFormatted.split("\\s+");
-        LocalDate endDate = LocalDate.parse(endString[0]);
-        endDatePicker.setValue(endDate);
-        endTimeComboBox.setValue(endString[1])  ;
+        currentEndDate = endString[0];
+        currentEndTime = endString[1];
+        endDatePicker.setValue(LocalDate.parse(currentEndDate));
+        endTimeComboBox.setValue(currentEndTime);
     }
 
     private void getAndSetCustomerID() {
@@ -193,36 +199,57 @@ public class ModifyAppointmentController implements Initializable {
         }
     }
 
-    private Timestamp createTimeStampFromDateAndTimeStrings(String date, String time) {
-        String timestampString = date + " " + time + ":00";
-        return Timestamp.valueOf(timestampString);
-    }
-
     private void checkStartDateAndTimeFieldForChange() {
-        Timestamp start = createTimeStampFromDateAndTimeStrings(startDatePicker.getValue().toString(), startTimeComboBox.getValue());
-        if (appointmentToModify.getStart().equals(start)) {
-            System.out.println("No changes to start fields");
+        if (currentStartDate == startDatePicker.getValue().toString() && currentStartTime == startTimeComboBox.getValue()) {
+            System.out.println("No changes to start date or time");
         } else {
-            try {
-                DBAppointments.updateAppointmentStart(start, appointmentToModify.getAppointmentID());
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (currentStartTime != startTimeComboBox.getValue()) {
+                String start = startDatePicker.getValue().toString() + " " + startTimeComboBox.getValue() + ":00";
+                Timestamp newStart = Timestamp.valueOf(start);
+                try {
+                    DBAppointments.updateAppointmentStart(newStart, appointmentToModify.getAppointmentID());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                String start = startDatePicker.getValue().toString() + " " + startTimeComboBox.getValue();
+                Timestamp newStart = Timestamp.valueOf(start);
+                try {
+                    DBAppointments.updateAppointmentStart(newStart, appointmentToModify.getAppointmentID());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
+
         }
     }
 
     private void checkEndDateAndTimeFieldForChange() {
-        Timestamp end = createTimeStampFromDateAndTimeStrings(endDatePicker.getValue().toString(), endTimeComboBox.getValue());
-        if (appointmentToModify.getEnd().equals(end)) {
-            System.out.println("No changes to end fields");
+        if (currentEndDate == endDatePicker.getValue().toString() && currentEndTime == endTimeComboBox.getValue()) {
+            System.out.println("No changes to end date or time");
         } else {
-            try {
-                DBAppointments.updateAppointmentEnd(end, appointmentToModify.getAppointmentID());
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (currentEndTime != endTimeComboBox.getValue()) {
+                String end = endDatePicker.getValue().toString() + " " + endTimeComboBox.getValue() + ":00";
+                Timestamp newEnd = Timestamp.valueOf(end);
+                try {
+                    DBAppointments.updateAppointmentEnd(newEnd, appointmentToModify.getAppointmentID());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                String end = endDatePicker.getValue().toString() + " " + endTimeComboBox.getValue();
+                Timestamp newEnd = Timestamp.valueOf(end);
+                try {
+                    DBAppointments.updateAppointmentEnd(newEnd, appointmentToModify.getAppointmentID());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         }
+
     }
+
+
 
     private void checkCustomerIDFieldForChange() {
         if (appointmentToModify.getCustomerID().equals(customerComboBox.getValue())) {
@@ -271,11 +298,11 @@ public class ModifyAppointmentController implements Initializable {
         checkDescriptionFieldForChange();
         checkLocationFieldForChange();
         checkTypeFieldForChange();
-        checkStartDateAndTimeFieldForChange();
-        checkEndDateAndTimeFieldForChange();
         checkCustomerIDFieldForChange();
         checkUserIDFieldForChange();
         checkContactNameFieldForChange();
+        checkStartDateAndTimeFieldForChange();
+        checkEndDateAndTimeFieldForChange();
 
         sceneController.setScene(event,"Main.fxml");
     }
