@@ -157,6 +157,18 @@ public class DBAppointments {
         updateLastUpdatedByField(appointmentID);
     }
 
+    public static void updateAppointmentDescription(String newAppointmentDescription, Integer appointmentID) throws SQLException {
+        Connection connection = JDBC.getConnection();
+        String sql = "UPDATE appointments SET Description = ? WHERE Appointment_ID = ?";
+        PreparedStatement updateAppointmentStatement = connection.prepareStatement(sql);
+        updateAppointmentStatement.setString(1, newAppointmentDescription);
+        updateAppointmentStatement.setInt(2, appointmentID);
+        updateAppointmentStatement.executeUpdate();
+        updateLastUpdateTimeField(appointmentID);
+        updateLastUpdatedByField(appointmentID);
+    }
+
+
 
 
 
