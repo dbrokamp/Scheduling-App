@@ -18,7 +18,6 @@ import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -67,7 +66,8 @@ public class ModifyAppointmentController implements Initializable {
         descriptionTextField.setText(appointmentToModify.getDescription());
         locationTextField.setText(appointmentToModify.getLocation());
         typeTextField.setText(appointmentToModify.getType());
-        getAndSetStartDateAndTimeAsString();
+        getAndSetStartDateAndTime();
+        getAndSetEndDateAndTime();
 
 
 
@@ -112,9 +112,8 @@ public class ModifyAppointmentController implements Initializable {
         }
     }
 
-    private void getAndSetStartDateAndTimeAsString() {
+    private void getAndSetStartDateAndTime() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        System.out.println(appointmentToModify.getStart());
         String startDateFormatted = dateFormat.format(appointmentToModify.getStart());
         String[] startString = startDateFormatted.split("\\s+");
         LocalDate startDate = LocalDate.parse(startString[0]);
@@ -122,5 +121,13 @@ public class ModifyAppointmentController implements Initializable {
         startTimeComboBox.setValue(startString[1]);
     }
 
+    private void getAndSetEndDateAndTime() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String endDateFormatted = dateFormat.format(appointmentToModify.getEnd());
+        String[] endString = endDateFormatted.split("\\s+");
+        LocalDate endDate = LocalDate.parse(endString[0]);
+        endDatePicker.setValue(endDate);
+        endTimeComboBox.setValue(endString[1])  ;
+    }
 
 }
