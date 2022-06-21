@@ -275,6 +275,7 @@ public class ModifyAppointmentController implements Initializable {
         checkEndDateAndTimeFieldForChange();
         checkCustomerIDFieldForChange();
         checkUserIDFieldForChange();
+        checkContactNameFieldForChange();
 
         sceneController.setScene(event,"Main.fxml");
     }
