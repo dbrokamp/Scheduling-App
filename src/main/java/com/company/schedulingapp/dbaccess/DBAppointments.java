@@ -128,7 +128,7 @@ public class DBAppointments {
         appointmentDeletedAlert.showAndWait();
     }
 
-    private void updateLastUpdatedFields(Integer appointmentID) throws SQLException {
+    private static void updateLastUpdatedFields(Integer appointmentID) throws SQLException {
         Connection connection = JDBC.getConnection();
         String sql = "UPDATE appointments SET Last_Update = ? AND Last_Updated_By = ? WHERE Appointment_ID = ?";
         PreparedStatement updateAppointmentStatement = connection.prepareStatement(sql);
@@ -138,7 +138,7 @@ public class DBAppointments {
         updateAppointmentStatement.executeUpdate();
     }
 
-    public void updateAppointmentTitle(String newAppointmentTitle, Integer appointmentID) throws SQLException {
+    public static void updateAppointmentTitle(String newAppointmentTitle, Integer appointmentID) throws SQLException {
         Connection connection = JDBC.getConnection();
         String sql = "UPDATE appointments SET Title = ? WHERE Appointment_ID = ?";
         PreparedStatement updateAppointmentStatement = connection.prepareStatement(sql);
