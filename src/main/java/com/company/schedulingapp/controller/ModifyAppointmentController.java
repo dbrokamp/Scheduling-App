@@ -164,5 +164,6 @@ public class ModifyAppointmentController implements Initializable {
     public void saveActionButton(ActionEvent event) {
         checkTitleFieldForChange();
 
+        sceneController.setScene(event,"Main.fxml");
     }
 }
