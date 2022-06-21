@@ -113,7 +113,9 @@ public class MainController implements Initializable {
         } else {
             try {
                 DBAppointments.deleteAppointmentAction(selectedAppointment.getAppointmentID());
+                presentAppointmentDeletedAlert();
                 appointmentTableView.setItems(DBAppointments.getCustomerAppointments(selectedCustomer.getCustomerID()));
+
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -128,6 +130,13 @@ public class MainController implements Initializable {
         noAppointmentSelectedAlert.showAndWait();
     }
 
+    private void presentAppointmentDeletedAlert() {
+        Alert appointmentDeletedAlert = new Alert(Alert.AlertType.INFORMATION);
+        appointmentDeletedAlert.setTitle("Application Message");
+        appointmentDeletedAlert.setHeaderText(selectedAppointment.getAppointmentID() + " - " + selectedAppointment.getType());
+        appointmentDeletedAlert.setContentText("Successfully deleted");
+        appointmentDeletedAlert.showAndWait();
+    }
 
 
     private void presentNoCustomerSelectedAlert() {
