@@ -11,6 +11,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,6 +24,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DateFormatSymbols;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 import java.util.spi.CalendarNameProvider;
@@ -110,7 +112,7 @@ public class MainController implements Initializable {
             if (appointmentFilterRadioButtons.getSelectedToggle() != null) {
                 if (appointmentFilterRadioButtons.getSelectedToggle() == filterByMonthRadioButton) {
                     //TODO: filter appointment table by current month appointments
-
+                    filterByMonth();
                 } else {
                     //TODO: filter appointment table by current week appointments
                 }
@@ -118,6 +120,27 @@ public class MainController implements Initializable {
         });
     }
 
+    private void filterByMonth() {
+        LocalDate localDate = LocalDate.now();
+        ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
+
+        try {
+            allAppointments = DBAppointments.getAllAppointments();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        FilteredList<Appointment> filteredData = new FilteredList<>(allAppointments);
+        filteredData.setPredicate(row -> {
+
+            LocalDate rowDate = LocalDate.from(row.getStart().toLocalDateTime());
+
+            return rowDate.isEqual(localDate.withDayOfMonth(1)) || rowDate.isAfter(localDate.withDayOfMonth(1)) && rowDate.isBefore(localDate.withDayOfMonth(localDate.getMonth().length(localDate.isLeapYear()))) || rowDate.isEqual(localDate.withDayOfMonth(localDate.getMonth().length(localDate.isLeapYear())));
+
+        });
+
+        appointmentTableView.setItems(filteredData);
+    }
 
 
     private void setupAppointmentTable() {
