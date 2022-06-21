@@ -52,9 +52,28 @@ public class DBContacts {
         for (Contact contact : contacts) {
             if (contact.getContactName() == name) {
                 contactID = contact.getContactID();
-            } 
+            }
         }
 
         return contactID;
+    }
+
+    public static String getContactNameFromContactID(Integer contactID) {
+        if (contacts.isEmpty()) {
+            try {
+                getAllContactsFromDatabase();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        String contactName = null;
+        for (Contact contact : contacts) {
+            if (contact.getContactID() == contactID) {
+                contactName = contact.getContactName();
+            }
+        }
+
+        return  contactName;
     }
 }
