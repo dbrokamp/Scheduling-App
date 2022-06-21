@@ -60,6 +60,10 @@ public class MainController implements Initializable {
         addSelectionListenerToCustomerTable();
         addSelectionListenerToAppointmentTable();
 
+        monthChoiceBox.hide();
+        weekChoiceBox.hide();
+
+
     }
 
     private void setupCustomerTable() {
