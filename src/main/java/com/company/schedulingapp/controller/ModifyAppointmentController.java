@@ -198,6 +198,19 @@ public class ModifyAppointmentController implements Initializable {
         return Timestamp.valueOf(timestampString);
     }
 
+    private void checkStartDateAndTimeFieldForChange() {
+        Timestamp start = createTimeStampFromDateAndTimeStrings(startDatePicker.getValue().toString(), startTimeComboBox.getValue());
+        if (appointmentToModify.getStart().equals(start)) {
+            System.out.println("No changes to start fields");
+        } else {
+            try {
+                DBAppointments.updateAppointmentStart(start, appointmentToModify.getAppointmentID());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
 
     public void cancelActionButton(ActionEvent event) {
