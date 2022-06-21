@@ -10,6 +10,7 @@ import com.company.schedulingapp.model.User;
 import com.company.schedulingapp.util.SceneController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -142,4 +143,7 @@ public class ModifyAppointmentController implements Initializable {
         contactComboBox.setValue(DBContacts.getContactNameFromContactID(appointmentToModify.getContactID()));
     }
 
+    public void cancelActionButton(ActionEvent event) {
+        sceneController.setScene(event, "Main.fxml");
+    }
 }
