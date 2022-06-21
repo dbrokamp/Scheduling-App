@@ -268,6 +268,8 @@ public class MainController implements Initializable {
 
     public void goToAddCustomer(ActionEvent event) { sceneController.setScene(event, "AddCustomer.fxml"); }
 
+    public void clearAppointmentFilter() { loadAllAppointmentsIntoAppointmentTable(); }
+
     public void goToAddAppointment(ActionEvent event) { sceneController.setScene(event, "AddAppointment.fxml");}
 
     public static Customer getSelectedCustomer() {
@@ -277,6 +279,7 @@ public class MainController implements Initializable {
     public static Appointment getSelectedAppointment() {
         return selectedAppointment;
     }
+
 
     public void goToModifyAppointment(ActionEvent event) {
         if (selectedAppointment == null) {
