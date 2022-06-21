@@ -168,6 +168,17 @@ public class ModifyAppointmentController implements Initializable {
         }
     }
 
+    private void checkLocationFieldForChange() {
+        if (locationTextField.getText() == appointmentToModify.getLocation()) {
+            System.out.println("No changes to location field");
+        } else {
+            try {
+                DBAppointments.updateAppointmentLocation(locationTextField.getText(), appointmentToModify.getAppointmentID());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public void cancelActionButton(ActionEvent event) {
         sceneController.setScene(event, "Main.fxml");
@@ -176,6 +187,7 @@ public class ModifyAppointmentController implements Initializable {
     public void saveActionButton(ActionEvent event) {
         checkTitleFieldForChange();
         checkDescriptionFieldForChange();
+        checkLocationFieldForChange();
 
         sceneController.setScene(event,"Main.fxml");
     }
