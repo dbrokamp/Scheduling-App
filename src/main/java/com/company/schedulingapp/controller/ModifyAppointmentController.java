@@ -68,6 +68,7 @@ public class ModifyAppointmentController implements Initializable {
         typeTextField.setText(appointmentToModify.getType());
         getAndSetStartDateAndTime();
         getAndSetEndDateAndTime();
+        getAndSetCustomerID();
 
 
 
@@ -128,6 +129,10 @@ public class ModifyAppointmentController implements Initializable {
         LocalDate endDate = LocalDate.parse(endString[0]);
         endDatePicker.setValue(endDate);
         endTimeComboBox.setValue(endString[1])  ;
+    }
+
+    private void getAndSetCustomerID() {
+        customerComboBox.setValue(appointmentToModify.getCustomerID());
     }
 
 }
