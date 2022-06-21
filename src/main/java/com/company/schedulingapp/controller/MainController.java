@@ -7,8 +7,8 @@ import com.company.schedulingapp.model.Customer;
 import com.company.schedulingapp.util.JDBC;
 import com.company.schedulingapp.util.SceneController;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,7 +18,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.DateFormatSymbols;
+import java.util.Calendar;
 import java.util.ResourceBundle;
+import java.util.spi.CalendarNameProvider;
 
 public class MainController implements Initializable {
 
@@ -50,6 +53,8 @@ public class MainController implements Initializable {
     @FXML ToggleGroup appointmentFilterRadioButtons = new ToggleGroup();
 
 
+    private static ObservableList<String> monthNames = FXCollections.observableArrayList();
+    private static ObservableList<Integer> weekNumbers = FXCollections.observableArrayList();
     private static Customer selectedCustomer;
     private static Appointment selectedAppointment;
 
@@ -61,6 +66,9 @@ public class MainController implements Initializable {
         addSelectionListenerToCustomerTable();
         addSelectionListenerToAppointmentTable();
         addSelectionListenerToFilterByToggleGroup();
+        setupMonthList();
+        setupWeekList();
+        loadAllAppointmentsIntoAppointmentTable();
 
         monthComboBox.setVisible(false);
         weekComboBox.setVisible(false);
@@ -114,6 +122,30 @@ public class MainController implements Initializable {
         });
     }
 
+    private void setupMonthList() {
+        String[] months = new DateFormatSymbols().getMonths();
+        for (String month: months) {
+            monthNames.add(month);
+        }
+        monthComboBox.setItems(monthNames);
+        for (String month: monthNames) {
+            System.out.println(month);
+        }
+    }
+
+    private void setupWeekList() {
+        for (Integer i = 1; i < 53; i++) {
+            weekNumbers.add(i);
+        }
+
+        ObservableList<String> weekNumbersAsString = FXCollections.observableArrayList();
+        for (Integer week: weekNumbers) {
+            weekNumbersAsString.add(week.toString());
+        }
+
+        weekComboBox.setItems(weekNumbersAsString);
+    }
+
     private void setupAppointmentTable() {
         appointmentIDColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
         appointmentTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -125,6 +157,14 @@ public class MainController implements Initializable {
         appointmentCustomerIDColumn.setCellValueFactory(new PropertyValueFactory<>("customerID"));
         appointmentUserIDColumn.setCellValueFactory(new PropertyValueFactory<>("userID"));
         appointmentContactIDColumn.setCellValueFactory(new PropertyValueFactory<>("contactID"));
+    }
+
+    private void loadAllAppointmentsIntoAppointmentTable() {
+        try {
+            appointmentTableView.setItems(DBAppointments.getAllAppointments());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void addSelectionListenerToAppointmentTable() {
