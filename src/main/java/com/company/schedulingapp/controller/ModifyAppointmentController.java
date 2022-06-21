@@ -211,6 +211,55 @@ public class ModifyAppointmentController implements Initializable {
         }
     }
 
+    private void checkEndDateAndTimeFieldForChange() {
+        Timestamp end = createTimeStampFromDateAndTimeStrings(endDatePicker.getValue().toString(), endTimeComboBox.getValue());
+        if (appointmentToModify.getEnd().equals(end)) {
+            System.out.println("No changes to end fields");
+        } else {
+            try {
+                DBAppointments.updateAppointmentEnd(end, appointmentToModify.getAppointmentID());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void checkCustomerIDFieldForChange() {
+        if (appointmentToModify.getCustomerID().equals(customerComboBox.getValue())) {
+            System.out.println("No changes to customer id field");
+        } else {
+            try {
+                DBAppointments.updateAppointmentCustomerID(customerComboBox.getValue(), appointmentToModify.getAppointmentID());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void checkUserIDFieldForChange() {
+        if (appointmentToModify.getUserID().equals(userComboBox.getValue())) {
+            System.out.println("No changes to user id field");
+        } else {
+            try {
+                DBAppointments.updateAppointmentUserID(userComboBox.getValue(), appointmentToModify.getAppointmentID());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void checkContactNameFieldForChange() {
+        if (appointmentToModify.getContactID().equals(DBContacts.getContactIDFromContactName(contactComboBox.getValue()))) {
+            System.out.println("No changes to contact field");
+        } else {
+            try {
+                DBAppointments.updateAppointmentContactID(DBContacts.getContactIDFromContactName(contactComboBox.getValue()), appointmentToModify.getAppointmentID());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
 
     public void cancelActionButton(ActionEvent event) {
@@ -222,6 +271,10 @@ public class ModifyAppointmentController implements Initializable {
         checkDescriptionFieldForChange();
         checkLocationFieldForChange();
         checkTypeFieldForChange();
+        checkStartDateAndTimeFieldForChange();
+        checkEndDateAndTimeFieldForChange();
+        checkCustomerIDFieldForChange();
+        checkUserIDFieldForChange();
 
         sceneController.setScene(event,"Main.fxml");
     }
