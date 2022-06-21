@@ -46,7 +46,6 @@ public class ModifyCustomerController implements Initializable {
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         customerToModify = MainController.getSelectedCustomer();
-        System.out.println(customerToModify.getCustomerName());
         getFirstLevelDivisionForCustomer();
         getCountryForCustomer();
 
