@@ -20,6 +20,7 @@ import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -191,6 +192,13 @@ public class ModifyAppointmentController implements Initializable {
             }
         }
     }
+
+    private Timestamp createTimeStampFromDateAndTimeStrings(String date, String time) {
+        String timestampString = date + " " + time + ":00";
+        return Timestamp.valueOf(timestampString);
+    }
+
+
 
     public void cancelActionButton(ActionEvent event) {
         sceneController.setScene(event, "Main.fxml");
