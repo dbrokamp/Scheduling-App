@@ -63,14 +63,14 @@
             <Button layoutX="653.0" layoutY="249.40234375" mnemonicParsing="false" onAction="#goToAddAppointment" prefHeight="25.0" prefWidth="70.0" text="Add" />
             <Button layoutX="749.0" layoutY="249.40234375" mnemonicParsing="false" onAction="#goToModifyAppointment" prefHeight="25.0" prefWidth="70.0" text="Modify" />
             <Button layoutX="841.0" layoutY="249.40234375" mnemonicParsing="false" onAction="#deleteAppointmentAction" prefHeight="25.0" prefWidth="70.0" text="Delete" />
-            <RadioButton layoutX="561.0" layoutY="5.0" mnemonicParsing="false" text="Filter by month">
+            <RadioButton fx:id="filterByMonthRadioButton" layoutX="561.0" layoutY="5.0" mnemonicParsing="false" text="Filter by month">
                <toggleGroup>
                   <ToggleGroup fx:id="appointmentFilterRadioButtons" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton layoutX="749.0" layoutY="5.0" mnemonicParsing="false" text="Filter by week" toggleGroup="$appointmentFilterRadioButtons" />
-            <ChoiceBox layoutX="561.0" layoutY="24.0" prefWidth="150.0" />
-            <ChoiceBox layoutX="749.0" layoutY="24.0" prefWidth="150.0" />
+            <RadioButton fx:id="filterByWeekRadioButton" layoutX="749.0" layoutY="5.0" mnemonicParsing="false" text="Filter by week" toggleGroup="$appointmentFilterRadioButtons" />
+            <ChoiceBox fx:id="monthChoiceBox" layoutX="561.0" layoutY="24.0" prefWidth="150.0" />
+            <ChoiceBox fx:id="weekChoiceBox" layoutX="749.0" layoutY="24.0" prefWidth="150.0" />
          </children>
       </Pane>
       <Button layoutX="916.0" layoutY="661.0" mnemonicParsing="false" onAction="#exitApplicationButtonAction" prefHeight="25.0" prefWidth="70.0" text="Exit" />

@@ -10,9 +10,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
@@ -44,9 +42,16 @@ public class MainController implements Initializable {
     @FXML TableColumn<Appointment, Integer> appointmentCustomerIDColumn = new TableColumn<>("Customer_ID");
     @FXML TableColumn<Appointment, Integer> appointmentUserIDColumn = new TableColumn<>("User_ID");
     @FXML TableColumn<Appointment, Integer> appointmentContactIDColumn = new TableColumn<>("Contact_ID");
+    @FXML RadioButton filterByMonthRadioButton;
+    @FXML RadioButton filterByWeekRadioButton;
+    @FXML ChoiceBox<String> monthChoiceBox;
+    @FXML ChoiceBox<String> weekChoiceBox;
+
 
     private static Customer selectedCustomer;
     private static Appointment selectedAppointment;
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
