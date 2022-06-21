@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -41,7 +41,7 @@
       </Pane>
       <Pane layoutX="47.0" layoutY="367.0" prefHeight="279.0" prefWidth="912.0">
          <children>
-            <TableView fx:id="appointmentTableView" layoutY="52.40234375" prefHeight="181.0" prefWidth="912.0">
+            <TableView fx:id="appointmentTableView" layoutY="57.40234375" prefHeight="181.0" prefWidth="912.0">
                <columns>
                   <TableColumn fx:id="appointmentIDColumn" prefWidth="98.60307312011719" text="Appointment_ID" />
                   <TableColumn fx:id="appointmentTitleColumn" prefWidth="74.17900085449219" text="Title" />
@@ -69,8 +69,8 @@
                </toggleGroup>
             </RadioButton>
             <RadioButton fx:id="filterByWeekRadioButton" layoutX="749.0" layoutY="5.0" mnemonicParsing="false" text="Filter by week" toggleGroup="$appointmentFilterRadioButtons" />
-            <ChoiceBox fx:id="monthChoiceBox" layoutX="561.0" layoutY="24.0" prefWidth="150.0" />
-            <ChoiceBox fx:id="weekChoiceBox" layoutX="749.0" layoutY="24.0" prefWidth="150.0" />
+            <ComboBox fx:id="monthComboBox" layoutX="561.0" layoutY="28.0" prefWidth="150.0" />
+            <ComboBox fx:id="weekComboBox" layoutX="749.0" layoutY="28.0" prefWidth="150.0" />
          </children>
       </Pane>
       <Button layoutX="916.0" layoutY="661.0" mnemonicParsing="false" onAction="#exitApplicationButtonAction" prefHeight="25.0" prefWidth="70.0" text="Exit" />
