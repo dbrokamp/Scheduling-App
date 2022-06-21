@@ -111,10 +111,9 @@ public class MainController implements Initializable {
         appointmentFilterRadioButtons.selectedToggleProperty().addListener((observableValue, old_toggle, new_toggle) -> {
             if (appointmentFilterRadioButtons.getSelectedToggle() != null) {
                 if (appointmentFilterRadioButtons.getSelectedToggle() == filterByMonthRadioButton) {
-                    //TODO: filter appointment table by current month appointments
                     filterByMonth();
-                } else {
-                    //TODO: filter appointment table by current week appointments
+                } else if (appointmentFilterRadioButtons.getSelectedToggle() == filterByWeekRadioButton) {
+                    filterByWeek();
                 }
             }
         });
@@ -130,8 +129,8 @@ public class MainController implements Initializable {
             e.printStackTrace();
         }
 
-        FilteredList<Appointment> filteredData = new FilteredList<>(allAppointments);
-        filteredData.setPredicate(row -> {
+        FilteredList<Appointment> filteredList = new FilteredList<>(allAppointments);
+        filteredList.setPredicate(row -> {
 
             LocalDate rowDate = LocalDate.from(row.getStart().toLocalDateTime());
 
@@ -139,8 +138,31 @@ public class MainController implements Initializable {
 
         });
 
-        appointmentTableView.setItems(filteredData);
+        appointmentTableView.setItems(filteredList);
     }
+
+    private void filterByWeek() {
+        LocalDate localDate = LocalDate.now();
+        ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
+        LocalDate week = localDate.plusWeeks(1);
+
+        try {
+            allAppointments = DBAppointments.getAllAppointments();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        FilteredList<Appointment> filteredList = new FilteredList<>(allAppointments);
+        filteredList.setPredicate(row -> {
+
+            LocalDate rowDate = LocalDate.from(row.getStart().toLocalDateTime());
+
+            return rowDate.isAfter(localDate.minusDays(1)) && rowDate.isBefore(week);
+        });
+
+        appointmentTableView.setItems(filteredList);
+    }
+
 
 
     private void setupAppointmentTable() {
