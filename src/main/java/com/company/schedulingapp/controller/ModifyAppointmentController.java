@@ -69,6 +69,7 @@ public class ModifyAppointmentController implements Initializable {
         getAndSetStartDateAndTime();
         getAndSetEndDateAndTime();
         getAndSetCustomerID();
+        getAndSetUserID();
 
 
 
@@ -133,6 +134,10 @@ public class ModifyAppointmentController implements Initializable {
 
     private void getAndSetCustomerID() {
         customerComboBox.setValue(appointmentToModify.getCustomerID());
+    }
+
+    private void getAndSetUserID() {
+        userComboBox.setValue(appointmentToModify.getUserID());
     }
 
 }
