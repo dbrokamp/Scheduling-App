@@ -1,5 +1,6 @@
 package com.company.schedulingapp.controller;
 
+import com.company.schedulingapp.dbaccess.DBAppointments;
 import com.company.schedulingapp.dbaccess.DBContacts;
 import com.company.schedulingapp.dbaccess.DBCustomers;
 import com.company.schedulingapp.dbaccess.DBUsers;
@@ -143,11 +144,25 @@ public class ModifyAppointmentController implements Initializable {
         contactComboBox.setValue(DBContacts.getContactNameFromContactID(appointmentToModify.getContactID()));
     }
 
+    private void checkTitleFieldForChange() {
+        if (titleTextField.getText() == appointmentToModify.getTitle()) {
+            System.out.println("No changes to title field");
+        } else {
+            try {
+                DBAppointments.updateAppointmentTitle(titleTextField.getText(), appointmentToModify.getAppointmentID());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
     public void cancelActionButton(ActionEvent event) {
         sceneController.setScene(event, "Main.fxml");
     }
 
     public void saveActionButton(ActionEvent event) {
+        checkTitleFieldForChange();
 
     }
 }
