@@ -7,6 +7,8 @@ import com.company.schedulingapp.model.Customer;
 import com.company.schedulingapp.util.JDBC;
 import com.company.schedulingapp.util.SceneController;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,7 +20,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.DateFormatSymbols;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 import java.util.spi.CalendarNameProvider;
@@ -48,13 +52,8 @@ public class MainController implements Initializable {
     @FXML TableColumn<Appointment, Integer> appointmentContactIDColumn = new TableColumn<>("Contact_ID");
     @FXML RadioButton filterByMonthRadioButton;
     @FXML RadioButton filterByWeekRadioButton;
-    @FXML ComboBox<String> monthComboBox;
-    @FXML ComboBox<String> weekComboBox;
     @FXML ToggleGroup appointmentFilterRadioButtons = new ToggleGroup();
 
-
-    private static ObservableList<String> monthNames = FXCollections.observableArrayList();
-    private static ObservableList<Integer> weekNumbers = FXCollections.observableArrayList();
     private static Customer selectedCustomer;
     private static Appointment selectedAppointment;
 
@@ -66,12 +65,11 @@ public class MainController implements Initializable {
         addSelectionListenerToCustomerTable();
         addSelectionListenerToAppointmentTable();
         addSelectionListenerToFilterByToggleGroup();
-        setupMonthList();
-        setupWeekList();
+
         loadAllAppointmentsIntoAppointmentTable();
 
-        monthComboBox.setVisible(false);
-        weekComboBox.setVisible(false);
+
+
 
         filterByMonthRadioButton.setToggleGroup(appointmentFilterRadioButtons);
         filterByWeekRadioButton.setToggleGroup(appointmentFilterRadioButtons);
@@ -111,40 +109,16 @@ public class MainController implements Initializable {
         appointmentFilterRadioButtons.selectedToggleProperty().addListener((observableValue, old_toggle, new_toggle) -> {
             if (appointmentFilterRadioButtons.getSelectedToggle() != null) {
                 if (appointmentFilterRadioButtons.getSelectedToggle() == filterByMonthRadioButton) {
-                    monthComboBox.setVisible(true);
-                    weekComboBox.setVisible(false);
+                    //TODO: filter appointment table by current month appointments
 
                 } else {
-                    monthComboBox.setVisible(false);
-                    weekComboBox.setVisible(true);
+                    //TODO: filter appointment table by current week appointments
                 }
             }
         });
     }
 
-    private void setupMonthList() {
-        String[] months = new DateFormatSymbols().getMonths();
-        for (String month: months) {
-            monthNames.add(month);
-        }
-        monthComboBox.setItems(monthNames);
-        for (String month: monthNames) {
-            System.out.println(month);
-        }
-    }
 
-    private void setupWeekList() {
-        for (Integer i = 1; i < 53; i++) {
-            weekNumbers.add(i);
-        }
-
-        ObservableList<String> weekNumbersAsString = FXCollections.observableArrayList();
-        for (Integer week: weekNumbers) {
-            weekNumbersAsString.add(week.toString());
-        }
-
-        weekComboBox.setItems(weekNumbersAsString);
-    }
 
     private void setupAppointmentTable() {
         appointmentIDColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
