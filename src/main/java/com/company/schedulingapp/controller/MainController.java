@@ -100,17 +100,15 @@ public class MainController implements Initializable {
     }
 
     private void addSelectionListenerToFilterByToggleGroup() {
-        appointmentFilterRadioButtons.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
-            public void changed(ObservableValue<? extends Toggle> observableValue, Toggle old_toggle, Toggle new_toggle) {
-                if (appointmentFilterRadioButtons.getSelectedToggle() != null) {
-                    if (appointmentFilterRadioButtons.getSelectedToggle() == filterByMonthRadioButton) {
-                        monthComboBox.setVisible(true);
-                        weekComboBox.setVisible(false);
+        appointmentFilterRadioButtons.selectedToggleProperty().addListener((observableValue, old_toggle, new_toggle) -> {
+            if (appointmentFilterRadioButtons.getSelectedToggle() != null) {
+                if (appointmentFilterRadioButtons.getSelectedToggle() == filterByMonthRadioButton) {
+                    monthComboBox.setVisible(true);
+                    weekComboBox.setVisible(false);
 
-                    } else {
-                        monthComboBox.setVisible(false);
-                        weekComboBox.setVisible(true);
-                    }
+                } else {
+                    monthComboBox.setVisible(false);
+                    weekComboBox.setVisible(true);
                 }
             }
         });
