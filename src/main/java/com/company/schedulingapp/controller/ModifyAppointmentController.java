@@ -145,7 +145,7 @@ public class ModifyAppointmentController implements Initializable {
     }
 
     private void checkTitleFieldForChange() {
-        if (titleTextField.getText() == appointmentToModify.getTitle()) {
+        if (appointmentToModify.getTitle().equals(titleTextField.getText())) {
             System.out.println("No changes to title field");
         } else {
             try {
@@ -157,7 +157,7 @@ public class ModifyAppointmentController implements Initializable {
     }
 
     private void checkDescriptionFieldForChange() {
-        if (descriptionTextField.getText() == appointmentToModify.getDescription()) {
+        if (appointmentToModify.getDescription().equals(descriptionTextField.getText())) {
             System.out.println("No changes to description field");
         } else {
             try {
@@ -169,11 +169,23 @@ public class ModifyAppointmentController implements Initializable {
     }
 
     private void checkLocationFieldForChange() {
-        if (locationTextField.getText() == appointmentToModify.getLocation()) {
+        if (appointmentToModify.getLocation().equals(locationTextField.getText())) {
             System.out.println("No changes to location field");
         } else {
             try {
                 DBAppointments.updateAppointmentLocation(locationTextField.getText(), appointmentToModify.getAppointmentID());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void checkTypeFieldForChange() {
+        if (appointmentToModify.getType().equals(typeTextField.getText())) {
+            System.out.println("No changes to type field");
+        } else {
+            try {
+                DBAppointments.updateAppointmentType(typeTextField.getText(), appointmentToModify.getAppointmentID());
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -188,6 +200,7 @@ public class ModifyAppointmentController implements Initializable {
         checkTitleFieldForChange();
         checkDescriptionFieldForChange();
         checkLocationFieldForChange();
+        checkTypeFieldForChange();
 
         sceneController.setScene(event,"Main.fxml");
     }
