@@ -110,7 +110,6 @@ public class DBAppointments {
 
     public static void deleteAppointmentAction(Integer appointmentID) throws SQLException {
         deleteAppointmentFromDatabase(appointmentID);
-        presentAppointmentDeletedAlert();
     }
 
     private static void deleteAppointmentFromDatabase(Integer appointmentID) throws SQLException {
@@ -119,14 +118,6 @@ public class DBAppointments {
         PreparedStatement deleteAppointmentStatement = connection.prepareStatement(sql);
         deleteAppointmentStatement.setInt(1, appointmentID);
         deleteAppointmentStatement.executeUpdate();
-    }
-
-    private static void presentAppointmentDeletedAlert() {
-        Alert appointmentDeletedAlert = new Alert(Alert.AlertType.INFORMATION);
-        appointmentDeletedAlert.setTitle("Database Message");
-        appointmentDeletedAlert.setHeaderText("Appointment");
-        appointmentDeletedAlert.setContentText("Successfully deleted");
-        appointmentDeletedAlert.showAndWait();
     }
 
     private static void updateLastUpdateTimeField(Integer appointmentID) throws SQLException {
