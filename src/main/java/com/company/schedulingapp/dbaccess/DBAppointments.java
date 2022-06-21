@@ -128,13 +128,21 @@ public class DBAppointments {
         appointmentDeletedAlert.showAndWait();
     }
 
-    private static void updateLastUpdatedFields(Integer appointmentID) throws SQLException {
+    private static void updateLastUpdateTimeField(Integer appointmentID) throws SQLException {
         Connection connection = JDBC.getConnection();
-        String sql = "UPDATE appointments SET Last_Update = ? AND Last_Updated_By = ? WHERE Appointment_ID = ?";
+        String sql = "UPDATE appointments SET Last_Update = ? WHERE Appointment_ID = ?";
         PreparedStatement updateAppointmentStatement = connection.prepareStatement(sql);
         updateAppointmentStatement.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
-        updateAppointmentStatement.setString(2, DBUsers.getCurrentUserName());
-        updateAppointmentStatement.setInt(3, appointmentID);
+        updateAppointmentStatement.setInt(2, appointmentID);
+        updateAppointmentStatement.executeUpdate();
+    }
+
+    private static void updateLastUpdatedByField(Integer appointmentID) throws SQLException {
+        Connection connection = JDBC.getConnection();
+        String sql = "UPDATE appointments SET Last_Updated_By = ? WHERE Appointment_ID = ?";
+        PreparedStatement updateAppointmentStatement = connection.prepareStatement(sql);
+        updateAppointmentStatement.setString(1, DBUsers.getCurrentUserName());
+        updateAppointmentStatement.setInt(2, appointmentID);
         updateAppointmentStatement.executeUpdate();
     }
 
@@ -145,9 +153,8 @@ public class DBAppointments {
         updateAppointmentStatement.setString(1, newAppointmentTitle);
         updateAppointmentStatement.setInt(2, appointmentID);
         updateAppointmentStatement.executeUpdate();
-        updateLastUpdatedFields(appointmentID);
-
-
+        updateLastUpdateTimeField(appointmentID);
+        updateLastUpdatedByField(appointmentID);
     }
 
 
