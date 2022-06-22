@@ -13,6 +13,7 @@ import java.sql.SQLException;
 public class DBUsers {
 
     private static String currentUser;
+    private static Integer currentUserID;
     private static ObservableList<User> users = FXCollections.observableArrayList();
 
     private static void getAllUsersFromDataBase() throws SQLException {
@@ -53,6 +54,7 @@ public class DBUsers {
 
         if (user.next()) {
             currentUser = user.getString("User_Name");
+            currentUserID = user.getInt("User_ID");
             return true;
         } else {
             return false;
@@ -71,5 +73,7 @@ public class DBUsers {
     public static String getCurrentUserName() {
         return currentUser;
     }
+
+    public static Integer getCurrentUserID() { return currentUserID; }
 
 }
