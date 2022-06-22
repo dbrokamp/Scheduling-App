@@ -273,7 +273,7 @@ public class MainController implements Initializable {
         if (hasUpcomingAppointment) {
             presentHasUpcomingAppointment(upcomingAppointment);
         } else {
-            presentNoAppointmentSelectedAlert();
+            presentNoUpComingAppointment();
         }
     }
 
