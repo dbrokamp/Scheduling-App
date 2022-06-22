@@ -15,6 +15,36 @@ public class DBAppointments {
 
     private static ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
 
+    public static ObservableList<Appointment> getUserAppointments(Integer userID) throws SQLException {
+        ObservableList<Appointment> userAppointments = FXCollections.observableArrayList();
+
+        Connection connection = JDBC.getConnection();
+        String sql = "SELECT * FROM appointments where User_ID = ?";
+        PreparedStatement customerAppointmentsStatement = connection.prepareStatement(sql);
+        customerAppointmentsStatement.setInt(1, userID);
+        ResultSet appointmentsSet = customerAppointmentsStatement.executeQuery();
+
+        while (appointmentsSet.next()) {
+
+            Appointment appointment = new Appointment(appointmentsSet.getInt("Appointment_ID"),
+                    appointmentsSet.getString("Title"),
+                    appointmentsSet.getString("Description"),
+                    appointmentsSet.getString("Location"),
+                    appointmentsSet.getString("Type"),
+                    appointmentsSet.getTimestamp("Start"),
+                    appointmentsSet.getTimestamp("End"),
+                    appointmentsSet.getInt("Customer_ID"),
+                    appointmentsSet.getInt("User_ID"),
+                    appointmentsSet.getInt("Contact_ID"));
+
+            userAppointments.add(appointment);
+        }
+
+        return userAppointments;
+
+
+    }
+
     public static ObservableList<Appointment> getCustomerAppointments(Integer customerID) throws SQLException {
         ObservableList<Appointment> customerAppointments = FXCollections.observableArrayList();
 
