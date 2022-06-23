@@ -10,15 +10,15 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.schedulingapp.controller.LoginController">
    <children>
-      <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scheduling App">
+      <Text fx:id="titleText" layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scheduling App">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Text>
       <TextField fx:id="usernameTextField" layoutX="420.0" layoutY="272.0" promptText="Username" />
       <PasswordField fx:id="passwordTextField" layoutX="420.0" layoutY="343.0" promptText="Password" />
-      <Button layoutX="471.0" layoutY="404.0" mnemonicParsing="false" onAction="#login" prefHeight="25.0" prefWidth="59.0" text="Login" />
-      <Button layoutX="911.0" layoutY="661.0" mnemonicParsing="false" onAction="#exit" prefHeight="25.0" prefWidth="75.0" text="Exit" />
+      <Button fx:id="loginButton" layoutX="430.0" layoutY="407.0" mnemonicParsing="false" onAction="#login" prefHeight="25.0" prefWidth="141.0" text="Login" />
+      <Button fx:id="exitButton" layoutX="866.0" layoutY="661.0" mnemonicParsing="false" onAction="#exit" prefHeight="25.0" prefWidth="120.0" text="Exit" />
       <Label fx:id="locationLabel" layoutX="14.0" layoutY="665.0" text="Location" textAlignment="CENTER" />
    </children>
 </Pane>

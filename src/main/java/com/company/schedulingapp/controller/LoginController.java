@@ -12,10 +12,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -29,23 +27,29 @@ import java.util.ResourceBundle;
 public class LoginController implements Initializable {
 
     SceneController sceneController = SceneController.getSceneControllerInstance();
+    ResourceBundle resourceBundle;
 
     @FXML TextField usernameTextField;
     @FXML PasswordField passwordTextField;
     @FXML Label locationLabel;
+    @FXML Text titleText;
+    @FXML Button loginButton;
+    @FXML Button exitButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            resourceBundle = ResourceBundle.getBundle("locale.properties", Locale.getDefault());
-//            LoginLabel.setText(resourceBundle.getString("title"));
-//            LoginUsernameLabel.setText(resourceBundle.getString("username"));
-//            UsernameTextField.setPromptText(resourceBundle.getString("username"));
-//            LoginPasswordLabel.setText(resourceBundle.getString("password"));
-//            PasswordTextField.setPromptText(resourceBundle.getString("password"));
-//            LoginButton.setText(resourceBundle.getString("signin"));
+            resourceBundle = this.resourceBundle;
+            resourceBundle = ResourceBundle.getBundle("login", Locale.getDefault());
+            titleText.setText(resourceBundle.getString("title"));
+            usernameTextField.setPromptText(resourceBundle.getString("username"));
+            passwordTextField.setPromptText(resourceBundle.getString("password"));
+            loginButton.setText(resourceBundle.getString("login"));
+            exitButton.setText(resourceBundle.getString("exit"));
+
+
         } catch (MissingResourceException e) {
-            System.out.println("Missing resource");
+            e.printStackTrace();
         }
         setLocationLabel();
     }
@@ -65,30 +69,27 @@ public class LoginController implements Initializable {
 
         if (DBUsers.verifyUsername(username)) {
             if (DBUsers.verifyPassword(password)) {
-                System.out.println("User verified.");
                 checkForUpcomingAppointments();
                 sceneController.setScene(event, "Main.fxml");
             } else {
-                System.out.println("Incorrect password.");
                 displayIncorrectPasswordError();
             }
         } else {
-            System.out.println("Incorrect username.");
             displayIncorrectUsernameError();
         }
     }
 
     private void displayIncorrectUsernameError() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Username");
-        alert.setContentText("Invalid username.");
+        alert.setTitle(resourceBundle.getString("username"));
+        alert.setContentText(resourceBundle.getString("userLoginError"));
         alert.showAndWait();
     }
 
     private void displayIncorrectPasswordError() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Password");
-        alert.setContentText("Invalid password.");
+        alert.setTitle(resourceBundle.getString("password"));
+        alert.setContentText("passwordLoginError");
         alert.showAndWait();
     }
 
