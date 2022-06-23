@@ -2,7 +2,7 @@ package com.company.schedulingapp.controller;
 
 import com.company.schedulingapp.dbaccess.DBAppointments;
 import com.company.schedulingapp.dbaccess.DBCustomers;
-import com.company.schedulingapp.dbaccess.DBUsers;
+
 import com.company.schedulingapp.model.Appointment;
 import com.company.schedulingapp.model.Customer;
 import com.company.schedulingapp.util.JDBC;
@@ -19,9 +19,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Timestamp;
+
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+
 import java.util.ResourceBundle;
 
 
@@ -56,6 +56,7 @@ public class MainController implements Initializable {
     private static Appointment selectedAppointment;
 
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupCustomerTable();
@@ -66,7 +67,6 @@ public class MainController implements Initializable {
 
         loadAllAppointmentsIntoAppointmentTable();
 
-        checkForUpcomingAppointments();
 
 
         filterByMonthRadioButton.setToggleGroup(appointmentFilterRadioButtons);
@@ -234,57 +234,6 @@ public class MainController implements Initializable {
     private void setSelectedCustomer() {
         selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
     }
-
-    private void checkForUpcomingAppointments() {
-        ObservableList<Appointment> userAppointments = FXCollections.observableArrayList();
-        Appointment upcomingAppointment = null;
-        boolean hasUpcomingAppointment = false;
-        try {
-            userAppointments = DBAppointments.getUserAppointments(DBUsers.getCurrentUserID());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        LocalDateTime nowDateTime = LocalDateTime.now();
-        System.out.println(nowDateTime);
-
-        LocalDateTime nowPlusFifteenMinutes = nowDateTime.plusMinutes(15);
-        System.out.println(nowPlusFifteenMinutes);
-
-        Timestamp nowTimestamp = Timestamp.valueOf(LocalDateTime.now());
-        Timestamp nowPlusFifteenMinutesTimestamp = Timestamp.valueOf(LocalDateTime.now().plusMinutes(15));
-
-        for (Appointment appointment : userAppointments) {
-            Timestamp meetingStart = appointment.getStart();
-            if (meetingStart.after(nowTimestamp) && meetingStart.before(nowPlusFifteenMinutesTimestamp)) {
-                hasUpcomingAppointment = true;
-                upcomingAppointment = appointment;
-            }
-        }
-
-        if (hasUpcomingAppointment) {
-            presentHasUpcomingAppointment(upcomingAppointment);
-        } else {
-            presentNoUpComingAppointment();
-        }
-    }
-
-    private void presentHasUpcomingAppointment(Appointment upcomingAppointment) {
-        Alert upcomingAppointmentAlert = new Alert(Alert.AlertType.INFORMATION);
-        upcomingAppointmentAlert.setTitle("Application Message");
-        upcomingAppointmentAlert.setHeaderText("Upcoming Appointment");
-        upcomingAppointmentAlert.setContentText("AppointmentID: " + upcomingAppointment.getAppointmentID().toString() + ". Starts at: " + upcomingAppointment.getStart().toString());
-        upcomingAppointmentAlert.showAndWait();
-    }
-
-    private void presentNoUpComingAppointment() {
-        Alert noUpcomingAppointmentAlert = new Alert(Alert.AlertType.INFORMATION);
-        noUpcomingAppointmentAlert.setTitle("Application Message");
-        noUpcomingAppointmentAlert.setHeaderText("Upcoming Appointment");
-        noUpcomingAppointmentAlert.setContentText("You have no upcoming appointments.");
-        noUpcomingAppointmentAlert.showAndWait();
-    }
-
 
     public void goToModifyCustomer(ActionEvent event) {
         setSelectedCustomer();
