@@ -4,6 +4,7 @@ import com.company.schedulingapp.dbaccess.DBAppointments;
 import com.company.schedulingapp.dbaccess.DBContacts;
 import com.company.schedulingapp.dbaccess.DBCustomers;
 import com.company.schedulingapp.dbaccess.DBUsers;
+import com.company.schedulingapp.model.Appointment;
 import com.company.schedulingapp.model.Contact;
 import com.company.schedulingapp.model.Customer;
 import com.company.schedulingapp.model.User;
@@ -13,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -199,11 +201,43 @@ public class AddAppointmentController implements Initializable {
         return Timestamp.valueOf(end);
     }
 
-    public void cancel(ActionEvent event) {
-        sceneController.setScene(event, "Main.fxml");
+    private boolean checkForOverlappingAppointments(Integer customerID, Timestamp newAppointmentStart, Timestamp newAppointmentEnd) {
+        ObservableList<Appointment> customerAppointments = FXCollections.observableArrayList();
+        boolean hasOverlappingAppointment = false;
+        Appointment overlappedAppointment = null;
+
+        try {
+            customerAppointments = DBAppointments.getCustomerAppointments(customerID);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        for (Appointment appointment : customerAppointments) {
+            System.out.println("Testing appointments");
+            if (((appointment.getStart().after(newAppointmentStart) || appointment.getStart().equals(newAppointmentStart)) && (appointment.getStart().before(newAppointmentEnd) || appointment.getStart().equals(newAppointmentEnd))) || ((appointment.getEnd().after(newAppointmentStart) || appointment.getEnd().equals(newAppointmentStart)) && (appointment.getEnd().before(newAppointmentEnd) || appointment.getEnd().equals(newAppointmentEnd)))) {
+                hasOverlappingAppointment = true;
+                overlappedAppointment = appointment;
+            }
+        }
+
+        if (hasOverlappingAppointment) {
+            presentHasOverlappedAppointment(overlappedAppointment);
+        }
+
+        return hasOverlappingAppointment;
     }
 
-    public void save(ActionEvent event) {
+    private void presentHasOverlappedAppointment(Appointment overlappedAppointment) {
+        Alert hasOverlappingAppointmentAlert = new Alert(Alert.AlertType.ERROR);
+        hasOverlappingAppointmentAlert.setTitle("Application Message");
+        hasOverlappingAppointmentAlert.setHeaderText("Appointment conflict");
+        hasOverlappingAppointmentAlert.setContentText("This appointment conflicts with Appointment_ID: " + overlappedAppointment.getAppointmentID().toString());
+        hasOverlappingAppointmentAlert.showAndWait();
+    }
+
+    private boolean saveNewAppointment() {
+        boolean saveSuccessful = false;
+        boolean overlappingAppointment = false;
         getInputFromTitleField();
         getInputFromDescriptionField();
         getInputFromLocationField();
@@ -219,21 +253,43 @@ public class AddAppointmentController implements Initializable {
         Timestamp start = createStartTimestamp(newAppointmentStartDate, newAppointmentStartTime);
         Timestamp end = createEndTimeTimestamp(newAppointmentEndDate, newAppointmentEndTime);
 
-        try {
-            DBAppointments.addNewAppointment(newAppointmentTitle,
-                                            newAppointmentDescription,
-                                            newAppointmentLocation,
-                                            newAppointmentType,
-                                            start,
-                                            end,
-                                            newAppointmentCustomerID,
-                                            newAppointmentUserID,
-                                            newAppointmentContactName);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        overlappingAppointment = checkForOverlappingAppointments(newAppointmentCustomerID, start, end);
+
+        if (overlappingAppointment) {
+            System.out.println("Error: overlapped appointment.");
+        } else {
+            try {
+                DBAppointments.addNewAppointment(newAppointmentTitle,
+                        newAppointmentDescription,
+                        newAppointmentLocation,
+                        newAppointmentType,
+                        start,
+                        end,
+                        newAppointmentCustomerID,
+                        newAppointmentUserID,
+                        newAppointmentContactName);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            saveSuccessful = true;
         }
 
+    return saveSuccessful;
+    }
+
+    public void cancel(ActionEvent event) {
         sceneController.setScene(event, "Main.fxml");
+    }
+
+    public void save(ActionEvent event) {
+
+        if (saveNewAppointment()) {
+            sceneController.setScene(event, "Main.fxml");
+        } else {
+            System.out.println("Save unsuccessful");
+        }
+
+
 
     }
 
