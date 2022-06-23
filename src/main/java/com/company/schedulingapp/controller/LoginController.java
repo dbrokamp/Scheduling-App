@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -23,11 +24,15 @@ import java.time.ZoneId;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class LoginController implements Initializable {
 
     SceneController sceneController = SceneController.getSceneControllerInstance();
-    ResourceBundle resourceBundle;
+    ResourceBundle rb;
 
     @FXML TextField usernameTextField;
     @FXML PasswordField passwordTextField;
@@ -39,8 +44,8 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            resourceBundle = this.resourceBundle;
             resourceBundle = ResourceBundle.getBundle("login", Locale.getDefault());
+            rb = resourceBundle;
             titleText.setText(resourceBundle.getString("title"));
             usernameTextField.setPromptText(resourceBundle.getString("username"));
             passwordTextField.setPromptText(resourceBundle.getString("password"));
@@ -69,27 +74,30 @@ public class LoginController implements Initializable {
 
         if (DBUsers.verifyUsername(username)) {
             if (DBUsers.verifyPassword(password)) {
+                recordLoginAttempt(username, true);
                 checkForUpcomingAppointments();
                 sceneController.setScene(event, "Main.fxml");
             } else {
+                recordLoginAttempt(username, false);
                 displayIncorrectPasswordError();
             }
         } else {
+            recordLoginAttempt(username, false);
             displayIncorrectUsernameError();
         }
     }
 
     private void displayIncorrectUsernameError() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(resourceBundle.getString("username"));
-        alert.setContentText(resourceBundle.getString("userLoginError"));
+        alert.setTitle(rb.getString("username"));
+        alert.setContentText(rb.getString("userLoginError"));
         alert.showAndWait();
     }
 
     private void displayIncorrectPasswordError() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(resourceBundle.getString("password"));
-        alert.setContentText("passwordLoginError");
+        alert.setTitle(rb.getString("password"));
+        alert.setContentText(rb.getString("passwordLoginError"));
         alert.showAndWait();
     }
 
@@ -141,6 +149,28 @@ public class LoginController implements Initializable {
         noUpcomingAppointmentAlert.setHeaderText("Upcoming Appointment");
         noUpcomingAppointmentAlert.setContentText("You have no upcoming appointments.");
         noUpcomingAppointmentAlert.showAndWait();
+    }
+
+    private void recordLoginAttempt(String username, Boolean loginAttempt) {
+        Logger log = Logger.getLogger("login_activity.txt");
+
+        try {
+            FileHandler fileHandler = new FileHandler("login_activity.txt", true);
+            SimpleFormatter simpleFormatter = new SimpleFormatter();
+            fileHandler.setFormatter(simpleFormatter);
+            log.addHandler(fileHandler);
+        } catch (IOException e) {
+            e.printStackTrace();;
+        }
+
+        log.setLevel(Level.INFO);
+
+        if (loginAttempt) {
+            log.log(Level.INFO, "Login attempt: " + username + " at " + Timestamp.valueOf(LocalDateTime.now()) + " successful." );
+        } else {
+            log.log(Level.INFO, "Login attempt: " + username + " at " + Timestamp.valueOf(LocalDateTime.now()) + " failed." );
+        }
+
     }
 
     public void exit() {

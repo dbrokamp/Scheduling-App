@@ -1,0 +1,8 @@
+Jun 23, 2022 7:23:19 PM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-23 19:23:19.73196 successful.
+Jun 23, 2022 7:24:46 PM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: admin at 2022-06-23 19:24:46.740405 failed.
+Jun 23, 2022 7:25:28 PM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: admin at 2022-06-23 19:25:28.327043 failed.
+Jun 23, 2022 7:27:44 PM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: admin at 2022-06-23 19:27:44.442928 failed.
