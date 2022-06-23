@@ -206,7 +206,7 @@ public class MainController implements Initializable {
             try {
                 DBAppointments.deleteAppointmentAction(selectedAppointment.getAppointmentID());
                 presentAppointmentDeletedAlert();
-                appointmentTableView.setItems(DBAppointments.getCustomerAppointments(selectedCustomer.getCustomerID()));
+                loadAllAppointmentsIntoAppointmentTable();
 
             } catch (SQLException e) {
                 e.printStackTrace();
