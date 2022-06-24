@@ -72,5 +72,6 @@
          </children>
       </Pane>
       <Button layoutX="916.0" layoutY="661.0" mnemonicParsing="false" onAction="#exitApplicationButtonAction" prefHeight="25.0" prefWidth="70.0" text="Exit" />
+      <Button layoutX="887.0" layoutY="7.0" mnemonicParsing="false" onAction="#goToReports" prefHeight="26.0" prefWidth="98.0" text="Reports" />
    </children>
 </Pane>

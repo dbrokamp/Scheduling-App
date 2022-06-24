@@ -275,6 +275,8 @@ public class MainController implements Initializable {
         return selectedAppointment;
     }
 
+    public void goToReports(ActionEvent event) { sceneController.setScene(event,"Reports.fxml");}
+
 
     public void goToModifyAppointment(ActionEvent event) {
         if (selectedAppointment == null) {
