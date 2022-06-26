@@ -1,8 +1,5 @@
 package com.company.schedulingapp.model;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-
 public class Country {
 
     private Integer countryID;

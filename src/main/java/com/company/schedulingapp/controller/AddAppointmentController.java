@@ -23,8 +23,8 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class AddAppointmentController implements Initializable {
@@ -43,10 +43,10 @@ public class AddAppointmentController implements Initializable {
     @FXML ComboBox<Integer> userComboBox;
     @FXML ComboBox<String> contactComboBox;
 
-    private static ObservableList<LocalTime> appointmentTimes = FXCollections.observableArrayList();
-    private static ObservableList<Integer> customerIDs = FXCollections.observableArrayList();
-    private static ObservableList<Integer> userIDs = FXCollections.observableArrayList();
-    private static ObservableList<String> contactNames = FXCollections.observableArrayList();
+    final private static ObservableList<LocalTime> appointmentTimes = FXCollections.observableArrayList();
+    final private static ObservableList<Integer> customerIDs = FXCollections.observableArrayList();
+    final private static ObservableList<Integer> userIDs = FXCollections.observableArrayList();
+    final private static ObservableList<String> contactNames = FXCollections.observableArrayList();
 
     private String newAppointmentTitle;
     private String newAppointmentDescription;
@@ -70,8 +70,8 @@ public class AddAppointmentController implements Initializable {
     }
 
     private static void createAppointmentTimes() {
-        LocalTime businessHoursStart = LocalTime.of(8,00);
-        LocalTime businessHoursEnd = LocalTime.of(22,00);
+        LocalTime businessHoursStart = LocalTime.of(8, 0);
+        LocalTime businessHoursEnd = LocalTime.of(22, 0);
         Duration quarterHour = Duration.ofMinutes(15);
 
         LocalTime appointment = businessHoursStart;
@@ -191,7 +191,6 @@ public class AddAppointmentController implements Initializable {
     }
 
     private Timestamp createStartTimestamp(String startDate, String startTime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String start = startDate + " " + startTime + ":00";
         return Timestamp.valueOf(start);
     }
@@ -235,9 +234,26 @@ public class AddAppointmentController implements Initializable {
         hasOverlappingAppointmentAlert.showAndWait();
     }
 
+    private boolean checkIfAppointmentDateIsInPast(Timestamp newStart) {
+        boolean isInPast = newStart.before(Timestamp.valueOf(LocalDateTime.now()));
+        if (isInPast) {
+            presentAppointmentStartIsInPast();
+        }
+        return isInPast;
+    }
+
+    private void presentAppointmentStartIsInPast() {
+        Alert appointmentInPastAlert = new Alert(Alert.AlertType.ERROR);
+        appointmentInPastAlert.setTitle("Application Message");
+        appointmentInPastAlert.setHeaderText("Appointment error");
+        appointmentInPastAlert.setContentText("Appointment start is in the past.");
+        appointmentInPastAlert.showAndWait();
+    }
+
     private boolean saveNewAppointment() {
         boolean saveSuccessful = false;
-        boolean overlappingAppointment = false;
+        boolean overlappingAppointment;
+        boolean appointmentInPast;
         getInputFromTitleField();
         getInputFromDescriptionField();
         getInputFromLocationField();
@@ -254,9 +270,10 @@ public class AddAppointmentController implements Initializable {
         Timestamp end = createEndTimeTimestamp(newAppointmentEndDate, newAppointmentEndTime);
 
         overlappingAppointment = checkForOverlappingAppointments(newAppointmentCustomerID, start, end);
+        appointmentInPast = checkIfAppointmentDateIsInPast(start);
 
-        if (overlappingAppointment) {
-            System.out.println("Error: overlapped appointment.");
+        if (overlappingAppointment || appointmentInPast) {
+            System.out.println("Error in saving appointment.");
         } else {
             try {
                 DBAppointments.addNewAppointment(newAppointmentTitle,

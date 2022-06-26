@@ -14,7 +14,7 @@ public class DBUsers {
 
     private static String currentUser;
     private static Integer currentUserID;
-    private static ObservableList<User> users = FXCollections.observableArrayList();
+    final private static ObservableList<User> users = FXCollections.observableArrayList();
 
     private static void getAllUsersFromDataBase() throws SQLException {
         Connection connection = JDBC.getConnection();

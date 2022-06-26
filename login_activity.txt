@@ -40,3 +40,67 @@ Jun 26, 2022 8:04:33 AM com.company.schedulingapp.controller.LoginController rec
 INFO: Login attempt: test at 2022-06-26 08:04:33.634358 successful.
 Jun 26, 2022 8:26:27 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
 INFO: Login attempt: test at 2022-06-26 08:26:27.900721 successful.
+Jun 26, 2022 8:39:15 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 08:39:15.773259 successful.
+Jun 26, 2022 8:39:57 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 08:39:57.870464 successful.
+Jun 26, 2022 8:50:49 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 08:50:49.318036 successful.
+Jun 26, 2022 8:53:45 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 08:53:45.70806 successful.
+Jun 26, 2022 8:54:32 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 08:54:32.014755 successful.
+Jun 26, 2022 8:56:51 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 08:56:51.808809 successful.
+Jun 26, 2022 8:59:03 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 08:59:03.523686 successful.
+Jun 26, 2022 9:01:09 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 09:01:09.802406 successful.
+Jun 26, 2022 9:02:18 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 09:02:18.631754 successful.
+Jun 26, 2022 9:05:12 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 09:05:12.400597 successful.
+Jun 26, 2022 9:07:20 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 09:07:20.854345 successful.
+Jun 26, 2022 9:17:31 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 09:17:31.512219 successful.
+Jun 26, 2022 9:18:44 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 09:18:44.699645 successful.
+Jun 26, 2022 9:28:54 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 09:28:54.926465 successful.
+Jun 26, 2022 9:30:24 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 09:30:24.087323 successful.
+Jun 26, 2022 9:30:52 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 09:30:52.87367 successful.
+Jun 26, 2022 9:31:24 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 09:31:24.539127 successful.
+Jun 26, 2022 9:34:40 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 09:34:40.531149 successful.
+Jun 26, 2022 9:37:45 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 09:37:45.89144 successful.
+Jun 26, 2022 9:39:02 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 09:39:02.045435 successful.
+Jun 26, 2022 9:40:10 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 09:40:10.215179 successful.
+Jun 26, 2022 9:41:30 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 09:41:30.485627 successful.
+Jun 26, 2022 9:42:10 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 09:42:10.786708 successful.
+Jun 26, 2022 9:47:21 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 09:47:21.063288 successful.
+Jun 26, 2022 9:48:46 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 09:48:46.549309 successful.
+Jun 26, 2022 9:53:43 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 09:53:43.342819 successful.
+Jun 26, 2022 10:07:09 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 10:07:09.013278 successful.
+Jun 26, 2022 10:11:05 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 10:11:05.840432 successful.
+Jun 26, 2022 10:14:46 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 10:14:46.768864 successful.
+Jun 26, 2022 10:16:39 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 10:16:39.393219 successful.
+Jun 26, 2022 10:22:19 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 10:22:19.059953 successful.
+Jun 26, 2022 10:23:18 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-26 10:23:18.734431 successful.

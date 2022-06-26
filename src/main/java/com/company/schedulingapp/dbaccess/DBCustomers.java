@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 
 public class DBCustomers {
 
-    private static ObservableList<Customer> customers = FXCollections.observableArrayList();
+    final private static ObservableList<Customer> customers = FXCollections.observableArrayList();
 
     private static void getCustomers() throws SQLException {
 

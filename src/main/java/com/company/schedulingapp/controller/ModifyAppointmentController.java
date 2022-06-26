@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -25,17 +26,19 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+
 import java.util.ResourceBundle;
 
 public class ModifyAppointmentController implements Initializable {
 
-    private SceneController sceneController = SceneController.getSceneControllerInstance();
-    private Appointment appointmentToModify = MainController.getSelectedAppointment();
-    private ObservableList<String> appointmentTimes = FXCollections.observableArrayList();
-    private ObservableList<Integer> customerIDs = FXCollections.observableArrayList();
-    private ObservableList<Integer> userIDs = FXCollections.observableArrayList();
-    private ObservableList<String> contactNames = FXCollections.observableArrayList();
+    final private SceneController sceneController = SceneController.getSceneControllerInstance();
+    final private Appointment appointmentToModify = MainController.getSelectedAppointment();
+    final private ObservableList<String> appointmentTimes = FXCollections.observableArrayList();
+    final private ObservableList<Integer> customerIDs = FXCollections.observableArrayList();
+    final private ObservableList<Integer> userIDs = FXCollections.observableArrayList();
+    final private ObservableList<String> contactNames = FXCollections.observableArrayList();
     private String currentStartDate;
     private String currentStartTime;
     private String currentEndDate;
@@ -81,15 +84,15 @@ public class ModifyAppointmentController implements Initializable {
     }
 
     private void createAppointmentTimes() {
-        LocalTime businessHoursStart = LocalTime.of(8,00);
-        LocalTime businessHoursEnd = LocalTime.of(22,00);
+        LocalTime businessHoursStart = LocalTime.of(8,0);
+        LocalTime businessHoursEnd = LocalTime.of(22,0);
         Duration quarterHour = Duration.ofMinutes(15);
 
         LocalTime appointment = businessHoursStart;
 
         appointmentTimes.clear();
         while (appointment.isBefore(businessHoursEnd)) {
-            appointmentTimes.add(appointment.toString());
+            appointmentTimes.add(appointment + ":00");
             appointment = appointment.plus(quarterHour);
         }
 
@@ -200,11 +203,11 @@ public class ModifyAppointmentController implements Initializable {
     }
 
     private void checkStartDateAndTimeFieldForChange() {
-        if (currentStartDate == startDatePicker.getValue().toString() && currentStartTime == startTimeComboBox.getValue()) {
+        if (currentStartDate.equals(startDatePicker.getValue().toString()) && currentStartTime.equals(startTimeComboBox.getValue())) {
             System.out.println("No changes to start date or time");
         } else {
-            if (currentStartTime != startTimeComboBox.getValue()) {
-                String start = startDatePicker.getValue().toString() + " " + startTimeComboBox.getValue() + ":00";
+            if (!currentStartTime.equals(startTimeComboBox.getValue())) {
+                String start = startDatePicker.getValue().toString() + " " + startTimeComboBox.getValue();
                 Timestamp newStart = Timestamp.valueOf(start);
                 try {
                     DBAppointments.updateAppointmentStart(newStart, appointmentToModify.getAppointmentID());
@@ -225,11 +228,11 @@ public class ModifyAppointmentController implements Initializable {
     }
 
     private void checkEndDateAndTimeFieldForChange() {
-        if (currentEndDate == endDatePicker.getValue().toString() && currentEndTime == endTimeComboBox.getValue()) {
+        if (currentEndDate.equals(endDatePicker.getValue().toString()) && currentEndTime.equals(endTimeComboBox.getValue())) {
             System.out.println("No changes to end date or time");
         } else {
-            if (currentEndTime != endTimeComboBox.getValue()) {
-                String end = endDatePicker.getValue().toString() + " " + endTimeComboBox.getValue() + ":00";
+            if (!currentEndTime.equals(endTimeComboBox.getValue())) {
+                String end = endDatePicker.getValue().toString() + " " + endTimeComboBox.getValue();
                 Timestamp newEnd = Timestamp.valueOf(end);
                 try {
                     DBAppointments.updateAppointmentEnd(newEnd, appointmentToModify.getAppointmentID());
@@ -287,23 +290,108 @@ public class ModifyAppointmentController implements Initializable {
         }
     }
 
+    private boolean checkForOverlappingAppointments(Integer customerID, Timestamp newAppointmentStart, Timestamp newAppointmentEnd) {
+        ObservableList<Appointment> customerAppointments = FXCollections.observableArrayList();
+        boolean hasOverlappingAppointment = false;
+        Appointment overlappedAppointment = null;
 
+        try {
+            customerAppointments = DBAppointments.getCustomerAppointments(customerID);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        for (Appointment appointment : customerAppointments) {
+            System.out.println("Testing appointments");
+            if (((appointment.getStart().after(newAppointmentStart) || appointment.getStart().equals(newAppointmentStart)) && (appointment.getStart().before(newAppointmentEnd) || appointment.getStart().equals(newAppointmentEnd))) || ((appointment.getEnd().after(newAppointmentStart) || appointment.getEnd().equals(newAppointmentStart)) && (appointment.getEnd().before(newAppointmentEnd) || appointment.getEnd().equals(newAppointmentEnd)))) {
+                if (appointment.getAppointmentID().equals(appointmentToModify.getAppointmentID())) {
+                    System.out.println("Same appointment");
+                } else {
+                    hasOverlappingAppointment = true;
+                    overlappedAppointment = appointment;
+                }
+
+            }
+        }
+
+        if (hasOverlappingAppointment) {
+            presentHasOverlappedAppointment(overlappedAppointment);
+        }
+
+        return hasOverlappingAppointment;
+    }
+
+    private void presentHasOverlappedAppointment(Appointment overlappedAppointment) {
+        Alert hasOverlappingAppointmentAlert = new Alert(Alert.AlertType.ERROR);
+        hasOverlappingAppointmentAlert.setTitle("Application Message");
+        hasOverlappingAppointmentAlert.setHeaderText("Appointment conflict");
+        hasOverlappingAppointmentAlert.setContentText("This appointment conflicts with Appointment_ID: " + overlappedAppointment.getAppointmentID().toString());
+        hasOverlappingAppointmentAlert.showAndWait();
+    }
+
+    private boolean checkIfAppointmentDateIsInPast(Timestamp newStart) {
+        boolean isInPast = newStart.before(Timestamp.valueOf(LocalDateTime.now()));
+        if (isInPast) {
+            presentAppointmentStartIsInPast();
+        }
+        return isInPast;
+    }
+
+    private void presentAppointmentStartIsInPast() {
+        Alert appointmentInPastAlert = new Alert(Alert.AlertType.ERROR);
+        appointmentInPastAlert.setTitle("Application Message");
+        appointmentInPastAlert.setHeaderText("Appointment error");
+        appointmentInPastAlert.setContentText("Appointment start is in the past.");
+        appointmentInPastAlert.showAndWait();
+    }
+
+    private Timestamp createStartTimestamp(String startDate, String startTime) {
+        String start = startDate + " " + startTime;
+        return Timestamp.valueOf(start);
+    }
+
+    private Timestamp createEndTimeTimestamp(String endDate, String endTime) {
+        String end = endDate + " " + endTime;
+        return Timestamp.valueOf(end);
+    }
+
+    private boolean save() {
+
+        Timestamp start = createStartTimestamp(startDatePicker.getValue().toString(), startTimeComboBox.getValue());
+        Timestamp end = createEndTimeTimestamp(endDatePicker.getValue().toString(), endTimeComboBox.getValue());
+        boolean hasOverlappingAppointment = checkForOverlappingAppointments(appointmentToModify.getCustomerID(), start, end);
+        boolean startIsInPast = checkIfAppointmentDateIsInPast(start);
+
+        if (hasOverlappingAppointment || startIsInPast) {
+            return false;
+        } else {
+            checkTitleFieldForChange();
+            checkDescriptionFieldForChange();
+            checkLocationFieldForChange();
+            checkTypeFieldForChange();
+            checkCustomerIDFieldForChange();
+            checkUserIDFieldForChange();
+            checkContactNameFieldForChange();
+            checkStartDateAndTimeFieldForChange();
+            checkEndDateAndTimeFieldForChange();
+            return true;
+        }
+    }
 
     public void cancelActionButton(ActionEvent event) {
         sceneController.setScene(event, "Main.fxml");
     }
 
-    public void saveActionButton(ActionEvent event) {
-        checkTitleFieldForChange();
-        checkDescriptionFieldForChange();
-        checkLocationFieldForChange();
-        checkTypeFieldForChange();
-        checkCustomerIDFieldForChange();
-        checkUserIDFieldForChange();
-        checkContactNameFieldForChange();
-        checkStartDateAndTimeFieldForChange();
-        checkEndDateAndTimeFieldForChange();
 
-        sceneController.setScene(event,"Main.fxml");
+    public void saveActionButton(ActionEvent event) {
+        boolean saveSuccessful = save();
+
+        if (saveSuccessful) {
+            sceneController.setScene(event,"Main.fxml");
+        } else {
+            System.out.println("Unable to modify appointment");
+        }
+
+
     }
 }

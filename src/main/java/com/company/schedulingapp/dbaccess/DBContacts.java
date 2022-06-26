@@ -2,7 +2,6 @@ package com.company.schedulingapp.dbaccess;
 
 import com.company.schedulingapp.model.Contact;
 import com.company.schedulingapp.util.JDBC;
-import com.mysql.cj.jdbc.JdbcConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -13,7 +12,7 @@ import java.sql.SQLException;
 
 public class DBContacts {
 
-    private static ObservableList<Contact> contacts = FXCollections.observableArrayList();
+    final private static ObservableList<Contact> contacts = FXCollections.observableArrayList();
 
     private static void getAllContactsFromDatabase() throws SQLException {
         Connection connection = JDBC.getConnection();
@@ -50,7 +49,7 @@ public class DBContacts {
         }
         Integer contactID = null;
         for (Contact contact : contacts) {
-            if (contact.getContactName() == name) {
+            if (contact.getContactName().equals(name)) {
                 contactID = contact.getContactID();
             }
         }
@@ -69,7 +68,7 @@ public class DBContacts {
 
         String contactName = null;
         for (Contact contact : contacts) {
-            if (contact.getContactID() == contactID) {
+            if (contact.getContactID().equals(contactID)) {
                 contactName = contact.getContactName();
             }
         }

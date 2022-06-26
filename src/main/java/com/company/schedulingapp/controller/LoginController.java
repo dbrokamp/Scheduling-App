@@ -111,12 +111,6 @@ public class LoginController implements Initializable {
             e.printStackTrace();
         }
 
-        LocalDateTime nowDateTime = LocalDateTime.now();
-        System.out.println(nowDateTime);
-
-        LocalDateTime nowPlusFifteenMinutes = nowDateTime.plusMinutes(15);
-        System.out.println(nowPlusFifteenMinutes);
-
         Timestamp nowTimestamp = Timestamp.valueOf(LocalDateTime.now());
         Timestamp nowPlusFifteenMinutesTimestamp = Timestamp.valueOf(LocalDateTime.now().plusMinutes(15));
 
@@ -160,7 +154,7 @@ public class LoginController implements Initializable {
             fileHandler.setFormatter(simpleFormatter);
             log.addHandler(fileHandler);
         } catch (IOException e) {
-            e.printStackTrace();;
+            e.printStackTrace();
         }
 
         log.setLevel(Level.INFO);

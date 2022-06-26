@@ -28,12 +28,6 @@ public class ModifyCustomerController implements Initializable {
     private FirstLevelDivision customerToModifyFirstLevelDivision;
     private Country customerToModifyCountry;
 
-    private String newCustomerName;
-    private String newCustomerAddress;
-    private String newCustomerPostalCode;
-    private String newCustomerPhone;
-    private String newCustomerFirstLevelDivision;
-
     @FXML TextField nameTextField;
     @FXML TextField addressTextField;
     @FXML TextField postalCodeTextField;
@@ -151,7 +145,7 @@ public class ModifyCustomerController implements Initializable {
     }
 
     private void checkNameFieldForChanges() {
-        if (nameTextField.getText() == customerToModify.getCustomerName()) {
+        if (nameTextField.getText().equals(customerToModify.getCustomerName())) {
             System.out.println("No changes to name field");
         } else {
             updateCustomerName();
@@ -159,16 +153,15 @@ public class ModifyCustomerController implements Initializable {
     }
 
     private void updateCustomerName() {
-        newCustomerName = nameTextField.getText();
         try {
-            DBCustomers.updateCustomerName(newCustomerName, customerToModify.getCustomerID());
+            DBCustomers.updateCustomerName(nameTextField.getText(), customerToModify.getCustomerID());
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     private void checkAddressFieldForChanges() {
-        if (addressTextField.getText() == customerToModify.getAddress()) {
+        if (addressTextField.getText().equals(customerToModify.getAddress())) {
             System.out.println("No changes to address field");
         } else {
             updateCustomerAddress();
@@ -176,16 +169,15 @@ public class ModifyCustomerController implements Initializable {
     }
 
     private void updateCustomerAddress() {
-        newCustomerAddress = addressTextField.getText();
         try {
-            DBCustomers.updateCustomerAddress(newCustomerAddress, customerToModify.getCustomerID());
+            DBCustomers.updateCustomerAddress(addressTextField.getText(), customerToModify.getCustomerID());
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     private void checkPostalCodeFieldForChanges() {
-        if (postalCodeTextField.getText() == customerToModify.getPostalCode()) {
+        if (postalCodeTextField.getText().equals(customerToModify.getPostalCode())) {
             System.out.println("No changes to postal code field");
         } else {
             updateCustomerPostalCode();
@@ -193,16 +185,15 @@ public class ModifyCustomerController implements Initializable {
     }
 
     private void updateCustomerPostalCode() {
-        newCustomerPostalCode = postalCodeTextField.getText();
         try {
-            DBCustomers.updateCustomerPostalCode(newCustomerPostalCode, customerToModify.getCustomerID());
+            DBCustomers.updateCustomerPostalCode(postalCodeTextField.getText(), customerToModify.getCustomerID());
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     private void checkPhoneFieldForChanges() {
-        if (phoneTextField.getText() == customerToModify.getPhone()) {
+        if (phoneTextField.getText().equals(customerToModify.getPhone())) {
             System.out.println("No changes to phone field");
         } else {
             updateCustomerPhone();
@@ -210,26 +201,29 @@ public class ModifyCustomerController implements Initializable {
     }
 
     private void updateCustomerPhone() {
-        newCustomerPhone = phoneTextField.getText();
         try {
-            DBCustomers.updateCustomerPhone(newCustomerPhone, customerToModify.getCustomerID());
+            DBCustomers.updateCustomerPhone(phoneTextField.getText(), customerToModify.getCustomerID());
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     private void checkFirstLevelDivisionFieldForChanges() throws SQLException {
-        if (firstLevelDivisionComboBox.getValue() == DBFirstLevelDivisions.getFirstLevelDivisionFromDivisionID(customerToModify.getDivisionID()).getDivision()) {
-            System.out.println("No changes to first level division field");
-        } else {
-            updateCustomerFirstLevelDivision();
+        try {
+            if (DBFirstLevelDivisions.getDivisionID(firstLevelDivisionComboBox.getValue()).equals(DBFirstLevelDivisions.getFirstLevelDivisionFromDivisionID(customerToModify.getDivisionID()).getDivisionID())) {
+                System.out.println("No changes to first level division field");
+            } else {
+                updateCustomerFirstLevelDivision();
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
+
     }
 
     private void updateCustomerFirstLevelDivision() {
-        newCustomerFirstLevelDivision = firstLevelDivisionComboBox.getValue();
         try {
-            DBCustomers.updateCustomerDivisionID(DBFirstLevelDivisions.getDivisionID(newCustomerFirstLevelDivision), customerToModify.getCustomerID());
+            DBCustomers.updateCustomerDivisionID(DBFirstLevelDivisions.getDivisionID(firstLevelDivisionComboBox.getValue()), customerToModify.getCustomerID());
         } catch (SQLException e) {
             e.printStackTrace();
         }

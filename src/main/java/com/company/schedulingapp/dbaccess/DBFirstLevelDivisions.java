@@ -58,10 +58,9 @@ public class DBFirstLevelDivisions {
         ResultSet firstLevelNameDivisionSet = firstLevelDivisionNameStatement.executeQuery();
 
         if (firstLevelNameDivisionSet.next()) {
-            FirstLevelDivision firstLevelDivision = new FirstLevelDivision(firstLevelNameDivisionSet.getInt("Division_ID"),
+            return new FirstLevelDivision(firstLevelNameDivisionSet.getInt("Division_ID"),
                                                                             firstLevelNameDivisionSet.getString("Division"),
                                                                             firstLevelNameDivisionSet.getInt("Country_ID"));
-            return firstLevelDivision;
         } else {
             return null;
         }

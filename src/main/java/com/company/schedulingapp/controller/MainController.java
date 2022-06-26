@@ -186,7 +186,6 @@ public class MainController implements Initializable {
         appointmentTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 selectedAppointment = newSelection;
-                System.out.println(selectedAppointment);
             }
         });
     }

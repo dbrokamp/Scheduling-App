@@ -4,16 +4,14 @@ import com.company.schedulingapp.model.Appointment;
 import com.company.schedulingapp.util.JDBC;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
-
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.util.Iterator;
+
 
 
 public class DBAppointments {
 
-    private static ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
+    final private static ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
 
     public static ObservableList<Appointment> getUserAppointments(Integer userID) throws SQLException {
         ObservableList<Appointment> userAppointments = FXCollections.observableArrayList();
