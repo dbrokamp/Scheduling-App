@@ -1,9 +1,12 @@
 package com.company.schedulingapp.controller;
 
 import com.company.schedulingapp.dbaccess.DBAppointments;
+import com.company.schedulingapp.dbaccess.DBUsers;
 import com.company.schedulingapp.model.Appointment;
+import com.company.schedulingapp.util.Password;
 import com.company.schedulingapp.util.SceneController;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,6 +34,7 @@ public class CustomerAppointmentsByTypeAndMonthController implements Initializab
 
     Map<Month, Integer> totalsByMonth = new HashMap<>();
     Map<String, Integer> totalsByType = new HashMap<>();
+    Map<String, Integer> totalsByUser = new HashMap<>();
 
     @FXML TableView<Map.Entry<Month, Integer>> appointmentsByMonth = new TableView<>();
     @FXML TableColumn<Map.Entry<Month, Integer>, Month> monthColumn = new TableColumn<>("Month");
@@ -40,15 +44,23 @@ public class CustomerAppointmentsByTypeAndMonthController implements Initializab
     @FXML TableColumn<Map.Entry<String, Integer>, String> typeColumn = new TableColumn<>("Type");
     @FXML TableColumn<Map.Entry<String, Integer>, Integer> typeCountColumn = new TableColumn<>("Count");
 
-
+    @FXML TableView<Map.Entry<String, Integer>> appointmentsByUser = new TableView<>();
+    @FXML TableColumn<Map.Entry<String, Integer>, String> userColumn = new TableColumn<>("User");
+    @FXML TableColumn<Map.Entry<String, Integer>, Integer> userCountColumn = new TableColumn<>("Count");
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getAllAppointments();
         getAppointmentCountByMonth();
         getAppointmentCountByType();
+        try {
+            getAppointmentCountByUser();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         populateByMonthTable();
         populateByTypeTable();
+        populateByUserTable();
 
     }
 
@@ -86,6 +98,18 @@ public class CustomerAppointmentsByTypeAndMonthController implements Initializab
         }
     }
 
+    private void getAppointmentCountByUser() throws SQLException {
+        for (Appointment appointment : appointments) {
+            if (totalsByUser.containsKey(DBUsers.getUserNameFromID(appointment.getUserID()))) {
+                Integer count = totalsByUser.get(DBUsers.getUserNameFromID(appointment.getUserID()));
+                count++;
+                totalsByUser.put(DBUsers.getUserNameFromID(appointment.getUserID()), count);
+            } else {
+                totalsByUser.put(DBUsers.getUserNameFromID(appointment.getUserID()), 1);
+            }
+        }
+    }
+
     private void populateByMonthTable() {
         monthColumn.setCellValueFactory(entryMonthCellDataFeatures -> new SimpleObjectProperty(entryMonthCellDataFeatures.getValue().getKey()));
         monthCountColumn.setCellValueFactory(entryIntegerCellDataFeatures -> new SimpleObjectProperty(entryIntegerCellDataFeatures.getValue().getValue()));
@@ -98,6 +122,13 @@ public class CustomerAppointmentsByTypeAndMonthController implements Initializab
         typeCountColumn.setCellValueFactory(entryIntegerCellDataFeatures -> new SimpleObjectProperty(entryIntegerCellDataFeatures.getValue().getValue()));
         ObservableList<Map.Entry<String, Integer>> items = FXCollections.observableArrayList(totalsByType.entrySet());
         appointmentsByType.setItems(items);
+    }
+
+    private void populateByUserTable() {
+        userColumn.setCellValueFactory(entryStringCellDataFeatures -> new SimpleStringProperty(entryStringCellDataFeatures.getValue().getKey()));
+        userCountColumn.setCellValueFactory(entryIntegerCellDataFeatures -> new SimpleObjectProperty(entryIntegerCellDataFeatures.getValue().getValue()));
+        ObservableList<Map.Entry<String, Integer>> items = FXCollections.observableArrayList(totalsByUser.entrySet());
+        appointmentsByUser.setItems(items);
     }
 
 

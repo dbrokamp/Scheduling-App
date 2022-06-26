@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.Pane?>
@@ -14,23 +16,45 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Text>
-      <Text layoutX="328.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Appointments By Type And Month">
+      <Text layoutX="471.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reports">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
       <Button layoutX="846.0" layoutY="657.0" mnemonicParsing="false" onAction="#goToReports" prefHeight="26.0" prefWidth="129.0" text="Reports" />
-      <TableView fx:id="appointmentsByMonth" layoutX="47.0" layoutY="198.0" prefHeight="376.0" prefWidth="337.0">
+      <TableView fx:id="appointmentsByMonth" layoutX="22.0" layoutY="139.0" prefHeight="211.0" prefWidth="304.0">
         <columns>
-          <TableColumn fx:id="monthColumn" prefWidth="202.0" text="Month" />
-          <TableColumn fx:id="monthCountColumn" prefWidth="134.0" text="Count" />
+          <TableColumn fx:id="monthColumn" prefWidth="175.0" text="Month" />
+          <TableColumn fx:id="monthCountColumn" prefWidth="127.0" text="Count" />
         </columns>
       </TableView>
-      <TableView fx:id="appointmentsByType" layoutX="574.0" layoutY="198.0" prefHeight="376.0" prefWidth="337.0">
+      <TableView fx:id="appointmentsByType" layoutX="355.0" layoutY="139.0" prefHeight="211.0" prefWidth="304.0">
          <columns>
-            <TableColumn fx:id="typeColumn" prefWidth="202.0" text="Type" />
-            <TableColumn fx:id="typeCountColumn" prefWidth="134.0" text="Count" />
+            <TableColumn fx:id="typeColumn" prefWidth="175.0" text="Type" />
+            <TableColumn fx:id="typeCountColumn" prefWidth="128.0" text="Count" />
          </columns>
       </TableView>
+      <Label layoutX="22.0" layoutY="116.0" text="Customer Appointment Totals By Month" />
+      <Label layoutX="355.0" layoutY="116.0" text="Customer Appointment Totals By Type" />
+      <TableView fx:id="appointmentsByUser" layoutX="684.0" layoutY="139.0" prefHeight="211.0" prefWidth="304.0">
+         <columns>
+            <TableColumn fx:id="userColumn" prefWidth="175.0" text="User" />
+            <TableColumn fx:id="userCountColumn" prefWidth="128.0" text="Count" />
+         </columns>
+      </TableView>
+      <Label layoutX="684.0" layoutY="116.0" text="Customer Appointment Totals By User" />
+      <TableView layoutX="21.0" layoutY="434.0" prefHeight="200.0" prefWidth="964.0">
+        <columns>
+          <TableColumn prefWidth="104.0" text="Appointment_ID" />
+          <TableColumn prefWidth="137.0" text="Title" />
+            <TableColumn prefWidth="120.0" text="Type" />
+            <TableColumn prefWidth="150.0" text="Description" />
+            <TableColumn prefWidth="147.0" text="Start" />
+            <TableColumn prefWidth="184.0" text="End" />
+            <TableColumn prefWidth="121.0" text="Customer_ID" />
+        </columns>
+      </TableView>
+      <Label layoutX="22.0" layoutY="408.0" text="Schedule by Contact" />
+      <ComboBox layoutX="156.0" layoutY="404.0" prefWidth="150.0" promptText="Select Contact" />
    </children>
 </Pane>
