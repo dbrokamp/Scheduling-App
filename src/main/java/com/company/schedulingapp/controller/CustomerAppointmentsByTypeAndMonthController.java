@@ -3,10 +3,7 @@ package com.company.schedulingapp.controller;
 import com.company.schedulingapp.dbaccess.DBAppointments;
 import com.company.schedulingapp.model.Appointment;
 import com.company.schedulingapp.util.SceneController;
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,7 +12,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 
 import java.net.URL;
@@ -25,7 +21,6 @@ import java.time.Month;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 
 public class CustomerAppointmentsByTypeAndMonthController implements Initializable {
@@ -39,7 +34,12 @@ public class CustomerAppointmentsByTypeAndMonthController implements Initializab
 
     @FXML TableView<Map.Entry<Month, Integer>> appointmentsByMonth = new TableView<>();
     @FXML TableColumn<Map.Entry<Month, Integer>, Month> monthColumn = new TableColumn<>("Month");
-    @FXML TableColumn<Map.Entry<Month, Integer>, Integer> countColumn = new TableColumn<>("Count");
+    @FXML TableColumn<Map.Entry<Month, Integer>, Integer> monthCountColumn = new TableColumn<>("Count");
+
+    @FXML TableView<Map.Entry<String, Integer>> appointmentsByType = new TableView<>();
+    @FXML TableColumn<Map.Entry<String, Integer>, String> typeColumn = new TableColumn<>("Type");
+    @FXML TableColumn<Map.Entry<String, Integer>, Integer> typeCountColumn = new TableColumn<>("Count");
+
 
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -48,6 +48,7 @@ public class CustomerAppointmentsByTypeAndMonthController implements Initializab
         getAppointmentCountByType();
 
         populateByMonthTable();
+        populateByTypeTable();
 
     }
 
@@ -87,9 +88,16 @@ public class CustomerAppointmentsByTypeAndMonthController implements Initializab
 
     private void populateByMonthTable() {
         monthColumn.setCellValueFactory(entryMonthCellDataFeatures -> new SimpleObjectProperty(entryMonthCellDataFeatures.getValue().getKey()));
-        countColumn.setCellValueFactory(entryIntegerCellDataFeatures -> new SimpleObjectProperty(entryIntegerCellDataFeatures.getValue().getValue()));
+        monthCountColumn.setCellValueFactory(entryIntegerCellDataFeatures -> new SimpleObjectProperty(entryIntegerCellDataFeatures.getValue().getValue()));
         ObservableList<Map.Entry<Month, Integer>> items = FXCollections.observableArrayList(totalsByMonth.entrySet());
         appointmentsByMonth.setItems(items);
+    }
+
+    private void populateByTypeTable() {
+        typeColumn.setCellValueFactory(entryStringCellDataFeatures -> new SimpleObjectProperty(entryStringCellDataFeatures.getValue().getKey()));
+        typeCountColumn.setCellValueFactory(entryIntegerCellDataFeatures -> new SimpleObjectProperty(entryIntegerCellDataFeatures.getValue().getValue()));
+        ObservableList<Map.Entry<String, Integer>> items = FXCollections.observableArrayList(totalsByType.entrySet());
+        appointmentsByType.setItems(items);
     }
 
 

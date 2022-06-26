@@ -23,8 +23,14 @@
       <TableView fx:id="appointmentsByMonth" layoutX="47.0" layoutY="198.0" prefHeight="376.0" prefWidth="337.0">
         <columns>
           <TableColumn fx:id="monthColumn" prefWidth="202.0" text="Month" />
-          <TableColumn fx:id="countColumn" prefWidth="134.0" text="Count" />
+          <TableColumn fx:id="monthCountColumn" prefWidth="134.0" text="Count" />
         </columns>
+      </TableView>
+      <TableView fx:id="appointmentsByType" layoutX="574.0" layoutY="198.0" prefHeight="376.0" prefWidth="337.0">
+         <columns>
+            <TableColumn fx:id="typeColumn" prefWidth="202.0" text="Type" />
+            <TableColumn fx:id="typeCountColumn" prefWidth="134.0" text="Count" />
+         </columns>
       </TableView>
    </children>
 </Pane>
