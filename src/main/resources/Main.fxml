@@ -10,14 +10,14 @@
 <?import javafx.scene.text.Text?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.schedulingapp.controller.MainController">
-   <children>
+
       <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scheduling App">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Text>
       <Pane layoutX="160.0" layoutY="44.59765625">
-         <children>
+
             <Text layoutX="299.0" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customers">
                <font>
                   <Font size="18.0" />
@@ -36,10 +36,10 @@
             <Button layoutX="429.0" layoutY="279.40234375" mnemonicParsing="false" onAction="#goToAddCustomer" prefHeight="25.0" prefWidth="70.0" text="Add" />
             <Button layoutX="525.0" layoutY="279.40234375" mnemonicParsing="false" onAction="#goToModifyCustomer" prefHeight="25.0" prefWidth="70.0" text="Modify" />
             <Button layoutX="617.0" layoutY="279.40234375" mnemonicParsing="false" onAction="#deleteCustomerActionButton" prefHeight="25.0" prefWidth="70.0" text="Delete" />
-         </children>
+
       </Pane>
       <Pane layoutX="47.0" layoutY="367.0" prefHeight="279.0" prefWidth="912.0">
-         <children>
+
             <TableView fx:id="appointmentTableView" layoutY="57.40234375" prefHeight="181.0" prefWidth="912.0">
                <columns>
                   <TableColumn fx:id="appointmentIDColumn" prefWidth="98.60307312011719" text="Appointment_ID" />
@@ -69,9 +69,9 @@
             </RadioButton>
             <RadioButton fx:id="filterByWeekRadioButton" layoutX="650.0" layoutY="18.0" mnemonicParsing="false" text="Filter by week" toggleGroup="$appointmentFilterRadioButtons" />
             <Button layoutX="792.0" layoutY="14.0" mnemonicParsing="false" onAction="#clearAppointmentFilter" text="Clear Filter" />
-         </children>
+
       </Pane>
       <Button layoutX="916.0" layoutY="661.0" mnemonicParsing="false" onAction="#exitApplicationButtonAction" prefHeight="25.0" prefWidth="70.0" text="Exit" />
       <Button layoutX="887.0" layoutY="7.0" mnemonicParsing="false" onAction="#goToReports" prefHeight="26.0" prefWidth="98.0" text="Reports" />
-   </children>
+
 </Pane>

@@ -1,26 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.schedulingapp.controller.ReportsController">
-   <children>
-      <Text layoutX="24.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scheduling App">
+
+      <Text layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scheduling App">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Text>
-      <Text layoutX="460.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reports">
+      <Text layoutX="471.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reports">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Button layoutX="66.0" layoutY="298.0" mnemonicParsing="false" onAction="#goToCustomerAppointmentsByTypeAndMonth" prefHeight="125.0" prefWidth="257.0" text="Customer Appointments by Type and Month" textAlignment="CENTER" wrapText="true" />
-      <Button layoutX="387.0" layoutY="298.0" mnemonicParsing="false" onAction="#goToContactsScheduleReports" prefHeight="125.0" prefWidth="257.0" text="Contacts Schedule" />
-      <Button layoutX="710.0" layoutY="300.0" mnemonicParsing="false" prefHeight="125.0" prefWidth="257.0" text="Custom Report" />
-      <Button layoutX="871.0" layoutY="658.0" mnemonicParsing="false" onAction="#goToMain" prefHeight="26.0" prefWidth="106.0" text="Main" />
-   </children>
+      <Button layoutX="846.0" layoutY="657.0" mnemonicParsing="false" onAction="#goToMain" prefHeight="26.0" prefWidth="129.0" text="Main" />
+      <TableView fx:id="appointmentsByMonth" layoutX="22.0" layoutY="139.0" prefHeight="211.0" prefWidth="304.0">
+         <columns>
+            <TableColumn fx:id="monthColumn" prefWidth="175.0" text="Month" />
+            <TableColumn fx:id="monthCountColumn" prefWidth="127.0" text="Count" />
+         </columns>
+      </TableView>
+      <TableView fx:id="appointmentsByType" layoutX="355.0" layoutY="139.0" prefHeight="211.0" prefWidth="304.0">
+         <columns>
+            <TableColumn fx:id="typeColumn" prefWidth="175.0" text="Type" />
+            <TableColumn fx:id="typeCountColumn" prefWidth="128.0" text="Count" />
+         </columns>
+      </TableView>
+      <Label layoutX="22.0" layoutY="116.0" text="Customer Appointment Totals By Month" />
+      <Label layoutX="355.0" layoutY="116.0" text="Customer Appointment Totals By Type" />
+      <TableView fx:id="appointmentsByUser" layoutX="684.0" layoutY="139.0" prefHeight="211.0" prefWidth="304.0">
+         <columns>
+            <TableColumn fx:id="userColumn" prefWidth="175.0" text="User" />
+            <TableColumn fx:id="userCountColumn" prefWidth="128.0" text="Count" />
+         </columns>
+      </TableView>
+      <Label layoutX="684.0" layoutY="116.0" text="Customer Appointment Totals By User" />
+      <TableView fx:id="contactAppointmentTableView" layoutX="21.0" layoutY="434.0" prefHeight="200.0" prefWidth="964.0">
+         <columns>
+            <TableColumn fx:id="contactAppointmentIDColumn" prefWidth="104.0" text="Appointment_ID" />
+            <TableColumn fx:id="contactAppointmentTitleColumn" prefWidth="137.0" text="Title" />
+            <TableColumn fx:id="contactAppointmentTypeColumn" prefWidth="120.0" text="Type" />
+            <TableColumn fx:id="contactAppointmentDescriptionColumn" prefWidth="150.0" text="Description" />
+            <TableColumn fx:id="contactAppointmentStartColumn" prefWidth="147.0" text="Start" />
+            <TableColumn fx:id="contactAppointmentEndColumn" prefWidth="184.0" text="End" />
+            <TableColumn fx:id="contactAppointmentCustomerIDColumn" prefWidth="121.0" text="Customer_ID" />
+         </columns>
+      </TableView>
+      <Label layoutX="22.0" layoutY="408.0" text="Schedule by Contact" />
+      <ComboBox fx:id="contactComboBox" layoutX="156.0" layoutY="404.0" prefWidth="150.0" promptText="Select Contact" />
+
 </Pane>

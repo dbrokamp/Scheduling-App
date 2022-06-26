@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Text?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.schedulingapp.controller.AddAppointmentController">
-   <children>
+
       <Text layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scheduling App">
          <font>
             <Font name="System Bold" size="20.0" />
@@ -33,5 +33,5 @@
       <ComboBox fx:id="contactComboBox" layoutX="226.0" layoutY="550.0" prefWidth="200.0" promptText="Contact ID" />
       <Button layoutX="397.0" layoutY="616.0" mnemonicParsing="false" onAction="#save" prefHeight="25.0" prefWidth="72.0" text="Save" />
       <Button layoutX="530.0" layoutY="616.0" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="72.0" text="Cancel" />
-   </children>
+
 </Pane>
