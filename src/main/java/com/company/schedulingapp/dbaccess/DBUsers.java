@@ -41,6 +41,19 @@ public class DBUsers {
     }
 
 
+    public static String getUserNameFromID(Integer userID) throws SQLException {
+        Connection connection = JDBC.getConnection();
+        String sql = "SELECT * FROM users WHERE User_ID = ?";
+        PreparedStatement getUserNameStatement = connection.prepareStatement(sql);
+        getUserNameStatement.setInt(1,userID);
+        ResultSet userNameByIDSet = getUserNameStatement.executeQuery();
+
+        if (userNameByIDSet.next()) {
+            return userNameByIDSet.getString("User_Name");
+        } else {
+            return null;
+        }
+    }
 
 
     public static boolean verifyUsername(String username) throws SQLException {
