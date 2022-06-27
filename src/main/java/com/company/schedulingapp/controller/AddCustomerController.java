@@ -20,6 +20,9 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 
+/**
+ * Allows a user to add a new customer to the database
+ */
 public class AddCustomerController implements Initializable {
 
     SceneController sceneController = SceneController.getSceneControllerInstance();
@@ -34,10 +37,18 @@ public class AddCustomerController implements Initializable {
     ObservableList<String> countryNames = FXCollections.observableArrayList();
     ObservableList<String> firstLevelDivisionNames = FXCollections.observableArrayList();
 
-
+    /**
+     * Initializes scene by populating combo boxes with necessary data
+     *
+     * Adds listener to country combo box in order to populate first division combo box
+     *
+     * From https://docs.oracle.com/javase/8/javafx/api/javafx/fxml/Initializable.html:
+     * @param url the location used to resolve relative paths for the root object, or null if the location is not known
+     * @param resourceBundle  The resources used to localize the root object, or null if the root object was not localized.
+     */
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getCountryNames();
-        setCountryComboBox();
+        populateCountryComboBox();
 
 
         countryComboBox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
@@ -48,12 +59,15 @@ public class AddCustomerController implements Initializable {
                 e.printStackTrace();
             }
 
-            setFirstLevelDivisionComboBox();
+            populateFirstLevelDivisionComboBox();
 
         });
 
     }
 
+    /**
+     * Get all country names from database
+     */
     private void getCountryNames() {
         try {
             for (Country country : DBCountries.getCountries()){
@@ -64,10 +78,18 @@ public class AddCustomerController implements Initializable {
         }
     }
 
-    private void setCountryComboBox() {
+    /**
+     * Populates list of countries in countryComboBox
+     */
+    private void populateCountryComboBox() {
         countryComboBox.setItems(countryNames);
     }
 
+    /**
+     * Once a country is selected, the first level divisions are retrieved for that country from database
+     * @param countryName - country name to query database with
+     * @throws SQLException throws error if SQL query fails
+     */
     private void getFirstLevelDivisionNamesForSelectedCountry(String countryName) throws SQLException {
         clearFirstLevelDivisionNames();
 
@@ -79,10 +101,20 @@ public class AddCustomerController implements Initializable {
 
     }
 
-    private void setFirstLevelDivisionComboBox() { firstLevelDivisionComboBox.setItems(firstLevelDivisionNames); }
+    /**
+     * Populates list of first level divisions in firstLevelDivisionComboBox
+     */
+    private void populateFirstLevelDivisionComboBox() { firstLevelDivisionComboBox.setItems(firstLevelDivisionNames); }
 
+    /**
+     * Clears list of first level divisions if a new country is selected
+     */
     private void clearFirstLevelDivisionNames() { firstLevelDivisionNames.clear(); }
 
+    /**
+     * Checks for empty fields and highlights them in red
+     * @return true is there is one empty field
+     */
     private boolean checkForEmptyFields() {
         boolean hasEmptyField = false;
         if (nameTextField.getText().isEmpty()) {
@@ -131,6 +163,10 @@ public class AddCustomerController implements Initializable {
     }
 
 
+    /**
+     * Check for empty fields, saves new customer to database
+     * @param event save button
+     */
     public void save(ActionEvent event) {
         boolean hasEmptyFields = checkForEmptyFields();
 
@@ -154,6 +190,9 @@ public class AddCustomerController implements Initializable {
 
     }
 
+    /**
+     * Presents on screen message if there is an empty or null field in the form
+     */
     private void presentEmptyFieldMessage() {
         Alert emptyFieldAlert = new Alert(Alert.AlertType.ERROR);
         emptyFieldAlert.setTitle("Application Message");
@@ -162,6 +201,9 @@ public class AddCustomerController implements Initializable {
         emptyFieldAlert.showAndWait();
     }
 
+    /**
+     * Presents on screen message if the customer was successfully added to the database
+     */
     private void presentCustomerAddedSuccessAlert() {
         Alert customerAddedAlert = new Alert(Alert.AlertType.INFORMATION);
         customerAddedAlert.setTitle("Database Message");
@@ -171,11 +213,19 @@ public class AddCustomerController implements Initializable {
 
     }
 
+    /**
+     * Returns user to main screen
+     * @param event button clicked
+     */
     private void returnToMainScene(ActionEvent event) {
         sceneController.setScene(event, "Main.fxml");
     }
 
 
+    /**
+     * Returns user to main screen
+     * @param event cancel button
+     */
     public void cancel(ActionEvent event) {
         returnToMainScene(event);
     }
