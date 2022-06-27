@@ -67,8 +67,6 @@ public class MainController implements Initializable {
 
         loadAllAppointmentsIntoAppointmentTable();
 
-
-
         filterByMonthRadioButton.setToggleGroup(appointmentFilterRadioButtons);
         filterByWeekRadioButton.setToggleGroup(appointmentFilterRadioButtons);
 
