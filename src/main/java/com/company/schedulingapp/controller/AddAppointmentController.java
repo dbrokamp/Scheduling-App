@@ -190,6 +190,101 @@ public class AddAppointmentController implements Initializable {
         newAppointmentContactName = contactComboBox.getValue();
     }
 
+    private boolean checkForEmptyFields() {
+        boolean hasEmptyField = false;
+
+        if (titleTextField.getText().isEmpty()) {
+            titleTextField.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            titleTextField.setId("reset-border");
+        }
+
+        if (descriptionTextField.getText().isEmpty()) {
+            descriptionTextField.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            descriptionTextField.setId("reset-border");
+        }
+
+        if (locationTextField.getText().isEmpty()) {
+            locationTextField.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            locationTextField.setId("reset-border");
+        }
+
+        if (typeTextField.getText().isEmpty()) {
+            typeTextField.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            typeTextField.setId("reset-border");
+        }
+
+        if (startDatePicker.getValue() == null) {
+            startDatePicker.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            startDatePicker.setId("reset-border");
+        }
+
+        if (startTimeComboBox.getValue() == null) {
+            startTimeComboBox.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            startTimeComboBox.setId("reset-border");
+        }
+
+        if (endDatePicker.getValue() == null) {
+            endDatePicker.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            endDatePicker.setId("reset-border");
+        }
+
+        if (endTimeComboBox.getValue() == null) {
+            endTimeComboBox.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            endTimeComboBox.setId("reset-border");
+        }
+
+        if (customerComboBox.getValue() == null) {
+            customerComboBox.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            customerComboBox.setId("reset-border");
+        }
+
+        if (userComboBox.getValue() == null) {
+            userComboBox.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            userComboBox.setId("reset-border");
+        }
+
+        if (contactComboBox.getValue() == null) {
+            contactComboBox.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            contactComboBox.setId("reset-border");
+        }
+
+        if (hasEmptyField) {
+            presentEmptyFieldMessage();
+        }
+
+        return hasEmptyField;
+    }
+
+    private void presentEmptyFieldMessage() {
+        Alert emptyFieldAlert = new Alert(Alert.AlertType.ERROR);
+        emptyFieldAlert.setTitle("Application Message");
+        emptyFieldAlert.setHeaderText("Form Input");
+        emptyFieldAlert.setContentText("All fields must be completed.");
+        emptyFieldAlert.showAndWait();
+    }
+
     private Timestamp createStartTimestamp(String startDate, String startTime) {
         String start = startDate + " " + startTime + ":00";
         return Timestamp.valueOf(start);
@@ -250,25 +345,13 @@ public class AddAppointmentController implements Initializable {
         appointmentInPastAlert.showAndWait();
     }
 
-//    private boolean emptyFields() {
-//        if (newAppointmentTitle.isEmpty()) {
-//
-//        }
-//
-//    }
 
-    private void presentEmptyFieldAlert() {
-        Alert emptyFieldAlert = new Alert(Alert.AlertType.ERROR);
-        emptyFieldAlert.setTitle("Application Message");
-        emptyFieldAlert.setHeaderText("Empty Field.");
-        emptyFieldAlert.setContentText("All fields must have an entry");
-        emptyFieldAlert.showAndWait();
-    }
 
     private boolean saveNewAppointment() {
         boolean saveSuccessful = false;
         boolean overlappingAppointment;
         boolean appointmentInPast;
+        boolean hasEmptyField;
         getInputFromTitleField();
         getInputFromDescriptionField();
         getInputFromLocationField();
@@ -281,32 +364,41 @@ public class AddAppointmentController implements Initializable {
         getInputFromUserIDField();
         getInputFromContactNameField();
 
-        Timestamp start = createStartTimestamp(newAppointmentStartDate, newAppointmentStartTime);
-        Timestamp end = createEndTimeTimestamp(newAppointmentEndDate, newAppointmentEndTime);
+        hasEmptyField = checkForEmptyFields();
 
-        overlappingAppointment = checkForOverlappingAppointments(newAppointmentCustomerID, start, end);
-        appointmentInPast = checkIfAppointmentDateIsInPast(start);
+        if (!hasEmptyField) {
+            Timestamp start = createStartTimestamp(newAppointmentStartDate, newAppointmentStartTime);
+            Timestamp end = createEndTimeTimestamp(newAppointmentEndDate, newAppointmentEndTime);
 
-        if (overlappingAppointment || appointmentInPast) {
-            System.out.println("Error in saving appointment.");
-        } else {
-            try {
-                DBAppointments.addNewAppointment(newAppointmentTitle,
-                        newAppointmentDescription,
-                        newAppointmentLocation,
-                        newAppointmentType,
-                        start,
-                        end,
-                        newAppointmentCustomerID,
-                        newAppointmentUserID,
-                        newAppointmentContactName);
-            } catch (SQLException e) {
-                e.printStackTrace();
+
+            overlappingAppointment = checkForOverlappingAppointments(newAppointmentCustomerID, start, end);
+            appointmentInPast = checkIfAppointmentDateIsInPast(start);
+
+            if (overlappingAppointment || appointmentInPast) {
+                System.out.println("Error in saving appointment.");
+            } else {
+                try {
+                    DBAppointments.addNewAppointment(newAppointmentTitle,
+                            newAppointmentDescription,
+                            newAppointmentLocation,
+                            newAppointmentType,
+                            start,
+                            end,
+                            newAppointmentCustomerID,
+                            newAppointmentUserID,
+                            newAppointmentContactName);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                saveSuccessful = true;
             }
-            saveSuccessful = true;
         }
 
-    return saveSuccessful;
+
+
+
+
+        return saveSuccessful;
     }
 
     public void cancel(ActionEvent event) {
