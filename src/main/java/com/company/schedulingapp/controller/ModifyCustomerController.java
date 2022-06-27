@@ -21,6 +21,9 @@ import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * Allows user to modify a customer entry
+ */
 public class ModifyCustomerController implements Initializable {
 
     SceneController sceneController = SceneController.getSceneControllerInstance();
@@ -82,6 +85,9 @@ public class ModifyCustomerController implements Initializable {
         countryComboBox.setItems(countryNames);
     }
 
+    /**
+     * Populates all fields with customer information to modify, customer selected in MainController
+     */
     private void populateFormFieldsWithCustomerData() {
         nameTextField.setText(customerToModify.getCustomerName());
         addressTextField.setText(customerToModify.getAddress());
@@ -144,6 +150,10 @@ public class ModifyCustomerController implements Initializable {
         sceneController.setScene(event, "Main.fxml");
     }
 
+    /**
+     * Checks all form fields for input
+     * @return true is there are any empty fields
+     */
     private boolean checkForEmptyFields() {
         boolean hasEmptyField = false;
         if (nameTextField.getText().isEmpty()) {
@@ -292,6 +302,9 @@ public class ModifyCustomerController implements Initializable {
         updateSuccessful.showAndWait();
     }
 
+    /**
+     * Runs checks for all input fields and updates record in database if a change is found
+     */
     private void checkFieldsForChangesAndUpdateDatabase() {
         checkNameFieldForChanges();
         checkAddressFieldForChanges();

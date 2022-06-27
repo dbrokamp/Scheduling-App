@@ -31,6 +31,9 @@ import java.time.LocalTime;
 
 import java.util.ResourceBundle;
 
+/**
+ * Allows user to modify an existing appointment
+ */
 public class ModifyAppointmentController implements Initializable {
 
     final private SceneController sceneController = SceneController.getSceneControllerInstance();
@@ -71,6 +74,9 @@ public class ModifyAppointmentController implements Initializable {
         setFields();
     }
 
+    /**
+     * Sets fields with information from appointment to modify retrieved from MainController
+     */
     private void setFields() {
         titleTextField.setText(appointmentToModify.getTitle());
         descriptionTextField.setText(appointmentToModify.getDescription());
@@ -83,6 +89,9 @@ public class ModifyAppointmentController implements Initializable {
         getAndSetContactName();
     }
 
+    /**
+     * Creates a list of valid appointment start and end times
+     */
     private void createAppointmentTimes() {
         LocalTime businessHoursStart = LocalTime.of(8,0);
         LocalTime businessHoursEnd = LocalTime.of(22,0);
@@ -99,6 +108,9 @@ public class ModifyAppointmentController implements Initializable {
         appointmentTimes.add(businessHoursEnd.toString());
     }
 
+    /**
+     * Gets a list of all customer ids from database
+     */
     private void getCustomerIDs() {
         try {
             for (Customer customer : DBCustomers.getAllCustomers()) {
@@ -109,6 +121,9 @@ public class ModifyAppointmentController implements Initializable {
         }
     }
 
+    /**
+     * Gets a list of all user ids from database
+     */
     private void getUserIDs() {
         for (User user : DBUsers.getUsers()) {
             userIDs.add(user.getUserID());
@@ -116,12 +131,18 @@ public class ModifyAppointmentController implements Initializable {
 
     }
 
+    /**
+     * Gets a list of all contact names from database
+     */
     private void getContactNames() {
         for (Contact contact : DBContacts.getContacts()) {
             contactNames.add(contact.getContactName());
         }
     }
 
+    /**
+     * Gets and formats the start date and time of appointment to be modified
+     */
     private void getAndSetStartDateAndTime() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String startDateFormatted = dateFormat.format(appointmentToModify.getStart());
@@ -132,6 +153,9 @@ public class ModifyAppointmentController implements Initializable {
         startTimeComboBox.setValue(currentStartTime);
     }
 
+    /**
+     * Gets and formats the end date and time of appointment to be modified
+     */
     private void getAndSetEndDateAndTime() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String endDateFormatted = dateFormat.format(appointmentToModify.getEnd());
@@ -154,6 +178,9 @@ public class ModifyAppointmentController implements Initializable {
         contactComboBox.setValue(DBContacts.getContactNameFromContactID(appointmentToModify.getContactID()));
     }
 
+    /**
+     * Checks title field for changes, updates record in database if change
+     */
     private void checkTitleFieldForChange() {
         if (appointmentToModify.getTitle().equals(titleTextField.getText())) {
             System.out.println("No changes to title field");
@@ -166,6 +193,9 @@ public class ModifyAppointmentController implements Initializable {
         }
     }
 
+    /**
+     * Checks description field for change, updates record in database if change
+     */
     private void checkDescriptionFieldForChange() {
         if (appointmentToModify.getDescription().equals(descriptionTextField.getText())) {
             System.out.println("No changes to description field");
@@ -178,6 +208,9 @@ public class ModifyAppointmentController implements Initializable {
         }
     }
 
+    /**
+     * Checks location field for change, updates record in database if change
+     */
     private void checkLocationFieldForChange() {
         if (appointmentToModify.getLocation().equals(locationTextField.getText())) {
             System.out.println("No changes to location field");
@@ -190,6 +223,9 @@ public class ModifyAppointmentController implements Initializable {
         }
     }
 
+    /**
+     * Checks type field for change, updates record in database if change
+     */
     private void checkTypeFieldForChange() {
         if (appointmentToModify.getType().equals(typeTextField.getText())) {
             System.out.println("No changes to type field");
@@ -202,6 +238,9 @@ public class ModifyAppointmentController implements Initializable {
         }
     }
 
+    /**
+     * Checks start date and time fields for changes, updates records in database if change
+     */
     private void checkStartDateAndTimeFieldForChange() {
         if (currentStartDate.equals(startDatePicker.getValue().toString()) && currentStartTime.equals(startTimeComboBox.getValue())) {
             System.out.println("No changes to start date or time");
@@ -227,6 +266,9 @@ public class ModifyAppointmentController implements Initializable {
         }
     }
 
+    /**
+     * Checks end date and end time for changes, updates records in database if change
+     */
     private void checkEndDateAndTimeFieldForChange() {
         if (currentEndDate.equals(endDatePicker.getValue().toString()) && currentEndTime.equals(endTimeComboBox.getValue())) {
             System.out.println("No changes to end date or time");
@@ -252,8 +294,9 @@ public class ModifyAppointmentController implements Initializable {
 
     }
 
-
-
+    /**
+     * Checks customer id field for change, updates record in database if change
+     */
     private void checkCustomerIDFieldForChange() {
         if (appointmentToModify.getCustomerID().equals(customerComboBox.getValue())) {
             System.out.println("No changes to customer id field");
@@ -266,6 +309,9 @@ public class ModifyAppointmentController implements Initializable {
         }
     }
 
+    /**
+     * Checks user id field for change, updates record in database if change
+     */
     private void checkUserIDFieldForChange() {
         if (appointmentToModify.getUserID().equals(userComboBox.getValue())) {
             System.out.println("No changes to user id field");
@@ -278,6 +324,9 @@ public class ModifyAppointmentController implements Initializable {
         }
     }
 
+    /**
+     * Checks contact name field for change, updates record in database if change
+     */
     private void checkContactNameFieldForChange() {
         if (appointmentToModify.getContactID().equals(DBContacts.getContactIDFromContactName(contactComboBox.getValue()))) {
             System.out.println("No changes to contact field");
@@ -290,6 +339,14 @@ public class ModifyAppointmentController implements Initializable {
         }
     }
 
+    /**
+     * Checks other of the customer's appointments to see if times overlap
+     *
+     * @param customerID customer appointments to retrieve
+     * @param newAppointmentStart start time of modified appointment
+     * @param newAppointmentEnd end time of modified appointment
+     * @return true if modified times overlap with another appointment
+     */
     private boolean checkForOverlappingAppointments(Integer customerID, Timestamp newAppointmentStart, Timestamp newAppointmentEnd) {
         ObservableList<Appointment> customerAppointments = FXCollections.observableArrayList();
         boolean hasOverlappingAppointment = false;
@@ -329,6 +386,11 @@ public class ModifyAppointmentController implements Initializable {
         hasOverlappingAppointmentAlert.showAndWait();
     }
 
+    /**
+     * Checks modified start time to see if it is in the past
+     * @param newStart start time of modified appointment
+     * @return true if start time is in the past
+     */
     private boolean checkIfAppointmentDateIsInPast(Timestamp newStart) {
         boolean isInPast = newStart.before(Timestamp.valueOf(LocalDateTime.now()));
         if (isInPast) {
@@ -355,6 +417,10 @@ public class ModifyAppointmentController implements Initializable {
         return Timestamp.valueOf(end);
     }
 
+    /**
+     * Checks all form fields for input
+     * @return true if any of the field are empty
+     */
     private boolean checkForEmptyFields() {
         boolean hasEmptyField = false;
 
@@ -450,6 +516,10 @@ public class ModifyAppointmentController implements Initializable {
         emptyFieldAlert.showAndWait();
     }
 
+    /**
+     * Checks for empty fields, overlapping appointments, and if start is past
+     * @return true if save is successful
+     */
     private boolean save() {
 
         boolean hasEmptyField;

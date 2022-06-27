@@ -31,6 +31,9 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 
+/**
+ * Creates required reports plus one custom report
+ */
 public class ReportsController implements Initializable {
 
     SceneController sceneController = SceneController.getSceneControllerInstance();
@@ -91,7 +94,9 @@ public class ReportsController implements Initializable {
     }
 
 
-
+    /**
+     * Gets number of appointments by month
+     */
     private void getAppointmentCountByMonth() {
 
         for (Appointment appointment: appointments) {
@@ -106,6 +111,9 @@ public class ReportsController implements Initializable {
         }
     }
 
+    /**
+     * Gets number of appointments by appointment type
+     */
     private void getAppointmentCountByType() {
         for (Appointment appointment : appointments) {
             if (totalsByType.containsKey(appointment.getType())) {
@@ -118,6 +126,10 @@ public class ReportsController implements Initializable {
         }
     }
 
+    /**
+     * Customer report - gets number of appointments by user
+     * @throws SQLException error for SQL query
+     */
     private void getAppointmentCountByUser() throws SQLException {
         for (Appointment appointment : appointments) {
             if (totalsByUser.containsKey(DBUsers.getUserNameFromID(appointment.getUserID()))) {
@@ -171,6 +183,9 @@ public class ReportsController implements Initializable {
         contactComboBox.setItems(contactNames);
     }
 
+    /**
+     * Adds selection listener for contact combo box and updates appointment table view with selection
+     */
     private void addSelectionListenerToContactComboBox() {
         contactComboBox.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
             if (newValue != null) {

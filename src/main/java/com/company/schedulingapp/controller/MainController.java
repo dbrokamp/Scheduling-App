@@ -25,6 +25,10 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 
+/**
+ * Sets up tables for customers and appointments. Allows users to move to scene to add or update customers or appointments
+ * Allows for deletion of customers or appointments
+ */
 public class MainController implements Initializable {
 
     SceneController sceneController = SceneController.getSceneControllerInstance();
@@ -55,9 +59,6 @@ public class MainController implements Initializable {
     private static Customer selectedCustomer;
     private static Appointment selectedAppointment;
 
-
-
-    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupCustomerTable();
         setupAppointmentTable();
@@ -73,6 +74,9 @@ public class MainController implements Initializable {
 
     }
 
+    /**
+     * Sets up columns for customer table
+     */
     private void setupCustomerTable() {
         customerIDColumn.setCellValueFactory(new PropertyValueFactory<>("customerID"));
         customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
@@ -88,6 +92,10 @@ public class MainController implements Initializable {
         }
     }
 
+    /**
+     * Adds listener to customer table for selection and if one is selected, updates the appointment table with that customer's
+     * appointments.
+     */
     private void addSelectionListenerToCustomerTable() {
         customerTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldSelection, newSelection) -> {
             if (newSelection != null) {
@@ -101,6 +109,9 @@ public class MainController implements Initializable {
         });
     }
 
+    /**
+     * Adds listener to toggle group in order to present appointments from current month or week
+     */
     private void addSelectionListenerToFilterByToggleGroup() {
         appointmentFilterRadioButtons.selectedToggleProperty().addListener((observableValue, old_toggle, new_toggle) -> {
             if (appointmentFilterRadioButtons.getSelectedToggle() != null) {
@@ -113,6 +124,9 @@ public class MainController implements Initializable {
         });
     }
 
+    /**
+     * Filters appointment table view to show only appointments from current month
+     */
     private void filterByMonth() {
         LocalDate localDate = LocalDate.now();
         ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
@@ -135,6 +149,9 @@ public class MainController implements Initializable {
         appointmentTableView.setItems(filteredList);
     }
 
+    /**
+     * Filters appointment table view to show only appointments from current week
+     */
     private void filterByWeek() {
         LocalDate localDate = LocalDate.now();
         ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
@@ -158,7 +175,9 @@ public class MainController implements Initializable {
     }
 
 
-
+    /**
+     * Sets up columns for appointment table
+     */
     private void setupAppointmentTable() {
         appointmentIDColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
         appointmentTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -172,6 +191,9 @@ public class MainController implements Initializable {
         appointmentContactIDColumn.setCellValueFactory(new PropertyValueFactory<>("contactID"));
     }
 
+    /**
+     * Allows for all appointments from all customers to be loaded into the appointment table
+     */
     private void loadAllAppointmentsIntoAppointmentTable() {
         try {
             appointmentTableView.setItems(DBAppointments.getAllAppointments());
@@ -180,6 +202,9 @@ public class MainController implements Initializable {
         }
     }
 
+    /**
+     * Add listener for selection in appointment table
+     */
     private void addSelectionListenerToAppointmentTable() {
         appointmentTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldSelection, newSelection) -> {
             if (newSelection != null) {
@@ -188,6 +213,9 @@ public class MainController implements Initializable {
         });
     }
 
+    /**
+     * Checks that an appointment has been selected and deletes it from the database
+     */
     public void deleteAppointmentAction() {
         if (selectedAppointment == null) {
             presentNoAppointmentSelectedAlert();
@@ -242,6 +270,9 @@ public class MainController implements Initializable {
 
     }
 
+    /**
+     * Deletes a customer from the database
+     */
     public void deleteCustomerActionButton() {
         setSelectedCustomer();
 
