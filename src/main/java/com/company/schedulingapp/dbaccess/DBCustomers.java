@@ -44,7 +44,7 @@ public class DBCustomers {
 
     /** Public getter for customers list
      * @return list of all customers
-     * @throws SQLException
+     * @throws SQLException SQL error
      */
     public static ObservableList<Customer> getAllCustomers() throws SQLException {
         if (customers.isEmpty()) {
@@ -79,7 +79,7 @@ public class DBCustomers {
      * @param newCustomerPostalCode String for new postal code
      * @param newCustomerPhone String for new phone
      * @param firstLevelDivisionName String for new first level division
-     * @throws SQLException
+     * @throws SQLException SQL error
      */
     public static void addNewCustomer(String newCustomerName, String newCustomerAddress, String newCustomerPostalCode, String newCustomerPhone, String firstLevelDivisionName) throws SQLException {
         Connection connection = JDBC.getConnection();
@@ -123,7 +123,7 @@ public class DBCustomers {
     /**
      * Deletes directly from database
      * @param customerID customer id of customer to delete
-     * @throws SQLException
+     * @throws SQLException SQL Error
      */
     private static void deleteCustomerFromDatabase(Integer customerID) throws SQLException {
         Connection connection = JDBC.getConnection();
