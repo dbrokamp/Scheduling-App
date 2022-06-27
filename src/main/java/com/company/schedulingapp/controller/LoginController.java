@@ -29,6 +29,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+/**
+ * Presents login screen to user
+ * Tests for valid username and password
+ * Sets zoneID and locale
+ * Checks for upcoming appointments
+ */
 public class LoginController implements Initializable {
 
     SceneController sceneController = SceneController.getSceneControllerInstance();
@@ -41,7 +47,13 @@ public class LoginController implements Initializable {
     @FXML Button loginButton;
     @FXML Button exitButton;
 
-    @Override
+    /**
+     * Sets up locale translations
+     *
+     * From https://docs.oracle.com/javase/8/javafx/api/javafx/fxml/Initializable.html:
+     * @param url the location used to resolve relative paths for the root object, or null if the location is not known
+     * @param resourceBundle  The resources used to localize the root object, or null if the root object was not localized.
+     */
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             resourceBundle = ResourceBundle.getBundle("login", Locale.getDefault());
@@ -67,6 +79,11 @@ public class LoginController implements Initializable {
         locationLabel.setText(getZoneID().getId());
     }
 
+    /**
+     * Verify correct username and password entry
+     * @param event login button
+     * @throws SQLException throws error if SQL query fails
+     */
     public void login(ActionEvent event) throws SQLException {
         String username = usernameTextField.getText();
         String password = passwordTextField.getText();
@@ -101,6 +118,9 @@ public class LoginController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Checks if logged-in user has any appointments within the next 15 minutes
+     */
     private void checkForUpcomingAppointments() {
         ObservableList<Appointment> userAppointments = FXCollections.observableArrayList();
         Appointment upcomingAppointment = null;
@@ -145,6 +165,11 @@ public class LoginController implements Initializable {
         noUpcomingAppointmentAlert.showAndWait();
     }
 
+    /**
+     * Records each login attempt, the username, the date and time, and whether it was successful
+     * @param username String of username
+     * @param loginAttempt result of login attempt
+     */
     private void recordLoginAttempt(String username, Boolean loginAttempt) {
         Logger log = Logger.getLogger("login_activity.txt");
 
