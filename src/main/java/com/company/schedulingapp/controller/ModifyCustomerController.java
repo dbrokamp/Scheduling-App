@@ -144,6 +144,61 @@ public class ModifyCustomerController implements Initializable {
         sceneController.setScene(event, "Main.fxml");
     }
 
+    private boolean checkForEmptyFields() {
+        boolean hasEmptyField = false;
+        if (nameTextField.getText().isEmpty()) {
+            nameTextField.setId("empty-field");
+            hasEmptyField = true;
+        }  else {
+            nameTextField.setId("reset-border");
+        }
+
+        if (addressTextField.getText().isEmpty()) {
+            addressTextField.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            addressTextField.setId("reset-border");
+        }
+
+        if (postalCodeTextField.getText().isEmpty()) {
+            postalCodeTextField.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            postalCodeTextField.setId("reset-border");
+        }
+
+        if (countryComboBox.getValue() == null) {
+            countryComboBox.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            countryComboBox.setId("reset-border");
+        }
+
+        if (firstLevelDivisionComboBox.getValue() == null) {
+            firstLevelDivisionComboBox.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            firstLevelDivisionComboBox.setId("reset-border");
+        }
+
+        if (phoneTextField.getText().isEmpty()) {
+            phoneTextField.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            phoneTextField.setId("reset-border");
+        }
+
+        return hasEmptyField;
+    }
+
+    private void presentEmptyFieldMessage() {
+        Alert emptyFieldAlert = new Alert(Alert.AlertType.ERROR);
+        emptyFieldAlert.setTitle("Application Message");
+        emptyFieldAlert.setHeaderText("Form Input");
+        emptyFieldAlert.setContentText("All fields must be completed.");
+        emptyFieldAlert.showAndWait();
+    }
+
     private void checkNameFieldForChanges() {
         if (nameTextField.getText().equals(customerToModify.getCustomerName())) {
             System.out.println("No changes to name field");
@@ -237,20 +292,32 @@ public class ModifyCustomerController implements Initializable {
         updateSuccessful.showAndWait();
     }
 
+    private void checkFieldsForChangesAndUpdateDatabase() {
+        checkNameFieldForChanges();
+        checkAddressFieldForChanges();
+        checkPostalCodeFieldForChanges();
+        checkPhoneFieldForChanges();
+        try {
+            checkFirstLevelDivisionFieldForChanges();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        presentCustomerUpdatedSuccessAlert();
+
+    }
+
 
     public void cancel(ActionEvent event) {
         returnToMainScene(event);
     }
 
     public void save(ActionEvent event) throws SQLException {
-        // First test if there are any changes to info
-        checkNameFieldForChanges();
-        checkAddressFieldForChanges();
-        checkPostalCodeFieldForChanges();
-        checkPhoneFieldForChanges();
-        checkFirstLevelDivisionFieldForChanges();
-        presentCustomerUpdatedSuccessAlert();
-        returnToMainScene(event);
+        if (checkForEmptyFields()) {
+            presentEmptyFieldMessage();
+        } else {
+            checkFieldsForChangesAndUpdateDatabase();
+            returnToMainScene(event);
+        }
 
     }
 
