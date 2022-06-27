@@ -75,7 +75,7 @@ public class DBCountries {
      * Allows retrieval of a Country object by a countryID
      * @param countryID id of country to search for
      * @return Country object of if id found in database
-     * @throws SQLException
+     * @throws SQLException SQL error
      */
     public static Country getCountryByID(Integer countryID) throws SQLException {
         Country country = null;

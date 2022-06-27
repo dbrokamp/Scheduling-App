@@ -11,14 +11,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Allows access to contact list in databse
+ * Allows access to contact list in database
  */
 public class DBContacts {
 
     final private static ObservableList<Contact> contacts = FXCollections.observableArrayList();
 
     /**
-     * Retrieves all contacts from databse
+     * Retrieves all contacts from database
      * @throws SQLException SQL error
      */
     private static void getAllContactsFromDatabase() throws SQLException {

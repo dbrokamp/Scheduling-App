@@ -138,3 +138,5 @@ Jun 27, 2022 7:57:36 AM com.company.schedulingapp.controller.LoginController rec
 INFO: Login attempt: test at 2022-06-27 07:57:36.865518 successful.
 Jun 27, 2022 7:59:23 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
 INFO: Login attempt: test at 2022-06-27 07:59:23.421216 successful.
+Jun 27, 2022 11:51:35 AM com.company.schedulingapp.controller.LoginController recordLoginAttempt
+INFO: Login attempt: test at 2022-06-27 11:51:35.498561 successful.
