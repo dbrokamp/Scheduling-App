@@ -311,7 +311,7 @@ public class ModifyCustomerController implements Initializable {
         returnToMainScene(event);
     }
 
-    public void save(ActionEvent event) throws SQLException {
+    public void save(ActionEvent event)  {
         if (checkForEmptyFields()) {
             presentEmptyFieldMessage();
         } else {
