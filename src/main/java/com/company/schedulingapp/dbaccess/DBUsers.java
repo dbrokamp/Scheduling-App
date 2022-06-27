@@ -16,6 +16,10 @@ public class DBUsers {
     private static Integer currentUserID;
     final private static ObservableList<User> users = FXCollections.observableArrayList();
 
+    /**
+     * Gets list of all users from database, does not retrieve passwords
+     * @throws SQLException SQL error
+     */
     private static void getAllUsersFromDataBase() throws SQLException {
         Connection connection = JDBC.getConnection();
         String sql = "SELECT * FROM Users";
@@ -29,6 +33,10 @@ public class DBUsers {
         }
     }
 
+    /**
+     * Getter for users list
+     * @return List of users
+     */
     public static ObservableList<User> getUsers() {
         if (users.isEmpty()) {
             try {
@@ -41,6 +49,12 @@ public class DBUsers {
     }
 
 
+    /**
+     * Allows for searching of users table by userID
+     * @param userID integer of userID to search the users table for
+     * @return string of username
+     * @throws SQLException SQL error
+     */
     public static String getUserNameFromID(Integer userID) throws SQLException {
         Connection connection = JDBC.getConnection();
         String sql = "SELECT * FROM users WHERE User_ID = ?";
@@ -56,6 +70,12 @@ public class DBUsers {
     }
 
 
+    /**
+     * Verifies username is valid
+     * @param username text from login textfield
+     * @return true if username matches in list
+     * @throws SQLException SQL error
+     */
     public static boolean verifyUsername(String username) throws SQLException {
 
 
@@ -74,6 +94,13 @@ public class DBUsers {
         }
 
     }
+
+    /**
+     * Verifies password is valid
+     * @param password password from password textfield
+     * @return true if password is valid
+     * @throws SQLException SQL error
+     */
     public static boolean verifyPassword(String password) throws SQLException {
         Connection connection = JDBC.getConnection();
         String sql = "SELECT * FROM users WHERE Password = ?";

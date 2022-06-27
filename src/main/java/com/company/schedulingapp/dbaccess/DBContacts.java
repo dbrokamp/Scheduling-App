@@ -10,10 +10,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Allows access to contact list in databse
+ */
 public class DBContacts {
 
     final private static ObservableList<Contact> contacts = FXCollections.observableArrayList();
 
+    /**
+     * Retrieves all contacts from databse
+     * @throws SQLException SQL error
+     */
     private static void getAllContactsFromDatabase() throws SQLException {
         Connection connection = JDBC.getConnection();
         String sql = "SELECT * FROM contacts";
@@ -28,6 +35,10 @@ public class DBContacts {
         }
     }
 
+    /**
+     * Getter for contacts
+     * @return list of all contacts
+     */
     public static ObservableList<Contact> getContacts() {
         if (contacts.isEmpty()) {
             try {
@@ -39,6 +50,11 @@ public class DBContacts {
         return contacts;
     }
 
+    /**
+     * Gets contact id from a contact name
+     * @param name contact name to search
+     * @return contact id of contact name
+     */
     public static Integer getContactIDFromContactName(String name) {
         if (contacts.isEmpty()) {
             try {
@@ -57,6 +73,11 @@ public class DBContacts {
         return contactID;
     }
 
+    /**
+     * Gets a contact name by contact id
+     * @param contactID id of contact to search for
+     * @return name of contact for id
+     */
     public static String getContactNameFromContactID(Integer contactID) {
         if (contacts.isEmpty()) {
             try {

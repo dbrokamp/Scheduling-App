@@ -10,10 +10,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Allows access to countries table in database
+ */
 public class DBCountries {
 
     final private static ObservableList<Country> allCountries = FXCollections.observableArrayList();
 
+    /**
+     * Gets all countries from database
+     * @throws SQLException SQL error
+     */
     private static void getAllCountries() throws SQLException {
 
         Connection connection = JDBC.getConnection();
@@ -30,6 +37,11 @@ public class DBCountries {
         }
     }
 
+    /**
+     * Getter for list of countries
+     * @return list of all countries
+     * @throws SQLException SQL error
+     */
     public static ObservableList<Country> getCountries() throws SQLException {
         if (allCountries.isEmpty()) {
            getAllCountries();
@@ -37,6 +49,12 @@ public class DBCountries {
         return allCountries;
     }
 
+    /**
+     * Gets a Country object from the name of a country
+     * @param countryName name of country
+     * @return full row of country data from database
+     * @throws SQLException SQL error
+     */
     public static Country getCountryByName(String countryName) throws SQLException {
         Country country = null;
         Connection connection = JDBC.getConnection();
@@ -53,6 +71,12 @@ public class DBCountries {
         return country;
     }
 
+    /**
+     * Allows retrieval of a Country object by a countryID
+     * @param countryID id of country to search for
+     * @return Country object of if id found in database
+     * @throws SQLException
+     */
     public static Country getCountryByID(Integer countryID) throws SQLException {
         Country country = null;
         Connection connection = JDBC.getConnection();

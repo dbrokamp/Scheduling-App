@@ -10,9 +10,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Allows for database access for first_level_division table
+ */
 public class DBFirstLevelDivisions {
 
 
+    /**
+     * Queries database for first level divisions by countryID
+     * @param countryID countryID to search for
+     * @return list of first_level_divisions
+     * @throws SQLException SQL error
+     */
     public static ObservableList<FirstLevelDivision> getFirstLevelDivisionsForCountryID(Integer countryID) throws SQLException {
         ObservableList<FirstLevelDivision> firstLevelDivisions = FXCollections.observableArrayList();
 
@@ -34,6 +43,12 @@ public class DBFirstLevelDivisions {
         return firstLevelDivisions;
     }
 
+    /**
+     * Allows for searching of database by a string name of a first level division to get the division id
+     * @param firstLevelDivisionName string of first level name to search database with
+     * @return division id
+     * @throws SQLException SQL error
+     */
     public static Integer getDivisionID(String firstLevelDivisionName) throws SQLException {
         Connection connection = JDBC.getConnection();
         String sql = "SELECT * FROM first_level_divisions WHERE Division = ?";
@@ -49,6 +64,12 @@ public class DBFirstLevelDivisions {
 
     }
 
+    /**
+     * Allows for retrieval of a first level division object by searching by its ID
+     * @param divisionID integer to search first_level_division table for
+     * @return FirstLevelDivision full object
+     * @throws SQLException SQL error
+     */
     public static FirstLevelDivision getFirstLevelDivisionFromDivisionID(Integer divisionID) throws SQLException {
 
         Connection connection = JDBC.getConnection();
