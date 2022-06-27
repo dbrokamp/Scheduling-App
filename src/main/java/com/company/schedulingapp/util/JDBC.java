@@ -3,6 +3,9 @@ package com.company.schedulingapp.util;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+/**
+ * Supplied class to connect to database
+ */
 public abstract class JDBC {
 
     private static final String protocol = "jdbc";

@@ -1,5 +1,8 @@
 package com.company.schedulingapp.model;
 
+/**
+ * Model for objects to be created from customer table
+ */
 public class Customer {
 
     private Integer customerID;

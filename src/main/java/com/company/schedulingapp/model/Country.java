@@ -1,5 +1,8 @@
 package com.company.schedulingapp.model;
 
+/**
+ * Model for objects to be created from country table
+ */
 public class Country {
 
     private Integer countryID;

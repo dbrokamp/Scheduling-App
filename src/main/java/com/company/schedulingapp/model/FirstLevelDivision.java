@@ -1,6 +1,8 @@
 package com.company.schedulingapp.model;
 
-
+/**
+ * Model for objects to be created from first level division table
+ */
 public class FirstLevelDivision {
 
     private Integer divisionID;

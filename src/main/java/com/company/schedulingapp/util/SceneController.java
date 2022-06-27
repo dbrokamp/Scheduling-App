@@ -11,7 +11,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 
-
+/**
+ * Manages scene changes for application, utilizes Singleton Pattern
+ */
 public class SceneController {
 
     /**

@@ -2,6 +2,9 @@ package com.company.schedulingapp.model;
 
 import java.sql.Timestamp;
 
+/**
+ * Model for objects to be created from appointments table
+ */
 public class Appointment {
 
     private Integer appointmentID;

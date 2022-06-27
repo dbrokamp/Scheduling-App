@@ -151,6 +151,7 @@ public class MainController implements Initializable {
 
     /**
      * Filters appointment table view to show only appointments from current week
+     * Lambda expression used to filter list and table based on date of appointment
      */
     private void filterByWeek() {
         LocalDate localDate = LocalDate.now();
@@ -204,6 +205,7 @@ public class MainController implements Initializable {
 
     /**
      * Add listener for selection in appointment table
+     * Lambda expression used to efficiently detect selections in appointment table
      */
     private void addSelectionListenerToAppointmentTable() {
         appointmentTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldSelection, newSelection) -> {

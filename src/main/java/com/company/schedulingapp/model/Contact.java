@@ -1,5 +1,8 @@
 package com.company.schedulingapp.model;
 
+/**
+ * Model for objects to be created from contacts table
+ */
 public class Contact {
 
     private Integer contactID;

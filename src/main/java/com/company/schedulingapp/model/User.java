@@ -1,5 +1,8 @@
 package com.company.schedulingapp.model;
 
+/**
+ * Model for objects created from the users table; does not get or store passwords
+ */
 public class User {
 
     private Integer userID;
