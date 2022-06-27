@@ -355,26 +355,128 @@ public class ModifyAppointmentController implements Initializable {
         return Timestamp.valueOf(end);
     }
 
+    private boolean checkForEmptyFields() {
+        boolean hasEmptyField = false;
+
+        if (titleTextField.getText().isEmpty()) {
+            titleTextField.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            titleTextField.setId("reset-border");
+        }
+
+        if (descriptionTextField.getText().isEmpty()) {
+            descriptionTextField.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            descriptionTextField.setId("reset-border");
+        }
+
+        if (locationTextField.getText().isEmpty()) {
+            locationTextField.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            locationTextField.setId("reset-border");
+        }
+
+        if (typeTextField.getText().isEmpty()) {
+            typeTextField.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            typeTextField.setId("reset-border");
+        }
+
+        if (startDatePicker.getValue() == null) {
+            startDatePicker.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            startDatePicker.setId("reset-border");
+        }
+
+        if (startTimeComboBox.getValue() == null) {
+            startTimeComboBox.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            startTimeComboBox.setId("reset-border");
+        }
+
+        if (endDatePicker.getValue() == null) {
+            endDatePicker.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            endDatePicker.setId("reset-border");
+        }
+
+        if (endTimeComboBox.getValue() == null) {
+            endTimeComboBox.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            endTimeComboBox.setId("reset-border");
+        }
+
+        if (customerComboBox.getValue() == null) {
+            customerComboBox.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            customerComboBox.setId("reset-border");
+        }
+
+        if (userComboBox.getValue() == null) {
+            userComboBox.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            userComboBox.setId("reset-border");
+        }
+
+        if (contactComboBox.getValue() == null) {
+            contactComboBox.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            contactComboBox.setId("reset-border");
+        }
+
+        if (hasEmptyField) {
+            presentEmptyFieldMessage();
+        }
+
+        return hasEmptyField;
+    }
+
+    private void presentEmptyFieldMessage() {
+        Alert emptyFieldAlert = new Alert(Alert.AlertType.ERROR);
+        emptyFieldAlert.setTitle("Application Message");
+        emptyFieldAlert.setHeaderText("Form Input");
+        emptyFieldAlert.setContentText("All fields must be completed.");
+        emptyFieldAlert.showAndWait();
+    }
+
     private boolean save() {
 
-        Timestamp start = createStartTimestamp(startDatePicker.getValue().toString(), startTimeComboBox.getValue());
-        Timestamp end = createEndTimeTimestamp(endDatePicker.getValue().toString(), endTimeComboBox.getValue());
-        boolean hasOverlappingAppointment = checkForOverlappingAppointments(appointmentToModify.getCustomerID(), start, end);
-        boolean startIsInPast = checkIfAppointmentDateIsInPast(start);
+        boolean hasEmptyField;
+        hasEmptyField = checkForEmptyFields();
 
-        if (hasOverlappingAppointment || startIsInPast) {
-            return false;
+        if (!hasEmptyField) {
+            Timestamp start = createStartTimestamp(startDatePicker.getValue().toString(), startTimeComboBox.getValue());
+            Timestamp end = createEndTimeTimestamp(endDatePicker.getValue().toString(), endTimeComboBox.getValue());
+            boolean hasOverlappingAppointment = checkForOverlappingAppointments(appointmentToModify.getCustomerID(), start, end);
+            boolean startIsInPast = checkIfAppointmentDateIsInPast(start);
+
+            if (hasOverlappingAppointment || startIsInPast) {
+                return false;
+            } else {
+                checkTitleFieldForChange();
+                checkDescriptionFieldForChange();
+                checkLocationFieldForChange();
+                checkTypeFieldForChange();
+                checkCustomerIDFieldForChange();
+                checkUserIDFieldForChange();
+                checkContactNameFieldForChange();
+                checkStartDateAndTimeFieldForChange();
+                checkEndDateAndTimeFieldForChange();
+                return true;
+            }
         } else {
-            checkTitleFieldForChange();
-            checkDescriptionFieldForChange();
-            checkLocationFieldForChange();
-            checkTypeFieldForChange();
-            checkCustomerIDFieldForChange();
-            checkUserIDFieldForChange();
-            checkContactNameFieldForChange();
-            checkStartDateAndTimeFieldForChange();
-            checkEndDateAndTimeFieldForChange();
-            return true;
+            return false;
         }
     }
 
