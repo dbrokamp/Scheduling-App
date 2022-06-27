@@ -40,6 +40,7 @@ public class SceneController {
         try {
             Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("LoginForm.fxml"));
             Scene scene = new Scene(root);
+            scene.getStylesheets().add("style.css");
             stage.setScene(scene);
             stage.show();
         } catch (Exception e) {
@@ -52,6 +53,7 @@ public class SceneController {
         try {
             Parent parent = FXMLLoader.load(getClass().getClassLoader().getResource(fxmlFileName));
             Scene scene = new Scene(parent);
+            scene.getStylesheets().add("style.css");
             Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
             window.setScene(scene);
             window.show();
