@@ -24,12 +24,6 @@ public class AddCustomerController implements Initializable {
 
     SceneController sceneController = SceneController.getSceneControllerInstance();
 
-    private String newCustomerName;
-    private String newCustomerAddress;
-    private String newCustomerPostalCode;
-    private String newCustomerPhone;
-    private String newCustomerFirstLevelDivision;
-
     @FXML TextField nameTextField;
     @FXML TextField addressTextField;
     @FXML TextField postalCodeTextField;
@@ -89,26 +83,83 @@ public class AddCustomerController implements Initializable {
 
     private void clearFirstLevelDivisionNames() { firstLevelDivisionNames.clear(); }
 
-    private void getTextInputFromFormFields() {
-        newCustomerName = nameTextField.getText();
-        newCustomerAddress = addressTextField.getText();
-        newCustomerPostalCode = postalCodeTextField.getText();
-        newCustomerFirstLevelDivision = firstLevelDivisionComboBox.getValue();
-        newCustomerPhone = phoneTextField.getText();
+    private boolean checkForEmptyFields() {
+        boolean hasEmptyField = false;
+        if (nameTextField.getText().isEmpty()) {
+            nameTextField.setId("empty-field");
+            hasEmptyField = true;
+        }  else {
+            nameTextField.setId("reset-border");
+        }
+
+        if (addressTextField.getText().isEmpty()) {
+            addressTextField.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            addressTextField.setId("reset-border");
+        }
+
+        if (postalCodeTextField.getText().isEmpty()) {
+            postalCodeTextField.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            postalCodeTextField.setId("reset-border");
+        }
+
+        if (countryComboBox.getValue() == null) {
+            countryComboBox.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            countryComboBox.setId("reset-border");
+        }
+
+        if (firstLevelDivisionComboBox.getValue() == null) {
+            firstLevelDivisionComboBox.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            firstLevelDivisionComboBox.setId("reset-border");
+        }
+
+        if (phoneTextField.getText().isEmpty()) {
+            phoneTextField.setId("empty-field");
+            hasEmptyField = true;
+        } else {
+            phoneTextField.setId("reset-border");
+        }
+
+        return hasEmptyField;
     }
 
 
     public void save(ActionEvent event) {
-        getTextInputFromFormFields();
-        try {
-            DBCustomers.addNewCustomer(newCustomerName, newCustomerAddress, newCustomerPostalCode, newCustomerPhone, newCustomerFirstLevelDivision);
-            presentCustomerAddedSuccessAlert();
-            returnToCustomersScene(event);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        boolean hasEmptyFields = checkForEmptyFields();
+
+        if (hasEmptyFields) {
+            presentEmptyFieldMessage();
+        } else {
+            try {
+                DBCustomers.addNewCustomer(nameTextField.getText(),
+                                            addressTextField.getText(),
+                                            postalCodeTextField.getText(),
+                                            phoneTextField.getText(),
+                                            firstLevelDivisionComboBox.getValue());
+                presentCustomerAddedSuccessAlert();
+                returnToMainScene(event);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
 
+
+    }
+
+    private void presentEmptyFieldMessage() {
+        Alert emptyFieldAlert = new Alert(Alert.AlertType.ERROR);
+        emptyFieldAlert.setTitle("Application Message");
+        emptyFieldAlert.setHeaderText("Form Input");
+        emptyFieldAlert.setContentText("All fields must be completed.");
+        emptyFieldAlert.showAndWait();
     }
 
     private void presentCustomerAddedSuccessAlert() {
@@ -120,13 +171,13 @@ public class AddCustomerController implements Initializable {
 
     }
 
-    private void returnToCustomersScene(ActionEvent event) {
+    private void returnToMainScene(ActionEvent event) {
         sceneController.setScene(event, "Main.fxml");
     }
 
 
     public void cancel(ActionEvent event) {
-        returnToCustomersScene(event);
+        returnToMainScene(event);
     }
 
 

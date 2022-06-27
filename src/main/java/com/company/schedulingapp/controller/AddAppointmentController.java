@@ -250,6 +250,21 @@ public class AddAppointmentController implements Initializable {
         appointmentInPastAlert.showAndWait();
     }
 
+//    private boolean emptyFields() {
+//        if (newAppointmentTitle.isEmpty()) {
+//
+//        }
+//
+//    }
+
+    private void presentEmptyFieldAlert() {
+        Alert emptyFieldAlert = new Alert(Alert.AlertType.ERROR);
+        emptyFieldAlert.setTitle("Application Message");
+        emptyFieldAlert.setHeaderText("Empty Field.");
+        emptyFieldAlert.setContentText("All fields must have an entry");
+        emptyFieldAlert.showAndWait();
+    }
+
     private boolean saveNewAppointment() {
         boolean saveSuccessful = false;
         boolean overlappingAppointment;
