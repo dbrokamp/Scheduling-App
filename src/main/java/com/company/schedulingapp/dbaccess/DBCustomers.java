@@ -11,10 +11,17 @@ import javafx.scene.control.Alert;
 import java.sql.*;
 import java.time.LocalDateTime;
 
+/**
+ * Allows for access and search of customers table in database
+ */
 public class DBCustomers {
 
     final private static ObservableList<Customer> customers = FXCollections.observableArrayList();
 
+    /**
+     * Gets all customers from database
+     * @throws SQLException SQL error
+     */
     private static void getCustomers() throws SQLException {
 
 
@@ -35,6 +42,10 @@ public class DBCustomers {
 
     }
 
+    /** Public getter for customers list
+     * @return list of all customers
+     * @throws SQLException
+     */
     public static ObservableList<Customer> getAllCustomers() throws SQLException {
         if (customers.isEmpty()) {
             getCustomers();
@@ -45,6 +56,11 @@ public class DBCustomers {
         return customers;
     }
 
+    /**
+     * Creates a new customer id based on last customer in list
+     * @return new integer for customer id
+     * @throws SQLException SQL error
+     */
     private static Integer createNewCustomerID() throws SQLException {
         if (customers.isEmpty()) {
             getCustomers();
@@ -55,6 +71,16 @@ public class DBCustomers {
         return currentLastCustomer.getCustomerID() + 1;
     }
 
+    /**
+     * Adds a new customer to the database
+     *
+     * @param newCustomerName String for new name
+     * @param newCustomerAddress String for new address
+     * @param newCustomerPostalCode String for new postal code
+     * @param newCustomerPhone String for new phone
+     * @param firstLevelDivisionName String for new first level division
+     * @throws SQLException
+     */
     public static void addNewCustomer(String newCustomerName, String newCustomerAddress, String newCustomerPostalCode, String newCustomerPhone, String firstLevelDivisionName) throws SQLException {
         Connection connection = JDBC.getConnection();
         String sql = "INSERT INTO customers VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -72,6 +98,12 @@ public class DBCustomers {
         newCustomerStatement.executeUpdate();
     }
 
+    /**
+     * Public method that deletes a customer from the database
+     *
+     * @param customerID customer id of customer to delete
+     * @throws SQLException SQL error
+     */
     public static void deleteCustomerAction(Integer customerID) throws SQLException {
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         try {
@@ -88,6 +120,11 @@ public class DBCustomers {
 
     }
 
+    /**
+     * Deletes directly from database
+     * @param customerID customer id of customer to delete
+     * @throws SQLException
+     */
     private static void deleteCustomerFromDatabase(Integer customerID) throws SQLException {
         Connection connection = JDBC.getConnection();
         String sql = "DELETE FROM customers WHERE Customer_ID = ?";
@@ -113,6 +150,12 @@ public class DBCustomers {
         unableToDeleteCustomerAlert.showAndWait();
     }
 
+    /**
+     * Allows for name field to be updated in database
+     * @param newCustomerName new name
+     * @param customerID customer to be updated
+     * @throws SQLException SQL error
+     */
     public static void updateCustomerName(String newCustomerName, Integer customerID) throws  SQLException {
         Connection connection = JDBC.getConnection();
         String sql = "UPDATE customers SET Customer_Name = ? WHERE Customer_ID = ?";
@@ -124,6 +167,12 @@ public class DBCustomers {
         updateLastUpdatedByUser(customerID);
     }
 
+    /**
+     * Allows for address field to be updated in database
+     * @param newCustomerAddress new address
+     * @param customerID customer to be updated
+     * @throws SQLException SQL error
+     */
     public static void updateCustomerAddress(String newCustomerAddress, Integer customerID) throws  SQLException {
         Connection connection = JDBC.getConnection();
         String sql = "UPDATE customers SET Address = ? WHERE Customer_ID = ?";
@@ -135,6 +184,12 @@ public class DBCustomers {
         updateLastUpdatedByUser(customerID);
     }
 
+    /**
+     * Allows postal code to be updated in database
+     * @param newCustomerPostalCode new postal code
+     * @param customerID customer to be updated
+     * @throws SQLException SQL error
+     */
     public static void updateCustomerPostalCode(String newCustomerPostalCode, Integer customerID) throws  SQLException {
         Connection connection = JDBC.getConnection();
         String sql = "UPDATE customers SET Postal_Code = ? WHERE Customer_ID = ?";
@@ -146,6 +201,12 @@ public class DBCustomers {
         updateLastUpdatedByUser(customerID);
     }
 
+    /**
+     * Allows phone number to be updated in database
+     * @param newCustomerPhone new phone number
+     * @param customerID customer to be updated
+     * @throws SQLException SQL error
+     */
     public static void updateCustomerPhone(String newCustomerPhone, Integer customerID) throws  SQLException {
         Connection connection = JDBC.getConnection();
         String sql = "UPDATE customers SET Phone = ? WHERE Customer_ID = ?";
@@ -157,6 +218,13 @@ public class DBCustomers {
         updateLastUpdatedByUser(customerID);
     }
 
+    /**
+     * Allows for the divisionID to be updated in the database
+     *
+     * @param newDivisionID new division id
+     * @param customerID customer to be updated
+     * @throws SQLException SQL error
+     */
     public static void updateCustomerDivisionID(Integer newDivisionID, Integer customerID) throws  SQLException {
         Connection connection = JDBC.getConnection();
         String sql = "UPDATE customers SET Division_ID = ? WHERE Customer_ID = ?";
@@ -168,6 +236,11 @@ public class DBCustomers {
         updateLastUpdatedByUser(customerID);
     }
 
+    /**
+     * Updates time of last_updated in database
+     * @param customerID customer that was updated
+     * @throws SQLException SQL error
+     */
     private static void updateLastUpdatedTime(Integer customerID) throws SQLException {
         Connection connection = JDBC.getConnection();
         String sql = "UPDATE customers SET Last_Update = ? WHERE Customer_ID = ?";
@@ -177,6 +250,11 @@ public class DBCustomers {
         updateCustomerStatement.executeUpdate();
     }
 
+    /**
+     * Updated last_updated_by in database
+     * @param customerID customer that was updated
+     * @throws SQLException SQL error
+     */
     private static void updateLastUpdatedByUser(Integer customerID) throws SQLException {
         Connection connection = JDBC.getConnection();
         String sql = "UPDATE customers SET Last_Updated_By = ? WHERE Customer_ID = ?";
