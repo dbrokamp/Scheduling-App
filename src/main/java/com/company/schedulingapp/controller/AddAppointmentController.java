@@ -27,6 +27,9 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
 
+/**
+ * Allows user to add a new appointment and save it to the database
+ */
 public class AddAppointmentController implements Initializable {
 
     SceneController sceneController = SceneController.getSceneControllerInstance();
@@ -60,15 +63,25 @@ public class AddAppointmentController implements Initializable {
     private Integer newAppointmentUserID;
     private String newAppointmentContactName;
 
+    /**
+     * Initializes scene by populating combo boxes with necessary data
+     *
+     * From https://docs.oracle.com/javase/8/javafx/api/javafx/fxml/Initializable.html:
+     * @param url the location used to resolve relative paths for the root object, or null if the location is not known
+     * @param resourceBundle  The resources used to localize the root object, or null if the root object was not localized.
+     */
     public void initialize(URL url, ResourceBundle resourceBundle) {
         createAppointmentTimes();
         populateStartTimeComboBox();
         populateEndTimeComboBox();
         populateCustomerIDComboBox();
         populateUserIDComboBox();
-        populateContactIDComboBox();
+        populateContactNameComboBox();
     }
 
+    /**
+     * Creates list of appointment times for time combo boxes
+     */
     private static void createAppointmentTimes() {
         LocalTime businessHoursStart = LocalTime.of(8, 0);
         LocalTime businessHoursEnd = LocalTime.of(22, 0);
@@ -85,6 +98,9 @@ public class AddAppointmentController implements Initializable {
         appointmentTimes.add(businessHoursEnd);
     }
 
+    /**
+     * Adds all possible appointment start times to startTimeComboBox
+     */
     private void populateStartTimeComboBox() {
         ObservableList<String> appointmentTimesStrings = FXCollections.observableArrayList();
 
@@ -95,6 +111,9 @@ public class AddAppointmentController implements Initializable {
         startTimeComboBox.setItems(appointmentTimesStrings);
     }
 
+    /**
+     * Adds all possible appointment end times to endTimeComboBox
+     */
     private void populateEndTimeComboBox() {
         ObservableList<String> appointmentTimesStrings = FXCollections.observableArrayList();
 
@@ -105,6 +124,9 @@ public class AddAppointmentController implements Initializable {
         endTimeComboBox.setItems(appointmentTimesStrings);
     }
 
+    /**
+     * Gets all customer IDs from customers table in database
+     */
     private void getCustomerIDs() {
         try {
             for (Customer customer : DBCustomers.getAllCustomers()) {
@@ -115,12 +137,18 @@ public class AddAppointmentController implements Initializable {
         }
     }
 
+    /**
+     * Adds all customer ids to customerComboBox
+     */
     private void populateCustomerIDComboBox() {
         customerIDs.clear();
         getCustomerIDs();
         customerComboBox.setItems(customerIDs);
     }
 
+    /**
+     * Gets all user IDs from users table in database
+     */
     private void getUserIDs() {
         for (User user : DBUsers.getUsers()) {
             userIDs.add(user.getUserID());
@@ -128,19 +156,28 @@ public class AddAppointmentController implements Initializable {
 
     }
 
+    /**
+     * Adds all user ids to userComboBox
+     */
     private void populateUserIDComboBox() {
         userIDs.clear();
         getUserIDs();
         userComboBox.setItems(userIDs);
     }
 
+    /**
+     * Gets all contact names from contacts table in database
+     */
     private void getContactNames() {
         for (Contact contact : DBContacts.getContacts()) {
             contactNames.add(contact.getContactName());
         }
     }
 
-    private void populateContactIDComboBox() {
+    /**
+     * Adds all contact names to combo box
+     */
+    private void populateContactNameComboBox() {
         contactNames.clear();
         getContactNames();
         contactComboBox.setItems(contactNames);
@@ -190,6 +227,11 @@ public class AddAppointmentController implements Initializable {
         newAppointmentContactName = contactComboBox.getValue();
     }
 
+    /**
+     * Checks all form fields for empty or null values
+     * Highlights border of field if it is empty
+     * @return true if any of the fields are empty or null
+     */
     private boolean checkForEmptyFields() {
         boolean hasEmptyField = false;
 
@@ -277,6 +319,9 @@ public class AddAppointmentController implements Initializable {
         return hasEmptyField;
     }
 
+    /**
+     * Presents an onscreen alert if there is an empty or null input field
+     */
     private void presentEmptyFieldMessage() {
         Alert emptyFieldAlert = new Alert(Alert.AlertType.ERROR);
         emptyFieldAlert.setTitle("Application Message");
@@ -285,16 +330,35 @@ public class AddAppointmentController implements Initializable {
         emptyFieldAlert.showAndWait();
     }
 
+    /**
+     * Converts strings to timestamps
+     * @param startDate Date as String
+     * @param startTime Time as String
+     * @return Strings as a Timestamp
+     */
     private Timestamp createStartTimestamp(String startDate, String startTime) {
         String start = startDate + " " + startTime + ":00";
         return Timestamp.valueOf(start);
     }
 
+    /**
+     * Converts strings to timestamps
+     * @param endDate Date as String
+     * @param endTime Time as String
+     * @return Strings as a Timestamp
+     */
     private Timestamp createEndTimeTimestamp(String endDate, String endTime) {
         String end = endDate + " " + endTime + ":00";
         return Timestamp.valueOf(end);
     }
 
+    /**
+     * Checks new appointment for overlapping start or end times with another appointment
+     * @param customerID to check for other appointments
+     * @param newAppointmentStart start time of the new appointment being added
+     * @param newAppointmentEnd end time of the new appointment being added
+     * @return true if there is a time conflict with another appointment
+     */
     private boolean checkForOverlappingAppointments(Integer customerID, Timestamp newAppointmentStart, Timestamp newAppointmentEnd) {
         ObservableList<Appointment> customerAppointments = FXCollections.observableArrayList();
         boolean hasOverlappingAppointment = false;
@@ -321,6 +385,10 @@ public class AddAppointmentController implements Initializable {
         return hasOverlappingAppointment;
     }
 
+    /**
+     * Presents onscreen message if the appointment being added conflicts with another appointment
+     * @param overlappedAppointment the appointment that the new appointment conflicts with
+     */
     private void presentHasOverlappedAppointment(Appointment overlappedAppointment) {
         Alert hasOverlappingAppointmentAlert = new Alert(Alert.AlertType.ERROR);
         hasOverlappingAppointmentAlert.setTitle("Application Message");
@@ -329,6 +397,11 @@ public class AddAppointmentController implements Initializable {
         hasOverlappingAppointmentAlert.showAndWait();
     }
 
+    /**
+     * Checks to see if the appointment being added is in the past
+     * @param newStart start time of new appointment being added
+     * @return true if appointment is being added before LocalDateTime.now()
+     */
     private boolean checkIfAppointmentDateIsInPast(Timestamp newStart) {
         boolean isInPast = newStart.before(Timestamp.valueOf(LocalDateTime.now()));
         if (isInPast) {
@@ -337,6 +410,9 @@ public class AddAppointmentController implements Initializable {
         return isInPast;
     }
 
+    /**
+     * Presents onscreen message if appointment is in the past
+     */
     private void presentAppointmentStartIsInPast() {
         Alert appointmentInPastAlert = new Alert(Alert.AlertType.ERROR);
         appointmentInPastAlert.setTitle("Application Message");
@@ -346,7 +422,10 @@ public class AddAppointmentController implements Initializable {
     }
 
 
-
+    /**
+     * Checks for empty fields, overlapping appointments, and possible past appointment
+     * @return true if the save was successful
+     */
     private boolean saveNewAppointment() {
         boolean saveSuccessful = false;
         boolean overlappingAppointment;
@@ -401,10 +480,18 @@ public class AddAppointmentController implements Initializable {
         return saveSuccessful;
     }
 
+    /**
+     * Returns user to main screen
+     * @param event Button clicked event
+     */
     public void cancel(ActionEvent event) {
         sceneController.setScene(event, "Main.fxml");
     }
 
+    /**
+     * Attempts to save new appointment, returns user to main screen if save is successful
+     * @param event Button clicked event
+     */
     public void save(ActionEvent event) {
 
         if (saveNewAppointment()) {
