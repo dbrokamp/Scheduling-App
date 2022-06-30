@@ -1,4 +1,4 @@
-#Scheduling-App 1.0
+#Scheduling-App 1.1
 
 6/27/22
 
@@ -7,6 +7,7 @@ Application that allows for the adding, editing, and viewing of customers and ap
 ---
 Author: Drew Brokamp  
 Contact: drew.brokamp@gmail.com
+Student ID: 001486248
 
 ---
 IDE: IntelliJ IDEA 2021.3.3 (Community Edition)  

@@ -105,7 +105,7 @@ public class ModifyAppointmentController implements Initializable {
             appointment = appointment.plus(quarterHour);
         }
 
-        appointmentTimes.add(businessHoursEnd.toString());
+        appointmentTimes.add(businessHoursEnd.toString() + ":00");
     }
 
     /**
@@ -340,15 +340,16 @@ public class ModifyAppointmentController implements Initializable {
     }
 
     /**
-     * Checks other of the customer's appointments to see if times overlap
-     *
-     * @param customerID customer appointments to retrieve
-     * @param newAppointmentStart start time of modified appointment
-     * @param newAppointmentEnd end time of modified appointment
-     * @return true if modified times overlap with another appointment
+     * Checks new appointment for overlapping start or end times with another appointment
+     * @param customerID to check for other appointments
+     * @param newAppointmentStart start time of the new appointment being added
+     * @param newAppointmentEnd end time of the new appointment being added
+     * @return true if there is a time conflict with another appointment
      */
     private boolean checkForOverlappingAppointments(Integer customerID, Timestamp newAppointmentStart, Timestamp newAppointmentEnd) {
         ObservableList<Appointment> customerAppointments = FXCollections.observableArrayList();
+        boolean startTimeOverlaps = false;
+        boolean endTimeOverlaps = false;
         boolean hasOverlappingAppointment = false;
         Appointment overlappedAppointment = null;
 
@@ -359,23 +360,52 @@ public class ModifyAppointmentController implements Initializable {
         }
 
         for (Appointment appointment : customerAppointments) {
-            System.out.println("Testing appointments");
-            if (((appointment.getStart().after(newAppointmentStart) || appointment.getStart().equals(newAppointmentStart)) && (appointment.getStart().before(newAppointmentEnd) || appointment.getStart().equals(newAppointmentEnd))) || ((appointment.getEnd().after(newAppointmentStart) || appointment.getEnd().equals(newAppointmentStart)) && (appointment.getEnd().before(newAppointmentEnd) || appointment.getEnd().equals(newAppointmentEnd)))) {
-                if (appointment.getAppointmentID().equals(appointmentToModify.getAppointmentID())) {
-                    System.out.println("Same appointment");
-                } else {
-                    hasOverlappingAppointment = true;
-                    overlappedAppointment = appointment;
-                }
-
+            if (appointment.getAppointmentID() == appointmentToModify.getAppointmentID()) {
+                System.out.println("Same appointment");
+            } else {
+                startTimeOverlaps = testStartTimesForOverlaps(appointment, newAppointmentStart);
+                endTimeOverlaps = testEndTimesForOverlaps(appointment, newAppointmentEnd);
+                overlappedAppointment = appointment;
             }
+
+
         }
 
-        if (hasOverlappingAppointment) {
+        if (startTimeOverlaps || endTimeOverlaps) {
             presentHasOverlappedAppointment(overlappedAppointment);
+            hasOverlappingAppointment = true;
         }
 
         return hasOverlappingAppointment;
+    }
+
+    private boolean testStartTimesForOverlaps(Appointment appointment, Timestamp newAppointmentStart) {
+        boolean newAppointmentOverlaps;
+        if (newAppointmentStart.equals(appointment.getStart())) {
+            newAppointmentOverlaps = true;
+        } else if (newAppointmentStart.after(appointment.getStart()) && newAppointmentStart.before(appointment.getEnd())) {
+            newAppointmentOverlaps = true;
+        } else if (newAppointmentStart.equals(appointment.getEnd())) {
+            newAppointmentOverlaps = true;
+        } else {
+            newAppointmentOverlaps = false;
+        }
+        return newAppointmentOverlaps;
+    }
+
+    private boolean testEndTimesForOverlaps(Appointment appointment, Timestamp newAppointmentEnd) {
+        boolean newAppointmentOverlaps;
+        if (newAppointmentEnd.equals(appointment.getStart())) {
+            newAppointmentOverlaps = true;
+        } else if (newAppointmentEnd.after(appointment.getStart()) && newAppointmentEnd.before(appointment.getEnd())) {
+            newAppointmentOverlaps = true;
+        } else if (newAppointmentEnd.equals(appointment.getEnd())) {
+            newAppointmentOverlaps = true;
+        } else {
+            newAppointmentOverlaps = false;
+        }
+
+        return newAppointmentOverlaps;
     }
 
     private void presentHasOverlappedAppointment(Appointment overlappedAppointment) {
@@ -405,6 +435,25 @@ public class ModifyAppointmentController implements Initializable {
         appointmentInPastAlert.setHeaderText("Appointment error");
         appointmentInPastAlert.setContentText("Appointment start is in the past.");
         appointmentInPastAlert.showAndWait();
+    }
+
+    private boolean checkIfEndTimeIsBeforeStartTime(Timestamp start, Timestamp end) {
+        boolean endTimeIsBeforeStartTime = false;
+
+        if (end.before(start)) {
+            endTimeIsBeforeStartTime = true;
+            presentEndTimeIsBeforeStartTimeAlert();
+        }
+
+        return endTimeIsBeforeStartTime;
+    }
+
+    private void presentEndTimeIsBeforeStartTimeAlert() {
+        Alert endTimeIsBeforeStartTimeAlert = new Alert(Alert.AlertType.ERROR);
+        endTimeIsBeforeStartTimeAlert.setTitle("Application Message");
+        endTimeIsBeforeStartTimeAlert.setHeaderText("Apppointment error");
+        endTimeIsBeforeStartTimeAlert.setContentText("End date or time is before start date or time.");
+        endTimeIsBeforeStartTimeAlert.showAndWait();
     }
 
     private Timestamp createStartTimestamp(String startDate, String startTime) {
@@ -530,8 +579,9 @@ public class ModifyAppointmentController implements Initializable {
             Timestamp end = createEndTimeTimestamp(endDatePicker.getValue().toString(), endTimeComboBox.getValue());
             boolean hasOverlappingAppointment = checkForOverlappingAppointments(appointmentToModify.getCustomerID(), start, end);
             boolean startIsInPast = checkIfAppointmentDateIsInPast(start);
+            boolean endTimeIsBeforeStartTime = checkIfEndTimeIsBeforeStartTime(start, end);
 
-            if (hasOverlappingAppointment || startIsInPast) {
+            if (hasOverlappingAppointment || startIsInPast || endTimeIsBeforeStartTime) {
                 return false;
             } else {
                 checkTitleFieldForChange();

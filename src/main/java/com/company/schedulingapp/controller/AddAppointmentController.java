@@ -18,6 +18,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -361,6 +362,8 @@ public class AddAppointmentController implements Initializable {
      */
     private boolean checkForOverlappingAppointments(Integer customerID, Timestamp newAppointmentStart, Timestamp newAppointmentEnd) {
         ObservableList<Appointment> customerAppointments = FXCollections.observableArrayList();
+        boolean startTimeOverlaps = false;
+        boolean endTimeOverlaps = false;
         boolean hasOverlappingAppointment = false;
         Appointment overlappedAppointment = null;
 
@@ -371,18 +374,47 @@ public class AddAppointmentController implements Initializable {
         }
 
         for (Appointment appointment : customerAppointments) {
-            System.out.println("Testing appointments");
-            if (((appointment.getStart().after(newAppointmentStart) || appointment.getStart().equals(newAppointmentStart)) && (appointment.getStart().before(newAppointmentEnd) || appointment.getStart().equals(newAppointmentEnd))) || ((appointment.getEnd().after(newAppointmentStart) || appointment.getEnd().equals(newAppointmentStart)) && (appointment.getEnd().before(newAppointmentEnd) || appointment.getEnd().equals(newAppointmentEnd)))) {
-                hasOverlappingAppointment = true;
-                overlappedAppointment = appointment;
-            }
+            startTimeOverlaps = testStartTimesForOverlaps(appointment, newAppointmentStart);
+            endTimeOverlaps = testEndTimesForOverlaps(appointment, newAppointmentEnd);
+            overlappedAppointment = appointment;
+
         }
 
-        if (hasOverlappingAppointment) {
+        if (startTimeOverlaps || endTimeOverlaps) {
             presentHasOverlappedAppointment(overlappedAppointment);
+            hasOverlappingAppointment = true;
         }
 
         return hasOverlappingAppointment;
+    }
+
+    private boolean testStartTimesForOverlaps(Appointment appointment, Timestamp newAppointmentStart) {
+        boolean newAppointmentOverlaps;
+        if (newAppointmentStart.equals(appointment.getStart())) {
+            newAppointmentOverlaps = true;
+        } else if (newAppointmentStart.after(appointment.getStart()) && newAppointmentStart.before(appointment.getEnd())) {
+            newAppointmentOverlaps = true;
+        } else if (newAppointmentStart.equals(appointment.getEnd())) {
+            newAppointmentOverlaps = true;
+        } else {
+            newAppointmentOverlaps = false;
+        }
+        return newAppointmentOverlaps;
+    }
+
+    private boolean testEndTimesForOverlaps(Appointment appointment, Timestamp newAppointmentEnd) {
+        boolean newAppointmentOverlaps;
+        if (newAppointmentEnd.equals(appointment.getStart())) {
+            newAppointmentOverlaps = true;
+        } else if (newAppointmentEnd.after(appointment.getStart()) && newAppointmentEnd.before(appointment.getEnd())) {
+            newAppointmentOverlaps = true;
+        } else if (newAppointmentEnd.equals(appointment.getEnd())) {
+            newAppointmentOverlaps = true;
+        } else {
+            newAppointmentOverlaps = false;
+        }
+
+        return newAppointmentOverlaps;
     }
 
     /**
@@ -421,6 +453,25 @@ public class AddAppointmentController implements Initializable {
         appointmentInPastAlert.showAndWait();
     }
 
+    private boolean checkIfEndTimeIsBeforeStartTime(Timestamp start, Timestamp end) {
+        boolean endTimeIsBeforeStartTime = false;
+
+        if (end.before(start)) {
+            endTimeIsBeforeStartTime = true;
+            presentEndTimeIsBeforeStartTimeAlert();
+        }
+
+        return endTimeIsBeforeStartTime;
+    }
+
+    private void presentEndTimeIsBeforeStartTimeAlert() {
+        Alert endTimeIsBeforeStartTimeAlert = new Alert(Alert.AlertType.ERROR);
+        endTimeIsBeforeStartTimeAlert.setTitle("Application Message");
+        endTimeIsBeforeStartTimeAlert.setHeaderText("Apppointment error");
+        endTimeIsBeforeStartTimeAlert.setContentText("End date or time is before start date or time.");
+        endTimeIsBeforeStartTimeAlert.showAndWait();
+    }
+
 
     /**
      * Checks for empty fields, overlapping appointments, and possible past appointment
@@ -431,6 +482,7 @@ public class AddAppointmentController implements Initializable {
         boolean overlappingAppointment;
         boolean appointmentInPast;
         boolean hasEmptyField;
+        boolean endTimeIsBeforeStartTime;
         getInputFromTitleField();
         getInputFromDescriptionField();
         getInputFromLocationField();
@@ -452,8 +504,9 @@ public class AddAppointmentController implements Initializable {
 
             overlappingAppointment = checkForOverlappingAppointments(newAppointmentCustomerID, start, end);
             appointmentInPast = checkIfAppointmentDateIsInPast(start);
+            endTimeIsBeforeStartTime = checkIfEndTimeIsBeforeStartTime(start, end);
 
-            if (overlappingAppointment || appointmentInPast) {
+            if (overlappingAppointment || appointmentInPast || endTimeIsBeforeStartTime) {
                 System.out.println("Error in saving appointment.");
             } else {
                 try {

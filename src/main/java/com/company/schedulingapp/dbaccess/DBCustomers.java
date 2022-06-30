@@ -114,8 +114,13 @@ public class DBCustomers {
 
         if (appointments.isEmpty()) {
             deleteCustomerFromDatabase(customerID);
+            presentCustomerDeletedAlert();
         } else {
-            presentUnableToDeleteCustomerAlert();
+            for (Appointment appointment : appointments) {
+                DBAppointments.deleteAppointmentAction(appointment.getAppointmentID());
+            }
+            deleteCustomerFromDatabase(customerID);
+            presentCustomerDeletedAlert();
         }
 
     }
@@ -131,23 +136,14 @@ public class DBCustomers {
         PreparedStatement deleteCustomerStatement = connection.prepareStatement(sql);
         deleteCustomerStatement.setInt(1, customerID);
         deleteCustomerStatement.executeUpdate();
-        presentCustomerDeletedAlert();
     }
 
     private static void presentCustomerDeletedAlert() {
         Alert customerDeletedAlert = new Alert(Alert.AlertType.INFORMATION);
         customerDeletedAlert.setTitle("Database Message");
         customerDeletedAlert.setHeaderText("Success");
-        customerDeletedAlert.setContentText("Customer successfully deleted.");
+        customerDeletedAlert.setContentText("Customer and all associated appointments successfully deleted.");
         customerDeletedAlert.showAndWait();
-    }
-
-    private static void presentUnableToDeleteCustomerAlert() {
-        Alert unableToDeleteCustomerAlert = new Alert(Alert.AlertType.ERROR);
-        unableToDeleteCustomerAlert.setTitle("Database Message");
-        unableToDeleteCustomerAlert.setHeaderText("Failed");
-        unableToDeleteCustomerAlert.setContentText("All customer appointments must be deleted before the customer can be deleted.");
-        unableToDeleteCustomerAlert.showAndWait();
     }
 
     /**
